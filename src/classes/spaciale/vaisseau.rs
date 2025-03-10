@@ -1,35 +1,29 @@
-use crate::planete::Planete;
+use crate::classes::spaciale::planete::Planete;
 
 pub struct Vaisseau {
     carburant: i32,
     uranium: i32,
+    position: Option<Planete>, // La planète actuelle du vaisseau (None = espace)
 }
 
 impl Vaisseau {
-    // Constructeur
-    pub fn new(carburant: i32, uranium: i32) -> Self {
-        Self { carburant, uranium }
+    pub fn new(carburant: i32, uranium: i32, position: Option<Planete>) -> Self {
+        Self { carburant, uranium, position }
     }
 
-    // Méthode pour afficher l'état du vaisseau
     pub fn afficher_etat(&self) {
-        println!("Carburant: {}, Uranium: {}", self.carburant, self.uranium);
+
+        let position_str = match &self.position {
+            Some(planete) => format!("Sur {}", planete.nom),
+            None => "Dans l'espace".to_string(),
+        };
+        println!("Carburant: {}, Uranium: {}, Position: {}", self.carburant, self.uranium, position_str);
     }
 
-    // Méthode pour consommer du carburant
-    pub fn consommer_carburant(&mut self, quantite: i32) {
-        if self.carburant >= quantite {
-            self.carburant -= quantite;
-            println!("Carburant consommé: {}. Reste: {}", quantite, self.carburant);
-        } else {
-            println!("Pas assez de carburant !");
-        }
-    }
-
-    // Méthode pour voyager vers une planète
     pub fn voyager(&mut self, planete: &Planete) -> bool {
         if self.carburant >= planete.cout_voyage {
             self.carburant -= planete.cout_voyage;
+            self.position = Some(planete.clone());
             println!("Voyage réussi vers {} ! Carburant restant: {}", planete.nom, self.carburant);
             true
         } else {

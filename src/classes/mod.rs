@@ -1,0 +1,1 @@
+pub mod spaciale; // Déclare le sous-module `spaciale`

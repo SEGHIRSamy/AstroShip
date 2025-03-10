@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Planete {
     pub nom: String,
     pub cout_voyage: i32,
