@@ -27,8 +27,8 @@ impl Intro {
                             |_______|
 		"#.to_string());
         message.affiche(1);
-
-        let choix_menu_principal = Choix::new("[1] Nouvelle partie/[2] Charger partie/[3] Quitter".to_string());
-        choix_menu_principal.affiche();
+        //Changer ca quon on pourra recupe dans le fichier directement
+        let choix_menu_principal = Choix::new("Nouvelle partie/Charger partie/Quitter".to_string());
+        choix_menu_principal.lancer_choix();
     }
 }
