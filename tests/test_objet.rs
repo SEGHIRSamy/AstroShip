@@ -1,7 +1,9 @@
 // tests/test_objet.rs
-use AstroShip::Objet; // Remplace "AstroShip" par le nom de ton package
+
 #[cfg(test)]
 mod tests {
+    use astroship::classes::marchandage::objet::Objet;
+
     #[test]
     fn test_creation_objet() {
         // Création d'un objet
@@ -53,4 +55,42 @@ mod tests {
         // Vérification du getter
         assert_eq!(objet.get_description(), "Une épée fine et légère.");
     }
+    #[test]
+    fn test_objet_empty_text() {
+        let mut objet = Objet::new("Nom initial", "Description initiale");
+        objet.set_nom("".to_string());
+        objet.set_description("".to_string());
+        assert_eq!(objet.get_nom(), "");
+        assert_eq!(objet.get_description(), "");
+    }
+    #[test]
+    fn test_objet_long_text() {
+        let long_text = "a".repeat(1000);
+        let objet = Objet::new(&long_text, &long_text);
+        assert_eq!(objet.get_nom(), long_text);
+        assert_eq!(objet.get_description(), long_text);
+    }
+    #[test]
+    fn test_objet_getter_dynamique() {
+        let mut objet = Objet::new("Initial", "Description");
+        objet.set_nom("Nouveau nom".to_string());
+        objet.set_description("Nouvelle description".to_string());
+        assert_eq!(objet.get_nom(), "Nouveau nom");
+        assert_eq!(objet.get_description(), "Nouvelle description");
+    }
+    #[test]
+    fn test_objet_identique() {
+        let objet = Objet::new("Nom identique", "Nom identique");
+        assert_eq!(objet.get_nom(), "Nom identique");
+        assert_eq!(objet.get_description(), "Nom identique");
+
+    }
+
+    #[test]
+    fn test_objet_new_empty() {
+        let objet = Objet::new("", "");
+        assert_eq!(objet.get_nom(), "");
+        assert_eq!(objet.get_description(), "");
+    }
+
 }
