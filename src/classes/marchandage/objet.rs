@@ -1,5 +1,7 @@
 // src/main.rs
 
+#[derive(PartialEq, Debug)] // Ajout de Debug pour la comparaison dans les tests
+#[derive(Clone)]
 #[allow(dead_code)]
 /// La structure `Objet` représente un objet générique avec un nom et une description.
 pub struct Objet {
