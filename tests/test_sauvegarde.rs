@@ -21,7 +21,7 @@ impl Test {
 
 #[cfg(test)]
 mod tests {
-  use astroship::classes::Sauvegarde::Sauvegarde::Sauvegarde;
+  use astroship::classes::sauvegarde::sauvegarde::Sauvegarde;
   use crate::Test;
 
   fn vec_compare(va: &[Test], vb: &[Test]) -> bool {

@@ -1,3 +1,6 @@
+mod classes;
+use classes::affichage::intro::Intro;
+
 fn main() {
-    println!("Hello, world!");
+    Intro::new().lancer_intro();
 }
