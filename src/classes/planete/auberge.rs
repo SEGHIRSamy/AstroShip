@@ -1,10 +1,12 @@
 use std::{thread};
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 
+#[allow(dead_code)]
 pub struct Auberge {
     prix_repos: u32, // Prix pour se reposer
 }
 
+#[allow(dead_code)]
 impl Auberge {
     /// Créer une nouvelle auberge avec un prix fixe.
     pub fn new(prix_repos: u32) -> Self {

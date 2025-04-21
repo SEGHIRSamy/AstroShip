@@ -8,6 +8,7 @@ pub struct PersonnagePrincipal {
     pub chance: i32,             // Nouvelle statistique
 }
 
+#[allow(dead_code)]
 impl PersonnagePrincipal {
     pub fn new(
         nom: &str,
@@ -26,6 +27,7 @@ impl PersonnagePrincipal {
     }
 }
 
+#[allow(dead_code)]
 impl Personnage for PersonnagePrincipal {
     fn augmentation_niveau(&mut self, choix_statistique: &str) {
         if choix_statistique == "chance" {

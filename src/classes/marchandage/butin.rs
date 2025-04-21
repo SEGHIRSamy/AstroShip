@@ -2,6 +2,8 @@ use rand::Rng;
 use crate::classes::marchandage::objet::Objet;
 
 /// Enumération pour représenter la rareté d'un butin
+
+#[allow(dead_code)]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Rarete {
     Commun,
@@ -10,7 +12,7 @@ pub enum Rarete {
     Legendaire,
 }
 
-
+#[allow(dead_code)]
 impl Rarete {
     pub fn from_str(s: &str) -> Option<Self> {
         match s.to_lowercase().as_str() {
@@ -23,6 +25,7 @@ impl Rarete {
     }
 }
 
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct Butin {
     pub objet: Objet,          // L'objet associé au butin
@@ -31,7 +34,7 @@ pub struct Butin {
     pub rarete: Rarete,        // Niveau de rareté de l'objet
 }
 
-
+#[allow(dead_code)]
 impl Butin {
     pub fn new(objet: Objet, quantite: u32, probabilite: f32, rarete: Rarete) -> Self {
         if probabilite < 0.0 || probabilite > 1.0 {

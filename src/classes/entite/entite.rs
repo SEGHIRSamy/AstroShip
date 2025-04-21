@@ -10,6 +10,7 @@ pub struct Entite {
 
 }
 
+#[allow(dead_code)]
 pub trait Personnage {
     fn augmentation_niveau(&mut self, choix_statistique: &str);
     fn afficher_statistiques(&self);
@@ -105,7 +106,7 @@ impl Entite {
 
 }
 
-
+#[allow(dead_code)]
 impl Personnage for Entite {
     fn augmentation_niveau(&mut self, choix_statistique: &str) {
         // Fonction de level-up

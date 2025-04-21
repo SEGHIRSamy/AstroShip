@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use rand::{Rng, SeedableRng}; // Pour un générateur de nombres aléatoires avec graine
+    use rand::{SeedableRng}; // Pour un générateur de nombres aléatoires avec graine
     use rand_chacha::ChaCha8Rng; // Générateur RNG déterministe pour tester les probabilités
 
     use astroship::classes::marchandage::butin::{Butin, Rarete};

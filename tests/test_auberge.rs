@@ -1,7 +1,5 @@
 #[cfg(test)]
 mod tests {
-    use std::time::Duration;
-    use std::thread;
     use astroship::classes::entite::personnage_principal::PersonnagePrincipal;
     use astroship::classes::planete::auberge::Auberge;
 
