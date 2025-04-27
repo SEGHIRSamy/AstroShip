@@ -1,9 +1,10 @@
 use std::{thread, time, io::Write};
 
+#[allow(dead_code)]
 pub struct AfficheTexte {
     texte: String,
 }
-
+#[allow(dead_code)]
 impl AfficheTexte {
 
     pub fn new(texte: String) -> AfficheTexte {

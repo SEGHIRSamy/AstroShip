@@ -1,8 +1,8 @@
 use crate::classes::affichage::affiche_texte::AfficheTexte;
 use crate::classes::affichage::choix::Choix;
-
+#[allow(dead_code)]
 pub struct Intro {}
-
+#[allow(dead_code)]
 impl Intro {
     pub fn new() -> Intro {
         Intro {}
