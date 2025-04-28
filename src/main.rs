@@ -1,11 +1,12 @@
 mod classes;
 use classes::affichage::intro::Intro;
-
 use classes::spaciale::vaisseau::Vaisseau;
 use classes::spaciale::planete::Planete;
+use crate::classes::gestionEvenement::evenement::Evenement;
 
 fn main() {
-    Intro::new().lancer_intro();
+    Intro::new().action();
+
     // TEST VAISSEAU
     let terre = Planete::new("Terre", 0);
     let mars = Planete::new("Mars", 30);
