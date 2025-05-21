@@ -8,6 +8,7 @@ pub struct Sauvegarde {
   chemin: String,
 }
 
+#[allow(dead_code)]
 impl Sauvegarde
 {
   pub fn new() -> Self {
@@ -16,6 +17,7 @@ impl Sauvegarde
     }
   }
 
+  #[allow(dead_code)]
   pub fn charge<T>(&self, file: String) -> Result<T>
     where T: for<'de> Deserialize<'de>
   {
@@ -28,7 +30,7 @@ impl Sauvegarde
     Ok(obj)
   }
 
-
+  #[allow(dead_code)]
   pub fn sauvegarde<T>(&self, file: String, obj: T) -> Result<()>
     where T: Serialize
   {

@@ -6,6 +6,7 @@ pub struct Vaisseau {
     position: Option<Planete>,
 }
 
+#[allow(dead_code)]
 impl Vaisseau {
     /// Crée un nouveau vaisseau avec du carburant, de l'uranium et une position initiale
     pub fn new(carburant: i32, uranium: i32, position: Option<Planete>) -> Self {

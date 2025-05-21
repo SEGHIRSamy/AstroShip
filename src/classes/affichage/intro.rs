@@ -6,8 +6,10 @@ use crate::classes::gestionEvenement::chargerPartie::chargerPartie;
 use crate::classes::gestionEvenement::choix::Choix;
 
 
+#[allow(dead_code)]
 pub struct Intro {}
 
+#[allow(dead_code)]
 impl Intro {
     pub fn new() -> Intro {
         Intro {}

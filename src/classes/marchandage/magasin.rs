@@ -1,0 +1,71 @@
+use crate::classes::entite::inventaire::Inventaire;
+use crate::classes::marchandage::{affaire::Affaire};
+
+/// Structure représentant un magasin qui propose des affaires à l'achat.
+#[allow(dead_code)]
+pub struct Magasin {
+    pub affaires: Vec<Affaire>, // Liste des affaires disponibles
+}
+#[allow(dead_code)]
+impl Magasin {
+    /// Constructeur pour créer un nouveau magasin avec une liste d'affaires.
+    ///
+    /// # Arguments
+    /// - `affaires`: Un vecteur contenant les objets et leurs prix/quantités.
+    pub fn new(affaires: Vec<Affaire>) -> Magasin {
+        Magasin { affaires }
+    }
+
+    /// Retourne une référence à la liste des affaires du magasin.
+    pub fn get_affaires(&self) -> &Vec<Affaire> {
+        &self.affaires
+    }
+
+    /// Permet d'ajouter une affaire au magasin.
+    ///
+    /// # Arguments
+    /// - `affaire`: Une affaire à ajouter à la liste.
+    pub fn ajouter_affaire(&mut self, affaire: Affaire) {
+        self.affaires.push(affaire);
+    }
+
+    /// Méthode pour acheter un objet spécifique depuis le magasin.
+    ///
+    /// # Arguments
+    /// - `index`: L'index de l'affaire dans la liste des affaires.
+    /// - `inventaire`: Une référence mutable à l'inventaire de l'acheteur.
+    ///
+    /// # Retourne
+    /// - `Ok(())` si l'achat est réussi.
+    /// - `Err(&'static str)` en cas d'échec (ex : fonds insuffisants, stock épuisé).
+    pub fn acheter(&mut self, index: usize, inventaire: &mut Inventaire) -> Result<(), &'static str> {
+        if index >= self.affaires.len() {
+            return Err("Affaire non valide.");
+        }
+
+        let affaire = &mut self.affaires[index];
+
+        // Vérifier si l'inventaire a assez de monnaie
+        if inventaire.get_monnaie() < *affaire.get_prix() {
+            return Err("Fonds insuffisants.");
+        }
+
+        // Vérifier la disponibilité de l'objet
+        if !*affaire.get_infini() && *affaire.get_quantite() == 0 {
+            return Err("Stock épuisé.");
+        }
+
+        // Déduire le prix de l'argent de l'inventaire
+        inventaire.remove_monnaie(*affaire.get_prix());
+
+        // Ajouter l'objet à l'inventaire
+        inventaire.add_objet(affaire.get_instance().clone());
+
+        // Réduire la quantité, sauf si elle est infinie
+        if !*affaire.get_infini() {
+            affaire.set_quantite(*affaire.get_quantite() - 1);
+        }
+
+        Ok(())
+    }
+}

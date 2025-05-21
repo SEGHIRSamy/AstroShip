@@ -1,11 +1,12 @@
 use std::{thread, time, io::Write};
 use crate::classes::gestionEvenement::evenement::Evenement;
 
+#[allow(dead_code)]
 pub struct AfficheTexte {
     texte: String,
     delay_ms: u64,
 }
-
+#[allow(dead_code)]
 impl AfficheTexte {
     pub fn new(texte: String, delay_ms: u64) -> AfficheTexte {
         AfficheTexte { texte, delay_ms }

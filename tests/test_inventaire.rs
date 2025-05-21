@@ -3,89 +3,119 @@ mod tests {
     use astroship::classes::entite::inventaire::Inventaire;
     use astroship::classes::marchandage::objet::Objet;
 
-    /*
-
-     */
     #[test]
-    /// Test de création d'un inventaire.
-    /// Vérifie que la monnaie et l'objet sont correctement initialisés.
-    fn test_creation_inventaire() {
-        let objet = Objet::new("Épée magique", "Une épée puissante imprégnée de magie.");
+    fn test_creation_inventaire_vide() {
+        let inventaire = Inventaire::new();
+        assert_eq!(inventaire.get_monnaie(), 0);
+        assert!(inventaire.get_instance().is_empty());
+    }
 
-        let inventaire = Inventaire::new(100, objet);
-
+    #[test]
+    fn test_ajout_monnaie() {
+        let mut inventaire = Inventaire::new();
+        inventaire.add_monnaie(100);
         assert_eq!(inventaire.get_monnaie(), 100);
-        assert_eq!(inventaire.get_instance().get_nom(), "Épée magique");
-    }
 
-
-    #[test]
-    /// Test de modification de la monnaie via `set_monnaie`.
-    fn test_set_monnaie() {
-        let objet = Objet::new("Bouclier", "Un bouclier robuste.");
-
-        let mut inventaire = Inventaire::new(50, objet);
-
-        inventaire.set_monnaie(200);
-        assert_eq!(inventaire.get_monnaie(), 200);
+        // Ajout supplémentaire de monnaie
+        inventaire.add_monnaie(50);
+        assert_eq!(inventaire.get_monnaie(), 150);
     }
 
     #[test]
-    /// Test de modification de l'objet dans l'inventaire via `set_instance`.
-    fn test_set_instance() {
-        let objet1 = Objet::new("Arc", "Un arc en bois d'érable.");
-        let objet2 = Objet::new("Hache", "Une hache de combat.");
+    fn test_retrait_monnaie() {
+        let mut inventaire = Inventaire::new();
+        inventaire.add_monnaie(100);
 
-        let mut inventaire = Inventaire::new(300, objet1);
-
-        inventaire.set_instance(objet2.clone());
-        assert_eq!(inventaire.get_instance(), &objet2);
+        // Retirer une partie de la monnaie
+        inventaire.remove_monnaie(30);
+        assert_eq!(inventaire.get_monnaie(), 70);
     }
 
     #[test]
-    /// Test de l'ajout de monnaie via `add_monnaie`.
-    fn test_add_monnaie() {
-        let objet = Objet::new("Épée", "Une épée fine et légère.");
+    #[should_panic]
+    fn test_retrait_monnaie_negative() {
+        let mut inventaire = Inventaire::new();
 
-        let mut inventaire = Inventaire::new(500, objet);
-
-        inventaire.add_monnaie(250);
-        assert_eq!(inventaire.get_monnaie(), 750);
+        // Essai de retirer plus que le montant disponible
+        inventaire.remove_monnaie(50); // Devrait causer un panic
     }
 
     #[test]
+    fn test_verification_inventaire_vide() {
+        let inventaire = Inventaire::new();
 
-    /// Test de suppression de monnaie via `remove_monnaie`.
-    fn test_remove_monnaie() {
-        let objet = Objet::new("Épée", "Une épée fine et légère.");
-
-        let mut inventaire = Inventaire::new(1000, objet);
-
-        inventaire.remove_monnaie(400);
-        assert_eq!(inventaire.get_monnaie(), 600);
+        // Vérifier qu'il est vide par défaut
+        assert_eq!(inventaire.is_empty(), true);
     }
 
     #[test]
-    /// Test de vérification si l'inventaire est vide avec `is_empty`.
-    fn test_is_empty() {
-        let objet = Objet::new("Épée", "Une épée fine et légère.");
+    fn test_verification_inventaire_plein() {
+        let mut inventaire = Inventaire::new();
+        inventaire.set_monnaie(u32::MAX);
 
-        let inventaire_plein = Inventaire::new(100, objet.clone());
-        let inventaire_vide = Inventaire::new(0, objet.clone());
-
-        assert!(!inventaire_plein.is_empty());
-        assert!(inventaire_vide.is_empty());
+        // Vérifier qu'il est plein
+        assert_eq!(inventaire.is_full(), true);
     }
 
     #[test]
-    /// Test de vérification si l'inventaire est plein avec `is_full`.
-    fn test_is_full() {
-        let objet = Objet::new("Épée", "Une épée fine et légère.");
+    fn test_ajout_objets() {
+        let mut inventaire = Inventaire::new();
 
-        let inventaire_plein = Inventaire::new(u32::MAX, objet.clone());
-        let inventaire_non_plein = Inventaire::new(50, objet);
+        let objet1 = Objet::new("Épée", "Une épée tranchante");
+        let objet2 = Objet::new("Bouclier", "Un bouclier solide");
 
-        assert!(inventaire_plein.is_full());
-        assert!(!inventaire_non_plein.is_full());
+        inventaire.set_instance(vec![objet1.clone()]);
+        assert_eq!(inventaire.get_instance().len(), 1);
+        assert_eq!(inventaire.get_instance()[0], objet1);
+
+        // Ajout d'un autre objet (directement avec set_instance)
+        inventaire.set_instance(vec![objet1.clone(), objet2.clone()]);
+        assert_eq!(inventaire.get_instance().len(), 2);
+    }
+
+    #[test]
+    fn test_remplacement_objets() {
+        let mut inventaire = Inventaire::new();
+
+        let ancien_objet = Objet::new("Épée", "Une épée ancienne");
+        let nouvel_objet = Objet::new("Potion", "Potion de soin");
+
+        inventaire.set_instance(vec![ancien_objet.clone()]);
+        assert_eq!(inventaire.get_instance()[0], ancien_objet);
+
+        // Remplacer l'objet
+        inventaire.set_instance(vec![nouvel_objet.clone()]);
+        assert_eq!(inventaire.get_instance().len(), 1);
+        assert_eq!(inventaire.get_instance()[0], nouvel_objet);
+    }
+
+    #[test]
+    fn test_inventaire_avec_objets_multiple() {
+        let mut inventaire = Inventaire::new();
+
+        let objet1 = Objet::new("Épée", "Une épée tranchante");
+        let objet2 = Objet::new("Potion", "Potion de soins");
+        let objet3 = Objet::new("Bouclier", "Un bouclier solide");
+
+        // Ajouter plusieurs objets à une liste
+        inventaire.set_instance(vec![objet1.clone(), objet2.clone(), objet3.clone()]);
+
+        assert_eq!(inventaire.get_instance().len(), 3);
+        assert_eq!(inventaire.get_instance()[0], objet1);
+        assert_eq!(inventaire.get_instance()[1], objet2);
+        assert_eq!(inventaire.get_instance()[2], objet3);
+    }
+
+    #[test]
+    fn test_affichage_inventaire() {
+        let mut inventaire = Inventaire::new();
+        let objet = Objet::new("Épée magique", "Une épée légendaire");
+
+        inventaire.set_monnaie(500);
+        inventaire.set_instance(vec![objet.clone()]);
+
+        // On peut tester l'affichage en vérifiant la sortie : ici à titre d'exemple
+        println!("=== Test affichage inventaire ===");
+        inventaire.afficher_inventaire();
     }
 }

@@ -5,7 +5,7 @@ use crate::classes::marchandage::objet::Objet;
 #[allow(dead_code)]
 pub struct Inventaire {
     monnaie : u32, // valeur maximal dans le jeu : 99,999,999
-    instance : Objet, // variable contenant le type d'objet
+    instance : Vec<Objet>, // variable contenant le type d'objet
 }
 
 #[allow(dead_code)]
@@ -13,10 +13,11 @@ impl Inventaire {
     /// Constructeur pour créer une nouvelle instance d'`Inventaire`.
     /// - `monnaie` : Montant initial de monnaie.
     /// - `instance` : Objet initial associé à l'inventaire.
-    pub fn new(monnaie : u32, instance : Objet) -> Inventaire {
+    pub fn new() -> Inventaire {
         Inventaire {
-            monnaie,
-            instance
+            monnaie : 0,
+            instance: Vec::new(), // Liste vide
+
         }
     }
     /// Retourne la quantité de monnaie actuelle dans l'inventaire.
@@ -25,14 +26,18 @@ impl Inventaire {
     }
 
     /// Retourne une référence immuable à l'objet présent dans l'inventaire.
-    pub fn get_instance(&self) -> &Objet {
+    pub fn get_instance(&self) -> &Vec<Objet> {
         &self.instance
     }
 
     /// Met à jour l'objet de l'inventaire avec un nouvel objet.
     /// - `instance` : L'objet qui remplacera l'objet existant.
-    pub fn set_instance(&mut self, instance : Objet) {
+    pub fn set_instance(&mut self, instance : Vec<Objet>) {
         self.instance = instance;
+    }
+
+    pub fn add_objet(&mut self, objet: Objet) {
+        self.instance.push(objet);
     }
 
     /// Met à jour la quantité de monnaie.
@@ -68,5 +73,18 @@ impl Inventaire {
             false
         }
     }
+
+    pub fn afficher_inventaire(&self) {
+        println!("====================");
+        println!("=== Inventaire ===");
+        println!("====================");
+
+        println!(
+            "Monnaie : {} | Objet : {:?}",
+            self.get_monnaie(),
+            self.get_instance()
+        );
+    }
+
 
 }
