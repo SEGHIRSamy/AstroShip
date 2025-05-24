@@ -1,0 +1,24 @@
+{
+  "nom": "Aeris",
+  "points_de_vie": 85,
+  "points_de_vie_max": 100,
+  "force": 12,
+  "intelligence": 14,
+  "vitesse": 10,
+  "chance": 5,
+  "inventaire": {
+    "monnaie": 2500,
+    "objets": [
+      {
+        "nom": "Uranium",
+        "description": "Carburant du Vaisseau",
+        "quantite": 0
+      },
+      {
+        "nom": "Insigne de voyageur intergalactique",
+        "description": "Prouve que vous êtes un voyageur de l'espace",
+        "quantite": 1
+      }
+    ]
+  }
+}

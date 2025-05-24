@@ -1,4 +1,4 @@
-use astroship::classes::gestionEvenement::combat::Combat;
+use astroship::classes::gestion_evenement::combat::Combat;
 
 #[cfg(test)]
 mod tests {

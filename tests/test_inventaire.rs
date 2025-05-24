@@ -61,8 +61,8 @@ mod tests {
     fn test_ajout_objets() {
         let mut inventaire = Inventaire::new();
 
-        let objet1 = Objet::new("Épée", "Une épée tranchante");
-        let objet2 = Objet::new("Bouclier", "Un bouclier solide");
+        let objet1 = Objet::new("Épée", "Une épée tranchante",1);
+        let objet2 = Objet::new("Bouclier", "Un bouclier solide",1);
 
         inventaire.set_instance(vec![objet1.clone()]);
         assert_eq!(inventaire.get_instance().len(), 1);
@@ -77,8 +77,8 @@ mod tests {
     fn test_remplacement_objets() {
         let mut inventaire = Inventaire::new();
 
-        let ancien_objet = Objet::new("Épée", "Une épée ancienne");
-        let nouvel_objet = Objet::new("Potion", "Potion de soin");
+        let ancien_objet = Objet::new("Épée", "Une épée ancienne",1);
+        let nouvel_objet = Objet::new("Potion", "Potion de soin",1);
 
         inventaire.set_instance(vec![ancien_objet.clone()]);
         assert_eq!(inventaire.get_instance()[0], ancien_objet);
@@ -93,9 +93,9 @@ mod tests {
     fn test_inventaire_avec_objets_multiple() {
         let mut inventaire = Inventaire::new();
 
-        let objet1 = Objet::new("Épée", "Une épée tranchante");
-        let objet2 = Objet::new("Potion", "Potion de soins");
-        let objet3 = Objet::new("Bouclier", "Un bouclier solide");
+        let objet1 = Objet::new("Épée", "Une épée tranchante",1);
+        let objet2 = Objet::new("Potion", "Potion de soins",1);
+        let objet3 = Objet::new("Bouclier", "Un bouclier solide",1);
 
         // Ajouter plusieurs objets à une liste
         inventaire.set_instance(vec![objet1.clone(), objet2.clone(), objet3.clone()]);
@@ -109,7 +109,7 @@ mod tests {
     #[test]
     fn test_affichage_inventaire() {
         let mut inventaire = Inventaire::new();
-        let objet = Objet::new("Épée magique", "Une épée légendaire");
+        let objet = Objet::new("Épée magique", "Une épée légendaire",1);
 
         inventaire.set_monnaie(500);
         inventaire.set_instance(vec![objet.clone()]);

@@ -11,7 +11,7 @@ mod tests {
         inventaire.set_monnaie(500);
 
         // Création d'un objet et d'une affaire associée
-        let objet = Objet::new("Épée légendaire", "Une épée très puissante");
+        let objet = Objet::new("Épée légendaire", "Une épée très puissante",1);
         let mut affaire = Affaire::new(250, objet.clone(), false, 5); // Prix : 250, quantité : 5
 
         // Achat
@@ -35,7 +35,7 @@ mod tests {
         inventaire.set_monnaie(100);
 
         // Création d'un objet et d'une affaire (coût supérieur aux fonds disponibles)
-        let objet = Objet::new("Bouclier solide", "Un bouclier robuste");
+        let objet = Objet::new("Bouclier solide", "Un bouclier robuste",1);
         let affaire = Affaire::new(500, objet.clone(), false, 2); // Prix : 500
 
         // Tentative d'achat (aucune action ne devrait avoir lieu)
@@ -56,7 +56,7 @@ mod tests {
         inventaire.set_monnaie(500);
 
         // Création d'un objet et d'une affaire avec stock à 0
-        let objet = Objet::new("Potion magique", "Potion qui restaure toute la vie");
+        let objet = Objet::new("Potion magique", "Potion qui restaure toute la vie",1);
         let mut affaire = Affaire::new(50, objet.clone(), false, 0); // Stock épuisé
 
         // Tentative d'achat (aucune action ne doit avoir lieu)
@@ -98,7 +98,7 @@ mod tests {
         inventaire.set_monnaie(1000);
 
         // Création d'un objet avec stock infini
-        let objet = Objet::new("Arc légendaire", "Un arc qui ne manque jamais sa cible");
+        let objet = Objet::new("Arc légendaire", "Un arc qui ne manque jamais sa cible",1);
         let mut affaire = Affaire::new(800, objet.clone(), true, 0); // `infini = true`
 
         // Achat

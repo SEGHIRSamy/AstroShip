@@ -1,4 +1,4 @@
-use astroship::classes::gestionEvenement::lancerDice::LancerDice;
+use astroship::classes::gestion_evenement::lancer_dice::LancerDice;
 use std::collections::HashSet;
 
 

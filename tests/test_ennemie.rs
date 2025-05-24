@@ -9,8 +9,8 @@ mod tests {
 
     #[test]
     fn test_creation_ennemi() {
-        let or = Objet::new("Or", "Une pièce d'or brillante.");
-        let potion = Objet::new("Potion", "Une potion de soin.");
+        let or = Objet::new("Or", "Une pièce d'or brillante.",1);
+        let potion = Objet::new("Potion", "Une potion de soin.",1);
         let butin_or = Butin::new(or, 10, 0.8, Rarete::Commun);
         let butin_potion = Butin::new(potion, 1, 0.3, Rarete::Rare);
 
@@ -37,8 +37,8 @@ mod tests {
 
     #[test]
     fn test_interaction_epargne() {
-        let or = Objet::new("Or", "Une pièce d'or brillante.");
-        let potion = Objet::new("Potion", "Une potion de soin.");
+        let or = Objet::new("Or", "Une pièce d'or brillante.",1);
+        let potion = Objet::new("Potion", "Une potion de soin.",1);
         let butin_or = Butin::new(or.clone(), 10, 1.0, Rarete::Commun);
         let butin_potion = Butin::new(potion.clone(), 1, 0.0, Rarete::Rare);
 
@@ -73,8 +73,8 @@ mod tests {
 
     #[test]
     fn test_interaction_tuer() {
-        let or = Objet::new("Or", "Une pièce d'or brillante.");
-        let epee = Objet::new("Épée", "Une épée rouillée.");
+        let or = Objet::new("Or", "Une pièce d'or brillante.",1);
+        let epee = Objet::new("Épée", "Une épée rouillée.",1);
         let butin_or = Butin::new(or.clone(), 10, 0.8, Rarete::Commun);
         let butin_epee = Butin::new(epee.clone(), 1, 0.5, Rarete::Rare);
 
@@ -118,8 +118,8 @@ mod tests {
 
     #[test]
     fn test_determination_butins_deterministes() {
-        let epee = Objet::new("Épée", "Une épée ancienne, mais encore tranchante.");
-        let bouclier = Objet::new("Bouclier", "Un bouclier robuste, orné d'inscriptions mystérieuses.");
+        let epee = Objet::new("Épée", "Une épée ancienne, mais encore tranchante.",1);
+        let bouclier = Objet::new("Bouclier", "Un bouclier robuste, orné d'inscriptions mystérieuses.",1);
         let butin_epee = Butin::new(epee.clone(), 1, 0.6, Rarete::Rare);
         let butin_bouclier = Butin::new(bouclier.clone(), 1, 0.4, Rarete::Rare);
 
@@ -160,8 +160,8 @@ mod tests {
 
     #[test]
     fn test_interaction_par_defaut() {
-        let butin1 = Butin::new(Objet::new("Or", "Une pièce d'or"), 10, 1.0, Rarete::Commun); // Probabilité 100%
-        let butin2 = Butin::new(Objet::new("Épée", "Une épée rouillée"), 1, 0.0, Rarete::Rare); // Probabilité 0%
+        let butin1 = Butin::new(Objet::new("Or", "Une pièce d'or",1), 10, 1.0, Rarete::Commun); // Probabilité 100%
+        let butin2 = Butin::new(Objet::new("Épée", "Une épée rouillée",1), 1, 0.0, Rarete::Rare); // Probabilité 0%
 
         let ennemi = Ennemi::new(
             "Orc",

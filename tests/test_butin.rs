@@ -8,7 +8,7 @@ mod tests {
 
     #[test]
     fn test_creation_butin() {
-        let objet = Objet::new("Épée légendaire", "Une arme ancienne dotée de pouvoirs mystiques.");
+        let objet = Objet::new("Épée légendaire", "Une arme ancienne dotée de pouvoirs mystiques.",1);
         let butin = Butin::new(objet.clone(), 1, 0.8, Rarete::Legendaire);
 
         assert_eq!(butin.objet.get_nom(), "Épée légendaire");
@@ -20,7 +20,7 @@ mod tests {
 
     #[test]
     fn test_probabilite_hors_limites() {
-        let objet = Objet::new("Potion rare", "Une potion très puissante.");
+        let objet = Objet::new("Potion rare", "Une potion très puissante.",1);
 
         // Une probabilité invalide (< 0.0 ou > 1.0) doit provoquer une panique
         let result = std::panic::catch_unwind(|| Butin::new(objet.clone(), 2, 1.5, Rarete::Rare));
@@ -29,7 +29,7 @@ mod tests {
 
     #[test]
     fn test_est_obtenu_probabilite_100() {
-        let objet = Objet::new("Bouclier indestructible", "Un bouclier légendaire.");
+        let objet = Objet::new("Bouclier indestructible", "Un bouclier légendaire.",1);
         let butin = Butin::new(objet, 1, 1.0, Rarete::Legendaire);
         let mut rng = ChaCha8Rng::seed_from_u64(42);
 
@@ -41,7 +41,7 @@ mod tests {
 
     #[test]
     fn test_est_obtenu_probabilite_0() {
-        let objet = Objet::new("Cendres", "Des cendres ordinaires.");
+        let objet = Objet::new("Cendres", "Des cendres ordinaires.",1);
         let butin = Butin::new(objet, 3, 0.0, Rarete::Commun);
         let mut rng = ChaCha8Rng::seed_from_u64(42);
 
@@ -56,7 +56,7 @@ mod tests {
         let objet = Objet::new(
             "Anneau d'invisibilité",
             "Un anneau magique permettant à son porteur de devenir invisible.",
-        );
+        1);
         let butin = Butin::new(objet, 1, 0.5, Rarete::Rare);
 
         // Utilisation d'un RNG déterministe pour des tests reproductibles

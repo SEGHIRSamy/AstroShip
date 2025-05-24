@@ -6,7 +6,7 @@ mod tests {
     #[test]
     fn test_creation_affaire() {
         // Création d'un Objet
-        let objet = Objet::new("Épée magique", "Description de l'épée");
+        let objet = Objet::new("Épée magique", "Description de l'épée",1);
 
         // Création d'une Affaire
         let affaire = Affaire::new(50000, objet, false, 10);
@@ -22,7 +22,7 @@ mod tests {
     #[test]
     fn test_modification_prix() {
         // Création de l'Affaire
-        let objet = Objet::new("Bouclier", "Un bouclier puissant");
+        let objet = Objet::new("Bouclier", "Un bouclier puissant",1);
         let mut affaire = Affaire::new(10000, objet, false, 5);
 
         // Modification du prix
@@ -35,8 +35,8 @@ mod tests {
     #[test]
     fn test_modification_instance() {
         // Création des objets
-        let objet_initial = Objet::new("Potion", "Une potion rare");
-        let objet_modifie = Objet::new("Potion de soin", "Sert à soigner les blessures");
+        let objet_initial = Objet::new("Potion", "Une potion rare",1);
+        let objet_modifie = Objet::new("Potion de soin", "Sert à soigner les blessures",1);
 
         // Création de l'Affaire
         let mut affaire = Affaire::new(3000, objet_initial, false, 1);
@@ -52,7 +52,7 @@ mod tests {
     #[test]
     fn test_modification_infini() {
         // Création de l'Affaire
-        let objet = Objet::new("Pierre rare", "Une pierre précieuse et rare");
+        let objet = Objet::new("Pierre rare", "Une pierre précieuse et rare",1);
         let mut affaire = Affaire::new(100, objet, false, 50);
 
         // Modification de la valeur "infini"
@@ -65,7 +65,7 @@ mod tests {
     #[test]
     fn test_modification_quantite() {
         // Création de l'Affaire
-        let objet = Objet::new("Arc", "Un arc de haute qualité");
+        let objet = Objet::new("Arc", "Un arc de haute qualité",1);
         let mut affaire = Affaire::new(2000, objet, false, 10);
 
         // Modification de la quantité

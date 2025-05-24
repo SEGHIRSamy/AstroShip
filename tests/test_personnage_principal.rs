@@ -41,7 +41,7 @@ mod tests {
         use astroship::classes::marchandage::objet::Objet;
 
         let mut personnage = PersonnagePrincipal::new("Héros", 100, 100, 15, 10, 12, 5);
-        let objet = Objet::new("Épée légendaire", "épée de l'ancien héros de la galaxy");
+        let objet = Objet::new("Épée légendaire", "épée de l'ancien héros de la galaxy",1);
 
         personnage.inventaire.add_objet(objet);
         assert_eq!(personnage.inventaire.get_instance().len(), 1); // L'inventaire contient 1 objet
