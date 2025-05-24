@@ -52,7 +52,7 @@ impl Butin {
     /// Vérifie si le butin est obtenu à partir d'un tirage aléatoire
     // Nouvelle version de la méthode est_obtenu
     pub fn est_obtenu<R: Rng>(&self, rng: &mut R) -> bool {
-        let tirage: f32 = rng.gen(); // Tire un nombre aléatoire entre 0.0 et 1.0
+        let tirage: f32 = rng.random(); // Tire un nombre aléatoire entre 0.0 et 1.0
         println!(
             "Tirage: {} pour {nom} (probabilité: {proba})",
             tirage,

@@ -7,6 +7,7 @@
 pub struct Objet {
     nom: String,
     description: String,
+    quantite: i8
 }
 #[allow(dead_code)]
 impl Objet {
@@ -18,10 +19,11 @@ impl Objet {
     ///
     /// # Retourne
     /// Une instance de la structure `Objet` initialisée avec `nom` et `description`.
-    pub fn new(nom: &str, description: &str) -> Self {
+    pub fn new(nom: &str, description: &str,quantite: i8) -> Self {
         Objet {
             nom: nom.to_string(),
             description: description.to_string(),
+            quantite
         }
     }
 
@@ -55,5 +57,13 @@ impl Objet {
     /// * `n` - Une nouvelle chaîne de caractères représentant le nom de l'objet.
     pub fn set_nom(&mut self, n: String) {
         self.nom = n;
+    }
+
+    pub fn get_quantite(&self) -> i8 {
+        self.quantite
+    }
+
+    pub fn set_quantite(&mut self, q: i8) {
+        self.quantite = q;
     }
 }

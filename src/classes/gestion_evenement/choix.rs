@@ -1,6 +1,6 @@
 use crate::classes::affichage::affiche_texte::AfficheTexte;
 use std::io::{self, Write};
-use crate::classes::gestionEvenement::evenement::Evenement;
+use crate::classes::gestion_evenement::evenement::Evenement;
 
 pub struct Choix {
     choix: Vec<(String, Box<dyn Evenement>)>,

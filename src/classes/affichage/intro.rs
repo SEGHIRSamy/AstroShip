@@ -1,9 +1,9 @@
-use crate::classes::gestionEvenement::quitterJeu::quitterJeu;
-use crate::classes::gestionEvenement::lancerPartie::lancerPartie;
-use crate::classes::gestionEvenement::evenement::Evenement;
+use crate::classes::gestion_evenement::quitter_jeu::QuitterJeu;
+use crate::classes::gestion_evenement::lancer_partie::LancerPartie;
+use crate::classes::gestion_evenement::evenement::Evenement;
 use crate::classes::affichage::affiche_texte::AfficheTexte;
-use crate::classes::gestionEvenement::chargerPartie::chargerPartie;
-use crate::classes::gestionEvenement::choix::Choix;
+use crate::classes::gestion_evenement::charger_partie::ChargerPartie;
+use crate::classes::gestion_evenement::choix::Choix;
 
 
 #[allow(dead_code)]
@@ -35,9 +35,9 @@ impl Intro {
                                   "#.to_string(), 1);
 
         let choix_menu_principal =  Choix::new(vec![
-            ("Nouvelle partie".to_string(), Box::new(lancerPartie::new())),
-            ("Charger Partie".to_string(), Box::new(chargerPartie::new())),
-            ("Quitter".to_string(), Box::new(quitterJeu::new()))
+            ("Nouvelle partie".to_string(), Box::new(LancerPartie::new())),
+            ("Charger Partie".to_string(), Box::new(ChargerPartie::new())),
+            ("Quitter".to_string(), Box::new(QuitterJeu::new()))
         ]);
         choix_menu_principal.lancer_choix();
     }

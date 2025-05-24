@@ -2,7 +2,7 @@ mod classes;
 use classes::affichage::intro::Intro;
 use classes::spaciale::vaisseau::Vaisseau;
 use classes::spaciale::planete::Planete;
-use crate::classes::gestionEvenement::evenement::Evenement;
+use crate::classes::gestion_evenement::evenement::Evenement;
 
 fn main() {
     Intro::new().action();

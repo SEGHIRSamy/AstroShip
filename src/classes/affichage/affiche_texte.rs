@@ -1,5 +1,5 @@
 use std::{thread, time, io::Write};
-use crate::classes::gestionEvenement::evenement::Evenement;
+use crate::classes::gestion_evenement::evenement::Evenement;
 
 #[allow(dead_code)]
 pub struct AfficheTexte {

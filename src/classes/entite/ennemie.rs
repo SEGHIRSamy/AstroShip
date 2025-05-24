@@ -42,7 +42,7 @@ impl Ennemi {
 
     /// tirer des résultats aléatoires en situation réelle
     pub fn interaction_par_defaut(&self) -> Vec<Butin> {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         self.interaction(&mut rng)
     }
 

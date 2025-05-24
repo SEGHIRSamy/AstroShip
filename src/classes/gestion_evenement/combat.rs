@@ -1,5 +1,6 @@
+#[allow(dead_code)]
 pub struct Combat;
-
+#[allow(dead_code)]
 impl Combat {
     pub fn calculer_degats(attaque_attaquant: u32, attaque_defenseur: u32, lancer_de: u32) -> u32 {
         let degats = match lancer_de {
