@@ -1,4 +1,6 @@
 mod classes;
+
+use astroship::classes::entite::personnage_principal::PersonnagePrincipal;
 use classes::affichage::intro::Intro;
 use crate::classes::gestion_evenement::evenement::Evenement;
 use classes::gestion_evenement::combat::Combat;
@@ -19,11 +21,12 @@ fn main() {
 
     let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
 
+    let personnage_principale = PersonnagePrincipal::charger_personnage_principal_depuis_json().unwrap();
     let resultat = Combat::lancer_combat(
         intro,
-        joueur_pv,
-        joueur_attaque,
-        joueur_vitesse,
+        personnage_principale.entite.get_points_de_vie(),
+        personnage_principale.entite.get_force(),
+        personnage_principale.entite.get_vitesse(),
         ennemi_pv,
         ennemi_attaque,
         ennemi_vitesse,

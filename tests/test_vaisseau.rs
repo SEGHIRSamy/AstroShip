@@ -1,4 +1,4 @@
-use astroship::classes::spaciale::{planete::Planete, vaisseau::Vaisseau};
+use astroship::classes::spaciale::{voyage_planete::VoyagePlanete, vaisseau::Vaisseau};
 
 /// Teste la création d'un vaisseau avec des valeurs initiales
 #[test]
@@ -13,7 +13,7 @@ fn test_creation_vaisseau() {
 #[test]
 fn test_voyager_succes() {
     let mut vaisseau = Vaisseau::new(100, 10, None);
-    let mars = Planete::new("Mars", 50);
+    let mars = VoyagePlanete::new("Mars", 50);
 
     let result = vaisseau.voyager(&mars);
 
@@ -27,7 +27,7 @@ fn test_voyager_succes() {
 #[test]
 fn test_voyager_echec() {
     let mut vaisseau = Vaisseau::new(30, 10, None);
-    let jupiter = Planete::new("Jupiter", 50);
+    let jupiter = VoyagePlanete::new("Jupiter", 50);
 
     let result = vaisseau.voyager(&jupiter);
 

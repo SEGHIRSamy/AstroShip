@@ -1,10 +1,11 @@
 #[derive(Clone)]
-pub struct Planete {
+pub struct VoyagePlanete {
     pub nom: String,
     pub cout_voyage: i32,
 }
 
-impl Planete {
+#[allow(dead_code)]
+impl VoyagePlanete {
     pub fn new(nom: &str, cout_voyage: i32) -> Self {
         Self {
             nom: nom.to_string(),

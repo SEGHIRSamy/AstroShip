@@ -21,7 +21,13 @@ mod tests {
 
     #[test]
     fn test_augmentation_niveau_force() {
-        let mut personnage = PersonnagePrincipal::new("Héros", 100, 100, 15, 10, 12, 5);
+        let mut personnage = PersonnagePrincipal::new("Héros",
+                                                      100,
+                                                      100,
+                                                      15,
+                                                      10,
+                                                      12,
+                                                      5);
         personnage.augmentation_niveau("force");
         assert_eq!(personnage.entite.get_force(), 16); // La force doit augmenter
         assert_eq!(personnage.entite.get_points_de_vie_max(), 105); // PV max + 5

@@ -1,15 +1,15 @@
-use crate::classes::spaciale::planete::Planete;
+use crate::classes::spaciale::voyage_planete::VoyagePlanete;
 
 pub struct Vaisseau {
     carburant: i32,
     uranium: i32,
-    position: Option<Planete>,
+    position: Option<VoyagePlanete>,
 }
 
 #[allow(dead_code)]
 impl Vaisseau {
     /// Crée un nouveau vaisseau avec du carburant, de l'uranium et une position initiale
-    pub fn new(carburant: i32, uranium: i32, position: Option<Planete>) -> Self {
+    pub fn new(carburant: i32, uranium: i32, position: Option<VoyagePlanete>) -> Self {
         Self { carburant, uranium, position }
     }
 
@@ -26,7 +26,7 @@ impl Vaisseau {
     }
 
     /// Permet de voyager vers une planète si le carburant est suffisant
-    pub fn voyager(&mut self, planete: &Planete) -> bool {
+    pub fn voyager(&mut self, planete: &VoyagePlanete) -> bool {
         if self.carburant >= planete.cout_voyage {
             self.carburant -= planete.cout_voyage;
             self.position = Some(planete.clone());
@@ -52,7 +52,7 @@ impl Vaisseau {
     }
 
     /// Retourne la position actuelle du vaisseau
-    pub fn get_position(&self) -> Option<&Planete> {
+    pub fn get_position(&self) -> Option<&VoyagePlanete> {
         self.position.as_ref()
     }
 }

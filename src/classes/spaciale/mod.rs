@@ -1,2 +1,2 @@
 pub mod vaisseau;
-pub mod planete;
+pub mod voyage_planete;

@@ -1,7 +1,7 @@
 use crate::classes::affichage::affiche_texte::AfficheTexte;
 use crate::classes::gestion_evenement::lancer_dice::LancerDice;
 use std::io::{self, Write};
-
+use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 
 #[allow(dead_code)]
 pub struct Combat;
@@ -122,7 +122,19 @@ impl Combat {
             }
 
             if pv_ennemi == 0 {
-                AfficheTexte::affiche("🎉 Ennemi vaincu !".to_string(), 20);
+                AfficheTexte::affiche("🎉 Ennemi vaincu !".to_string(), 20);;
+                let charge_player = PersonnagePrincipal::charger_personnage_principal_depuis_json().unwrap();
+                let mut update_player = PersonnagePrincipal::new(
+                    charge_player.entite.get_nom(),
+                    pv_joueur,
+                    charge_player.entite.get_points_de_vie_max(),
+                    charge_player.entite.get_force(),
+                    charge_player.entite.get_intelligence(),
+                    charge_player.entite.get_vitesse(),
+                    charge_player.chance
+                );
+                update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
+                PersonnagePrincipal::sauvegarder_personnage_principal_vers_json(&update_player).expect("Enregistrement Personnage échoué");
                 return true;
             }
 

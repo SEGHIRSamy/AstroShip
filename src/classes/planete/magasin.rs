@@ -1,3 +1,4 @@
+use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::entite::inventaire::Inventaire;
 use crate::classes::marchandage::{affaire::Affaire};
 
@@ -67,5 +68,35 @@ impl Magasin {
         }
 
         Ok(())
+    }
+
+    /// Fonction pour acheter dans le magasin
+    pub fn interaction_magasin(&mut self, personnage: &mut PersonnagePrincipal) {
+        let affaires = self.get_affaires();
+        println!("Bienvenue au magasin. Voici les objets disponibles :");
+
+        for (i, affaire) in affaires.iter().enumerate() {
+            println!(
+                "[{}] {} - {} pièces - Quantité : {}{}",
+                i,
+                affaire.get_instance().get_nom(),
+                affaire.get_prix(),
+                affaire.get_quantite(),
+                if *affaire.get_infini() { " (infini)" } else { "" }
+            );
+        }
+
+        println!("Entrez l'index de l'objet à acheter ou autre chose pour quitter :");
+        let mut input = String::new();
+        std::io::stdin().read_line(&mut input).unwrap();
+
+        if let Ok(index) = input.trim().parse::<usize>() {
+            match self.acheter(index, &mut personnage.inventaire) {
+                Ok(_) => println!("Achat réussi."),
+                Err(e) => println!("Achat échoué : {}", e),
+            }
+        } else {
+            println!("Annulation de l'achat.");
+        }
     }
 }

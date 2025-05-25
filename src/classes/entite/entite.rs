@@ -2,11 +2,11 @@
 #[allow(dead_code)]
 pub struct Entite {
     nom: String,
-    points_de_vie: i32,
-    points_de_vie_max: i32,
-    force: i32,
-    intelligence: i32,
-    vitesse: i32,
+    points_de_vie: u32,
+    points_de_vie_max: u32,
+    force: u32,
+    intelligence: u32,
+    vitesse: u32,
 
 }
 
@@ -19,7 +19,7 @@ pub trait Personnage {
 #[allow(dead_code)]
 impl Entite {
     /// Crée une nouvelle entité avec les statistiques spécifiées
-    pub fn new(nom: &str, points_de_vie: i32, points_de_vie_max: i32, force: i32, intelligence: i32, vitesse: i32) -> Self {
+    pub fn new(nom: &str, points_de_vie: u32, points_de_vie_max: u32, force: u32, intelligence: u32, vitesse: u32) -> Self {
         Self {
             nom: nom.to_string(),
             points_de_vie,
@@ -35,31 +35,31 @@ impl Entite {
         &self.nom
     }
 
-    pub fn get_force(&self) -> i32 {
+    pub fn get_force(&self) -> u32 {
         self.force
     }
 
-    pub fn get_intelligence(&self) -> i32 {
+    pub fn get_intelligence(&self) -> u32 {
         self.intelligence
     }
 
-    pub fn get_vitesse(&self) -> i32 {
+    pub fn get_vitesse(&self) -> u32 {
         self.vitesse
     }
 
-    pub fn add_vitesse(&mut self, vitesse: i32) {
+    pub fn add_vitesse(&mut self, vitesse: u32) {
         self.vitesse += vitesse;
     }
 
-    pub fn add_intelligence(&mut self, intelligence: i32) {
+    pub fn add_intelligence(&mut self, intelligence: u32) {
         self.intelligence += intelligence;
     }
 
-    pub fn add_force(&mut self, force: i32) {
+    pub fn add_force(&mut self, force: u32) {
         self.force += force;
     }
 
-    pub fn add_points_de_vie(&mut self, points_de_vie: i32) {
+    pub fn add_points_de_vie(&mut self, points_de_vie: u32) {
         self.points_de_vie += points_de_vie;
     }
 
@@ -69,19 +69,17 @@ impl Entite {
     }
 
     /// Obtenir les points de vie actuels de l'entité
-    pub fn get_points_de_vie(&self) -> i32 {
+    pub fn get_points_de_vie(&self) -> u32 {
         self.points_de_vie
     }
 
     /// Obtenir les points de vie actuels de l'entité
-    pub fn get_points_de_vie_max(&self) -> i32 {
+    pub fn get_points_de_vie_max(&self) -> u32 {
         self.points_de_vie_max
     }
 
-
-
     /// Appliquer des dégâts à l'entité
-    pub fn subir_degats(&mut self, degats: i32) {
+    pub fn subir_degats(&mut self, degats: u32) {
         self.points_de_vie -= degats;
         if self.points_de_vie <= 0 {
             self.points_de_vie = 0;
@@ -89,7 +87,7 @@ impl Entite {
     }
 
     /// Soigner l'entité (ne dépasse pas les PV initiaux)
-    pub fn soigner(&mut self, soin: i32) {
+    pub fn soigner(&mut self, soin: u32) {
         if !self.est_mort() && self.points_de_vie + soin <= self.points_de_vie_max {
             self.points_de_vie += soin;
         }

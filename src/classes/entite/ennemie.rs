@@ -14,11 +14,11 @@ impl Ennemi {
     /// Créer un nouvel ennemi
     pub fn new(
         nom: &str,
-        points_de_vie: i32,
-        points_de_vie_max: i32,
-        force: i32,
-        intelligence: i32,
-        vitesse: i32,
+        points_de_vie: u32,
+        points_de_vie_max: u32,
+        force: u32,
+        intelligence: u32,
+        vitesse: u32,
         butins_passifs: Vec<Butin>,
         butins_hostiles: Vec<Butin>,
     ) -> Self {

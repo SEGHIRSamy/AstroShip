@@ -1,0 +1,1 @@
+pub mod personnage_principal_json;

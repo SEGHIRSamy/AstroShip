@@ -1,2 +1,4 @@
 pub mod auberge;
-mod zone_hostile;
+pub mod zone_hostile;
+pub mod magasin;
+mod planete;
