@@ -1,27 +1,38 @@
 mod classes;
 use classes::affichage::intro::Intro;
-use classes::spaciale::vaisseau::Vaisseau;
-use classes::spaciale::planete::Planete;
 use crate::classes::gestion_evenement::evenement::Evenement;
+use classes::gestion_evenement::combat::Combat;
 
 fn main() {
     Intro::new().action();
 
-    // TEST VAISSEAU
-    let terre = Planete::new("Terre", 0);
-    let mars = Planete::new("Mars", 30);
-    let jupiter = Planete::new("Jupiter", 120);
 
-    // Création du vaisseau sur Terre
-    let mut vaisseau = Vaisseau::new(100, 50, Some(terre));
+    // Test de la fonction combat temporaire dans le main car les tests ne print qu'a la fin du test
+    // Statistiques de base
+    let joueur_pv = 100;
+    let joueur_attaque = 30;
+    let joueur_vitesse = 15;
 
-    vaisseau.afficher_etat();
+    let ennemi_pv = 80;
+    let ennemi_attaque = 35;
+    let ennemi_vitesse = 10;
 
-    // Tentative de voyage vers Mars
-    vaisseau.voyager(&mars);
+    let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
 
-    // Tentative de voyage vers Jupiter
-    vaisseau.voyager(&jupiter);
+    let resultat = Combat::lancer_combat(
+        intro,
+        joueur_pv,
+        joueur_attaque,
+        joueur_vitesse,
+        ennemi_pv,
+        ennemi_attaque,
+        ennemi_vitesse,
+    );
 
-    vaisseau.afficher_etat();
+    println!();
+    if resultat {
+        println!("✅ Le combat s'est terminé avec votre victoire (ou fuite réussie) !");
+    } else {
+        println!("❌ Vous avez été vaincu...");
+    }
 }
