@@ -1,11 +1,12 @@
 {
-  "nom": "Astro",
-  "points_de_vie": 974,
-  "points_de_vie_max": 1000,
-  "force": 50,
-  "intelligence": 14,
-  "vitesse": 10,
-  "chance": 5,
+  "entite": {
+    "nom": "Astro",
+    "points_de_vie": 914,
+    "points_de_vie_max": 1000,
+    "force": 50,
+    "intelligence": 14,
+    "vitesse": 10
+  },
   "inventaire": {
     "monnaie": 0,
     "objets": [
@@ -20,5 +21,6 @@
         "quantite": 1
       }
     ]
-  }
+  },
+  "chance": 5
 }

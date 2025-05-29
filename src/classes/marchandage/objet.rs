@@ -1,8 +1,11 @@
 // src/main.rs
 
+use serde::{Deserialize, Serialize};
+
 #[derive(PartialEq, Debug)] // Ajout de Debug pour la comparaison dans les tests
 #[derive(Clone)]
 #[allow(dead_code)]
+#[derive(Serialize, Deserialize)]
 /// La structure `Objet` représente un objet générique avec un nom et une description.
 pub struct Objet {
     nom: String,

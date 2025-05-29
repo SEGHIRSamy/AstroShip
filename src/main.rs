@@ -1,6 +1,7 @@
 mod classes;
 
 use astroship::classes::entite::personnage_principal::PersonnagePrincipal;
+use astroship::classes::sauvegarde::sauvegarde::Sauvegarde;
 use classes::affichage::intro::Intro;
 use crate::classes::gestion_evenement::evenement::Evenement;
 use classes::gestion_evenement::combat::Combat;
@@ -21,7 +22,8 @@ fn main() {
 
     let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
 
-    let personnage_principale = PersonnagePrincipal::charger_personnage_principal_depuis_json().unwrap();
+    let sauvegarde: Sauvegarde = Sauvegarde::new();
+    let personnage_principale : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
     let resultat = Combat::lancer_combat(
         intro,
         personnage_principale.entite.get_points_de_vie(),
