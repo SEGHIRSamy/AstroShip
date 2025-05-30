@@ -1,0 +1,137 @@
+{
+  "nom": "Mars",
+  "auberge": {
+    "prix_repos": 50
+  },
+  "magasin": {
+    "affaires": [
+      {
+        "prix": 500,
+        "instance": {
+          "nom": "Potion de soin",
+          "description": "Restaure 10% des points de vie.",
+          "quantite": 1,
+          "multiplicateur_pv": 0.10,
+          "multiplicateur_force": 0.0,
+          "multiplicateur_vitesse": 0.0
+        },
+        "infini": true,
+        "quantite": 0
+      },
+      {
+        "prix": 1200,
+        "instance": {
+          "nom": "Stéroïdes spatiaux",
+          "description": "Augmente la force de 50% temporairement.",
+          "quantite": 1,
+          "multiplicateur_pv": 0.0,
+          "multiplicateur_force": 0.50,
+          "multiplicateur_vitesse": 0.0
+        },
+        "infini": false,
+        "quantite": 5
+      },
+      {
+        "prix": 300,
+        "instance": {
+          "nom": "Boussole ancienne",
+          "description": "Indique le nord dans n’importe quelle galaxie.",
+          "quantite": 1,
+          "multiplicateur_pv": 0.0,
+          "multiplicateur_force": 0.0,
+          "multiplicateur_vitesse": 0.0
+        },
+        "infini": false,
+        "quantite": 2
+      },
+      {
+        "prix": 500,
+        "instance": {
+          "nom": "Cocktail boost total",
+          "description": "Améliore toutes les statistiques.",
+          "quantite": 1,
+          "multiplicateur_pv": 0.15,
+          "multiplicateur_force": 0.25,
+          "multiplicateur_vitesse": 0.30
+        },
+        "infini": false,
+        "quantite": 1
+      }
+    ]
+  },
+  "zone_hostile": {
+    "nom": "Crevasse nauséabonde",
+    "ennemis": [
+      {
+        "base": {
+          "nom": "bip boop",
+          "points_de_vie": 20,
+          "points_de_vie_max": 20,
+          "force": 5,
+          "intelligence": 5,
+          "vitesse": 3
+        },
+        "butins_passifs": [
+          {
+            "objet": {
+              "nom": "Or",
+              "description": "Une pièce d'or brillante.",
+              "quantite": 80
+            },
+            "quantite": 10,
+            "probabilite": 1.0,
+            "rarete": "Commun"
+          }
+        ],
+        "butins_hostiles": [
+          {
+            "objet": {
+              "nom": "Potion",
+              "description": "Une potion de soin.",
+              "quantite": 1,
+              "multiplicateur_pv": 0.2
+            },
+            "quantite": 1,
+            "probabilite": 1.0,
+            "rarete": "Rare"
+          }
+        ]
+      },
+      {
+        "base": {
+          "nom": "tes tard gazeu",
+          "points_de_vie": 25,
+          "points_de_vie_max": 25,
+          "force": 6,
+          "intelligence": 5,
+          "vitesse": 10
+        },
+        "butins_passifs": [
+          {
+            "objet": {
+              "nom": "Or",
+              "description": "Une pièce d'or brillante.",
+              "quantite": 100
+            },
+            "quantite": 10,
+            "probabilite": 1.0,
+            "rarete": "Commun"
+          }
+        ],
+        "butins_hostiles": [
+          {
+            "objet": {
+              "nom": "Potion",
+              "description": "Une potion de soin.",
+              "quantite": 1,
+              "multiplicateur_pv": 0.2
+            },
+            "quantite": 1,
+            "probabilite": 1.0,
+            "rarete": "Rare"
+          }
+        ]
+      }
+    ]
+  }
+}

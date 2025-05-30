@@ -1,9 +1,11 @@
+use serde::{Deserialize, Serialize};
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::entite::inventaire::Inventaire;
 use crate::classes::marchandage::{affaire::Affaire};
 
 /// Structure représentant un magasin qui propose des affaires à l'achat.
 #[allow(dead_code)]
+#[derive(Serialize, Deserialize)]
 pub struct Magasin {
     pub affaires: Vec<Affaire>, // Liste des affaires disponibles
 }
@@ -71,32 +73,48 @@ impl Magasin {
     }
 
     /// Fonction pour acheter dans le magasin
+    /// Fonction pour acheter dans le magasin
     pub fn interaction_magasin(&mut self, personnage: &mut PersonnagePrincipal) {
-        let affaires = self.get_affaires();
-        println!("Bienvenue au magasin. Voici les objets disponibles :");
+        loop {
+            let affaires = self.get_affaires();
+            println!("\n=== Bienvenue au magasin ===");
+            println!("Monnaie actuelle : {} pièces", personnage.inventaire.get_monnaie());
+            println!("Voici les objets disponibles :");
 
-        for (i, affaire) in affaires.iter().enumerate() {
-            println!(
-                "[{}] {} - {} pièces - Quantité : {}{}",
-                i,
-                affaire.get_instance().get_nom(),
-                affaire.get_prix(),
-                affaire.get_quantite(),
-                if *affaire.get_infini() { " (infini)" } else { "" }
-            );
-        }
+            for (i, affaire) in affaires.iter().enumerate() {
+                println!(
+                    "[{}] {} - {} pièces - Quantité : {}{}",
+                    i,
+                    affaire.get_instance().get_nom(),
+                    affaire.get_prix(),
+                    affaire.get_quantite(),
+                    if *affaire.get_infini() { " (infini)" } else { "" }
+                );
+            }
 
-        println!("Entrez l'index de l'objet à acheter ou autre chose pour quitter :");
-        let mut input = String::new();
-        std::io::stdin().read_line(&mut input).unwrap();
+            println!("Entrez l'index de l'objet à acheter ou 'q' pour quitter le magasin :");
+            let mut input = String::new();
+            std::io::stdin().read_line(&mut input).unwrap();
+            let input = input.trim();
 
-        if let Ok(index) = input.trim().parse::<usize>() {
+            if input.eq_ignore_ascii_case("q") {
+                println!("Merci de votre visite !");
+                break;
+            }
+
+            let index: usize = match input.parse() {
+                Ok(i) if i < affaires.len() => i,
+                _ => {
+                    println!("Entrée invalide. Veuillez réessayer.");
+                    continue;
+                }
+            };
+
             match self.acheter(index, &mut personnage.inventaire) {
                 Ok(_) => println!("Achat réussi."),
                 Err(e) => println!("Achat échoué : {}", e),
             }
-        } else {
-            println!("Annulation de l'achat.");
         }
     }
+
 }

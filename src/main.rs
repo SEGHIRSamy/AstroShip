@@ -1,14 +1,15 @@
 mod classes;
 
-use astroship::classes::entite::personnage_principal::PersonnagePrincipal;
-use classes::affichage::intro::Intro;
+use crate::classes::affichage::intro::Intro;
+use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::gestion_evenement::evenement::Evenement;
-use classes::gestion_evenement::combat::Combat;
+use crate::classes::planete::planete::Planete;
+use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 
 fn main() {
     Intro::new().action();
 
-
+/*
     // Test de la fonction combat temporaire dans le main car les tests ne print qu'a la fin du test
     // Statistiques de base
     let joueur_pv = 100;
@@ -21,7 +22,8 @@ fn main() {
 
     let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
 
-    let personnage_principale = PersonnagePrincipal::charger_personnage_principal_depuis_json().unwrap();
+    let sauvegarde: Sauvegarde = Sauvegarde::new();
+    let personnage_principale : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
     let resultat = Combat::lancer_combat(
         intro,
         personnage_principale.entite.get_points_de_vie(),
@@ -37,5 +39,13 @@ fn main() {
         println!("✅ Le combat s'est terminé avec votre victoire (ou fuite réussie) !");
     } else {
         println!("❌ Vous avez été vaincu...");
-    }
+    }*/
+
+
+    let mut plat = Planete::charge_planete("Mars");
+    let sauvegarde: Sauvegarde = Sauvegarde::new();
+    let mut personnage_principale : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+
+    plat.visiter(&mut personnage_principale);
+
 }
