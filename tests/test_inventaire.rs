@@ -118,4 +118,28 @@ mod tests {
         println!("=== Test affichage inventaire ===");
         inventaire.afficher_inventaire();
     }
+
+    #[test]
+    fn test_add_objet() {
+        let mut inventaire = Inventaire::new();
+        let objet = Objet::new("Potion", "Restaure 50 PV", 1);
+
+        inventaire.add_objet(objet.clone());
+
+        assert_eq!(inventaire.get_instance().len(), 1);
+        assert_eq!(inventaire.get_instance()[0], objet);
+    }
+
+    #[test]
+    fn test_inventaire_complet() {
+        let mut inventaire = Inventaire::new();
+        inventaire.add_monnaie(1000);
+        let objet = Objet::new("Cristal", "Objet précieux", 2);
+        inventaire.add_objet(objet.clone());
+
+        assert_eq!(inventaire.get_monnaie(), 1000);
+        assert_eq!(inventaire.get_instance().len(), 1);
+        assert_eq!(inventaire.get_instance()[0], objet);
+    }
+
 }

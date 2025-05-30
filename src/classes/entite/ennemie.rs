@@ -1,12 +1,14 @@
 use rand::Rng;
+use serde::{Deserialize, Serialize};
 use crate::classes::entite::entite::Entite;
 use crate::classes::marchandage::butin::Butin;
 
 #[allow(dead_code)]
+#[derive(Serialize, Deserialize)]
 pub struct Ennemi {
     base: Entite,                 // L'entité de base pour les statistiques
-    pub butins_passifs: Vec<Butin>,   // Butins obtenus si on le laisse vivre
-    pub butins_hostiles: Vec<Butin>,  // Butins obtenus si on le tue
+    pub butins_passifs: Vec<Butin>,   // Butins obtenu si on le laisse vivre
+    pub butins_hostiles: Vec<Butin>,  // Butins obtenu si on le tue
 }
 
 #[allow(dead_code)]

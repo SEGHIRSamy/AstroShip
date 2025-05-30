@@ -1,7 +1,9 @@
 use std::{thread};
+use serde::{Deserialize, Serialize};
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 
 #[allow(dead_code)]
+#[derive(Serialize, Deserialize)]
 pub struct Auberge {
     prix_repos: u32, // Prix pour se reposer
 }
@@ -50,6 +52,7 @@ impl Auberge {
 
             personnage.entite.soigner_completement();
             println!("Vous êtes complètement soigné !");
+
         } else {
             println!("Très bien, peut-être une autre fois.");
         }

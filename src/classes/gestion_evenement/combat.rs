@@ -137,7 +137,6 @@ impl Combat {
                 );
                 update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                 sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
-               // PersonnagePrincipal::sauvegarder_personnage_principal_vers_json(&update_player).expect("Enregistrement Personnage échoué");
                 return true;
             }
 

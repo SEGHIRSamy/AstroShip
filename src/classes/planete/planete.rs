@@ -1,11 +1,16 @@
+use serde::{Deserialize, Serialize};
 use crate::classes::{
     planete::auberge::Auberge,
     planete::magasin::Magasin,
     planete::zone_hostile::ZoneHostile,
     entite::personnage_principal::PersonnagePrincipal,
+    sauvegarde::sauvegarde::Sauvegarde
 };
 
+// Permet de sérialiser/désérialiser la planète pour l'enregistrer ou la lire depuis un fichier JSON
 #[allow(dead_code)]
+// Permet de sérialiser/désérialiser la planète pour l'enregistrer ou la lire depuis un fichier JSON
+#[derive(Serialize, Deserialize)]
 pub struct Planete {
     pub nom: String,
     pub auberge: Auberge,
@@ -48,5 +53,15 @@ impl Planete {
                 _ => println!("Choix invalide."),
             }
         }
+    }
+
+    pub fn charge_planete(nom: &str) -> Planete {
+        let sauvegarde: Sauvegarde = Sauvegarde::new();
+        sauvegarde.charge("planete_json/".to_owned() + &*nom.to_owned() + &*".json".to_string()).unwrap()
+    }
+
+    pub fn sauvegarde_planete(planete: Planete)  {
+        let sauvegarde: Sauvegarde = Sauvegarde::new();
+        sauvegarde.sauvegarde("planete_json/".to_owned() + &*planete.nom.to_owned() + &*".json".to_string(), planete).expect("TODO: panic message");
     }
 }

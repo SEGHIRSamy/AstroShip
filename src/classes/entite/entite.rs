@@ -66,6 +66,10 @@ impl Entite {
         self.points_de_vie += points_de_vie;
     }
 
+    pub fn add_points_de_vie_max(&mut self, points_de_vie: u32) {
+        self.points_de_vie_max += points_de_vie;
+    }
+
     /// Vérifie si l'entité est vivante
     pub fn est_mort(&self) -> bool {
         self.points_de_vie <= 0
@@ -83,9 +87,13 @@ impl Entite {
 
     /// Appliquer des dégâts à l'entité
     pub fn subir_degats(&mut self, degats: u32) {
-        self.points_de_vie -= degats;
-        if self.points_de_vie <= 0 {
+        let mut tmp_vie : i32 = self.points_de_vie as i32;
+        tmp_vie -= degats as i32;
+        if tmp_vie <= 0 {
             self.points_de_vie = 0;
+        }
+        else {
+            self.points_de_vie = tmp_vie as u32;
         }
     }
 
