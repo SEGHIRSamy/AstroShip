@@ -75,6 +75,7 @@ impl PersonnagePrincipal {
             intelligence: perso.entite.get_intelligence(),
             vitesse: perso.entite.get_vitesse(),
             chance: perso.chance,
+            uranium: 0,
             inventaire: InventaireJson {
                 monnaie: perso.inventaire.get_monnaie() ,
                 objets,

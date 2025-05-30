@@ -22,5 +22,25 @@ pub struct PersonnagePrincipalJson {
     pub intelligence: u32,
     pub vitesse: u32,
     pub chance: u32,
+    pub uranium : u32,
     pub inventaire: InventaireJson,
 }
+
+impl PersonnagePrincipalJson {
+    pub fn get_nom(&self) -> &str {
+        &self.nom
+    }
+
+    pub fn get_pv(&self) -> u32 {
+        self.points_de_vie
+    }
+
+    pub fn get_uranium(&self) -> u32 {
+        self.uranium
+    }
+
+    pub fn get_inventaire(&self) -> &InventaireJson {
+        &self.inventaire
+    }
+}
+

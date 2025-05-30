@@ -1,5 +1,5 @@
-use crate::classes::affichage::affiche_texte::AfficheTexte;
 use crate::classes::gestion_evenement::evenement::Evenement;
+use crate::classes::gestion_evenement::boucleJeu::BoucleJeu;
 
 pub struct ChargerPartie {}
 
@@ -7,7 +7,8 @@ impl ChargerPartie {
     pub fn new() -> ChargerPartie { ChargerPartie {}}
 
     pub fn charger_partie(&self) {
-        AfficheTexte::affiche("Vous chargez la partie !".to_string(), 30);
+        let mut partie = BoucleJeu::new(false);
+        partie.boucleJeu();
     }
 }
 

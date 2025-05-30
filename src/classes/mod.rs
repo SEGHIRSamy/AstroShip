@@ -5,5 +5,5 @@ pub mod entite;
 pub mod spaciale;
 pub mod gestion_evenement;
 pub mod planete;
-mod structure_json;
+pub mod structure_json;
 
