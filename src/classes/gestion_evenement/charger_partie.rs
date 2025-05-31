@@ -8,7 +8,7 @@ impl ChargerPartie {
 
     pub fn charger_partie(&self) {
         let mut partie = BoucleJeu::new(false);
-        partie.boucleJeu();
+        partie.boucle_jeu();
     }
 }
 

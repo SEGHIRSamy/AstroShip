@@ -9,7 +9,7 @@ impl LancerPartie {
 
     pub fn lancer_partie(&self) {
         let mut partie = BoucleJeu::new(true);
-        partie.boucleJeu();
+        partie.boucle_jeu();
     }
 }
 

@@ -1,15 +1,15 @@
 use crate::classes::spaciale::voyage_planete::VoyagePlanete;
 
 pub struct Vaisseau {
-    carburant: i32,
-    uranium: i32,
+    carburant: u32,
+    uranium: u32,
     position: Option<VoyagePlanete>,
 }
 
 #[allow(dead_code)]
 impl Vaisseau {
     /// Crée un nouveau vaisseau avec du carburant, de l'uranium et une position initiale
-    pub fn new(carburant: i32, uranium: i32, position: Option<VoyagePlanete>) -> Self {
+    pub fn new(carburant: u32, uranium: u32, position: Option<VoyagePlanete>) -> Self {
         Self { carburant, uranium, position }
     }
 
@@ -42,12 +42,12 @@ impl Vaisseau {
     }
 
     /// Retourne le carburant actuel
-    pub fn get_carburant(&self) -> i32 {
+    pub fn get_carburant(&self) -> u32 {
         self.carburant
     }
 
     /// Retourne l'uranium actuel
-    pub fn get_uranium(&self) -> i32 {
+    pub fn get_uranium(&self) -> u32 {
         self.uranium
     }
 

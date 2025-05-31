@@ -15,6 +15,8 @@ pub struct Planete {
     pub nom: String,
     pub auberge: Auberge,
     pub magasin: Magasin,
+    pub cout_voyage : u32,
+    //Todo zone passive
     pub zone_hostile: ZoneHostile,
 }
 
@@ -25,6 +27,7 @@ impl Planete {
             nom: nom.to_string(),
             auberge,
             magasin,
+            cout_voyage: 0,
             zone_hostile,
         }
     }
@@ -53,6 +56,14 @@ impl Planete {
                 _ => println!("Choix invalide."),
             }
         }
+    }
+
+    pub fn get_cout_voyage(&self) -> u32 {
+        self.cout_voyage
+    }
+
+    pub fn add_cout_voyage(&mut self, cout_voyage: u32) {
+        self.cout_voyage += cout_voyage;
     }
 
     pub fn charge_planete(nom: &str) -> Planete {

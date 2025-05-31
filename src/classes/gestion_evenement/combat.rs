@@ -133,7 +133,8 @@ impl Combat {
                     charge_player.entite.get_force(),
                     charge_player.entite.get_intelligence(),
                     charge_player.entite.get_vitesse(),
-                    charge_player.chance
+                    charge_player.chance,
+                    charge_player.get_uranium()
                 );
                 update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                 sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");

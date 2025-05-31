@@ -88,6 +88,4 @@ impl Inventaire {
             self.get_instance()
         );
     }
-
-
 }

@@ -9,6 +9,7 @@ pub struct Ennemi {
     base: Entite,                 // L'entité de base pour les statistiques
     pub butins_passifs: Vec<Butin>,   // Butins obtenu si on le laisse vivre
     pub butins_hostiles: Vec<Butin>,  // Butins obtenu si on le tue
+
 }
 
 #[allow(dead_code)]

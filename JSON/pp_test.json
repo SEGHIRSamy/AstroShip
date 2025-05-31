@@ -1,0 +1,55 @@
+{
+  "entite": {
+    "nom": "Astro",
+    "points_de_vie": 853,
+    "points_de_vie_max": 1000,
+    "force": 50,
+    "intelligence": 14,
+    "vitesse": 10
+  },
+  "inventaire": {
+    "monnaie": 0,
+    "objets": [
+      {
+        "nom": "Potion de soin",
+        "description": "Restaure 10% points de vie.",
+        "quantite": 1,
+        "multiplicateur_pv": 0.1
+      },
+      {
+        "nom": "Vivacité lunaire",
+        "description": "Augmente vos points de vie maxium de 10%.",
+        "quantite": 1,
+        "multiplicateur_pv_max": 0.1
+      },
+      {
+        "nom": "Insigne du voyageur de l'espace",
+        "description": "Prouve que vous êtes tellement ce voyageur que vous pensez être.",
+        "quantite": 1
+      },
+      {
+        "nom": "Stéroïdes spatiaux",
+        "description": "Augmente temporairement de 50% la force.",
+        "quantite": 2,
+        "multiplicateur_force": 0.5
+      },
+      {
+        "nom": "Amplificateur de vitesse",
+        "description": "Accélère la vitesse de l'utilisateur de 20%.",
+        "quantite": 3,
+        "multiplicateur_vitesse": 0.2
+      },
+      {
+        "nom": "Cocktail boost total",
+        "description": "Un mélange rare qui augmente toutes vos capacités. de 15%",
+        "quantite": 1,
+        "multiplicateur_pv": 0.15,
+        "multiplicateur_force": 0.15,
+        "multiplicateur_vitesse": 0.15
+      }
+    ]
+  },
+  "chance": 5,
+  "uranium": 0,
+  "planete": "Mars"
+}

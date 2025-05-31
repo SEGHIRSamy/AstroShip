@@ -69,7 +69,7 @@ impl ZoneHostile {
             let mut input = String::new();
             io::stdin().read_line(&mut input).unwrap();
 
-            if input.trim().to_lowercase() != "o" {
+            if input.trim().to_lowercase() == "non" {
                 println!("Vous quittez la zone hostile.");
                 break;
             }
