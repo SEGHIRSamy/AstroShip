@@ -20,7 +20,7 @@
         "nom": "Vivacité lunaire",
         "description": "Augmente vos points de vie maxium de 10%.",
         "quantite": 1,
-        "multiplicateur_pv_max": 0.1
+        "multiplicateur_pv_max": 1.1
       },
       {
         "nom": "Insigne du voyageur de l'espace",
@@ -31,21 +31,21 @@
         "nom": "Stéroïdes spatiaux",
         "description": "Augmente temporairement de 50% la force.",
         "quantite": 2,
-        "multiplicateur_force": 0.5
+        "multiplicateur_force": 1.5
       },
       {
         "nom": "Amplificateur de vitesse",
         "description": "Accélère la vitesse de l'utilisateur de 20%.",
         "quantite": 3,
-        "multiplicateur_vitesse": 0.2
+        "multiplicateur_vitesse": 1.2
       },
       {
         "nom": "Cocktail boost total",
         "description": "Un mélange rare qui augmente toutes vos capacités. de 15%",
         "quantite": 1,
-        "multiplicateur_pv": 0.15,
-        "multiplicateur_force": 0.15,
-        "multiplicateur_vitesse": 0.15
+        "multiplicateur_pv": 1.15,
+        "multiplicateur_force": 1.15,
+        "multiplicateur_vitesse": 1.15
       }
     ]
   },

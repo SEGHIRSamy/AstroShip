@@ -1,7 +1,7 @@
 {
   "entite": {
     "nom": "Astro",
-    "points_de_vie": 45,
+    "points_de_vie": 50,
     "points_de_vie_max": 50,
     "force": 5,
     "intelligence": 5,

@@ -91,9 +91,7 @@ impl BoucleJeu {
       let mut plat = Planete::charge_planete(personnage_principale.get_planete_nom());
       plat.visiter(&mut personnage_principale);
 
-      //Lancer l'événement/planete 
-      
-      // AfficheTexte::affiche("Sauvegarde automatique...".to_string(), 30);
+
     }
 
     if self.personnage.entite.get_points_de_vie() <= 0 {
