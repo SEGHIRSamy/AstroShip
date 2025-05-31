@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 // Définition d'une structure pour représenter une entité (personnage, ennemi, PNJ)
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Entite {
     nom: String,
     points_de_vie: u32,

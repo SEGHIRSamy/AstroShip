@@ -1,4 +1,4 @@
-use crate::classes::gestion_evenement::boucleJeu::BoucleJeu;
+use crate::classes::gestion_evenement::boucle_jeu::BoucleJeu;
 use crate::classes::gestion_evenement::evenement::Evenement;
 
 #[allow(dead_code)]

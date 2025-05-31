@@ -1,5 +1,5 @@
 use crate::classes::gestion_evenement::evenement::Evenement;
-use crate::classes::gestion_evenement::boucleJeu::BoucleJeu;
+use crate::classes::gestion_evenement::boucle_jeu::BoucleJeu;
 
 pub struct ChargerPartie {}
 
