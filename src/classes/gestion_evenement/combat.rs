@@ -1,6 +1,8 @@
 use crate::classes::affichage::affiche_texte::AfficheTexte;
 use crate::classes::gestion_evenement::lancer_dice::LancerDice;
 use std::io::{self, Write};
+use crate::classes::entite::entite::Personnage;
+use crate::classes::entite::inventaire::Inventaire;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 
@@ -67,25 +69,49 @@ impl Combat {
     pub fn lancer_combat(
         intro: &str,
         mut pv_joueur: u32,
-        attaque_joueur: u32,
-        vitesse_joueur: u32,
+        mut attaque_joueur: u32,
+        mut vitesse_joueur: u32,
         mut pv_ennemi: u32,
         attaque_ennemi: u32,
         vitesse_ennemi: u32,
     ) -> bool {
+        let sauvegarde: Sauvegarde = Sauvegarde::new();
+        let mut charge_player : PersonnagePrincipal;
+        let mut pv_max : u32;
+
         AfficheTexte::affiche(intro.to_string(), 25);
 
         loop {
+            charge_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+            pv_joueur = charge_player.entite.get_points_de_vie();
+            attaque_joueur = charge_player.entite.get_force();
+            vitesse_joueur = charge_player.entite.get_vitesse();
+            pv_max = charge_player.entite.get_points_de_vie_max();
+
+
+
             std::thread::sleep(std::time::Duration::from_millis(1500));
             AfficheTexte::affiche(
                 format!(
-                    "\n--- Tour du joueur ---\nVos PV : {} | PV Ennemi : {}",
-                    pv_joueur, pv_ennemi
+                    "\n--- Tour du joueur ---\n",
                 ),
                 15,
             );
+            AfficheTexte::affiche(
+                format!(
+                    "Vous : PV : {}/{} | Attaque : {} | Vitesse : {}\n",
+                    pv_joueur, pv_max, attaque_joueur, vitesse_joueur
+                ), 15,
+            );
+            AfficheTexte::affiche(
+                format!(
+                    "Ennemi : PV : {} | Attaque : {} | Vitesse : {}\n",
+                    pv_ennemi, attaque_ennemi, vitesse_ennemi
+                ), 15,
+            );
             AfficheTexte::affiche("[1] Attaquer".to_string(), 10);
             AfficheTexte::affiche("[2] Fuir".to_string(), 10);
+            AfficheTexte::affiche("[3] Inventaire".to_string(), 10);
 
             print!("Votre choix : ");
             io::stdout().flush().unwrap();
@@ -116,6 +142,14 @@ impl Combat {
                         AfficheTexte::affiche("❌ Vous n'avez pas réussi à fuir.".to_string(), 20);
                     }
                 }
+                // Inventaire
+                "3" => {
+                    //charge_player.inventaire.afficher_inventaire_interactif(charge_player);
+                    let a_consomme = charge_player.inventaire.afficher_inventaire_interactif();
+                    charge_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+                    pv_joueur = charge_player.entite.get_points_de_vie();
+                    if !a_consomme { continue }
+                }
                 _ => {
                     AfficheTexte::affiche("❗ Choix invalide !".to_string(), 20);
                     continue;
@@ -124,8 +158,8 @@ impl Combat {
 
             if pv_ennemi == 0 {
                 AfficheTexte::affiche("🎉 Ennemi vaincu !".to_string(), 20);
-                let sauvegarde: Sauvegarde = Sauvegarde::new();
-                let charge_player : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+                //let sauvegarde: Sauvegarde = Sauvegarde::new();
+                //let charge_player : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
                 let mut update_player = PersonnagePrincipal::new(
                     charge_player.entite.get_nom(),
                     pv_joueur,
@@ -146,6 +180,22 @@ impl Combat {
             let lancer = LancerDice::lancer_console_combat(false);
 
             let degats = Combat::calculer_degats(attaque_ennemi, attaque_joueur, lancer);
+            //-----
+            let mut update_player = PersonnagePrincipal::new(
+                charge_player.entite.get_nom(),
+                pv_joueur.saturating_sub(degats),
+                charge_player.entite.get_points_de_vie_max(),
+                charge_player.entite.get_force(),
+                charge_player.entite.get_intelligence(),
+                charge_player.entite.get_vitesse(),
+                charge_player.chance,
+                charge_player.get_uranium()
+            );
+            update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
+            sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
+
+
+            //-----
             pv_joueur = pv_joueur.saturating_sub(degats);
             AfficheTexte::affiche(
                 format!(

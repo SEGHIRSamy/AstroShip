@@ -2,6 +2,8 @@
 
 use serde::{Deserialize, Serialize};
 use crate::classes::entite::entite::Entite;
+use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
+use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 
 #[derive(PartialEq, Debug)] // Ajout de Debug pour la comparaison dans les tests
 #[derive(Clone)]
@@ -129,4 +131,81 @@ impl Objet {
             cible.add_points_de_vie_max( ((cible.get_points_de_vie_max() as f32) * mul) as u32);
         }
     }
+
+    pub fn est_consommable(&self) -> bool {
+        self.multiplicateur_pv.is_some()
+            || self.multiplicateur_pv_max.is_some()
+            || self.multiplicateur_force.is_some()
+            || self.multiplicateur_vitesse.is_some()
+    }
+
+
+    pub fn consommer_perso_principal(&self, nom_objet: &str) {
+        let mut sauvegarde = Sauvegarde::new();
+        let mut charge_player: PersonnagePrincipal = sauvegarde
+            .charge("personnage_principal.json".to_string())
+            .expect("Chargement du joueur échoué");
+
+        // === RÉCUPÉRATION DES STATS ===
+        let mut pv = charge_player.entite.get_points_de_vie();
+        let mut pv_max = charge_player.entite.get_points_de_vie_max();
+        let mut force = charge_player.entite.get_force();
+        let mut vitesse = charge_player.entite.get_vitesse();
+
+        // === APPLICATION DES MULTIPLICATEURS DIRECTS ===
+        if let Some(mul) = self.multiplicateur_pv_max {
+            pv_max = ((pv_max as f32) * mul).round().max(1.0) as u32;
+        }
+
+        if let Some(mul) = self.multiplicateur_pv {
+            pv = ((pv as f32) * mul).round() as u32;
+            if pv > pv_max {
+                pv = pv_max;
+            }
+        }
+
+        if let Some(mul) = self.multiplicateur_force {
+            force = ((force as f32) * mul).round().max(1.0) as u32;
+        }
+
+        if let Some(mul) = self.multiplicateur_vitesse {
+            vitesse = ((vitesse as f32) * mul).round().max(1.0) as u32;
+        }
+
+        // === MISE À JOUR DE L'INVENTAIRE ===
+        let mut nouveaux_objets = Vec::new();
+        for mut objet in charge_player.inventaire.get_instance().clone() {
+            if objet.get_nom() == nom_objet {
+                if objet.get_quantite() > 1 {
+                    objet.set_quantite(objet.get_quantite() - 1);
+                    nouveaux_objets.push(objet);
+                }
+                // Sinon, on le supprime
+            } else {
+                nouveaux_objets.push(objet);
+            }
+        }
+
+        // === MISE À JOUR DU PERSONNAGE ===
+        let mut update_player = PersonnagePrincipal::new(
+            charge_player.entite.get_nom(),
+            pv,
+            pv_max,
+            force,
+            charge_player.entite.get_intelligence(),
+            vitesse,
+            charge_player.chance,
+            charge_player.get_uranium(),
+        );
+
+        update_player.inventaire.set_instance(nouveaux_objets);
+
+        // === SAUVEGARDE ===
+        sauvegarde
+            .sauvegarde("personnage_principal.json".to_string(), update_player)
+            .expect("Sauvegarde du joueur échouée");
+    }
+
+
+
 }

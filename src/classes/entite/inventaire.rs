@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::classes::marchandage::objet::Objet;
+use std::io::{self, Write};
+use crate::classes::entite::entite::Entite;
 
 /// La structure `Inventaire` représente un inventaire contenant
 /// une certaine somme d'argent (`monnaie`) et un objet spécifique (`instance`).
@@ -77,15 +79,152 @@ impl Inventaire {
         }
     }
 
+    /// Permet de supprimer un objet en fonction de son nom
+    /// Supprime un objet de l'inventaire par son nom
+    pub fn remove_objet_par_nom(&mut self, nom_objet: &str) {
+        self.instance.retain(|o| o.get_nom() != nom_objet);
+    }
+
+
     pub fn afficher_inventaire(&self) {
         println!("====================");
-        println!("=== Inventaire ===");
+        println!("=== INVENTAIRE ===");
         println!("====================");
+        println!("Monnaie : {}\n", self.get_monnaie());
 
-        println!(
-            "Monnaie : {} | Objet : {:?}",
-            self.get_monnaie(),
-            self.get_instance()
-        );
+        if self.instance.is_empty() {
+            println!("Aucun objet dans l'inventaire.");
+        } else {
+            println!("Objets disponibles :");
+            for (i, objet) in self.instance.iter().enumerate() {
+                println!(
+                    "  [{}] {} - {}",
+                    i + 1,
+                    objet.get_nom(),
+                    objet.get_description()
+                );
+            }
+        }
     }
+
+    // AFFICHAGE DE L'INVENTAIRE
+
+
+    // Afficher tout l'inventaire
+
+    pub fn afficher_inventaire_interactif(&mut self) -> bool {
+        loop {
+            println!("\n====================");
+            println!("=== Inventaire ===");
+            println!("====================");
+            println!("Monnaie : {}", self.get_monnaie());
+
+            for (i, objet) in self.instance.iter().enumerate() {
+                println!(
+                    "{}. {} (x{}) - {}",
+                    i + 1,
+                    objet.get_nom(),
+                    objet.get_quantite(),
+                    objet.get_description()
+                );
+            }
+
+            println!("\nEntrez le numéro d’un objet pour voir les détails, ou [Q] pour quitter :");
+
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).unwrap();
+            let input = input.trim();
+
+            if input.eq_ignore_ascii_case("q") {
+                return false; // aucun objet consommé
+            }
+
+            match input.parse::<usize>() {
+                Ok(index) => {
+                    if index > 0 && index <= self.instance.len() {
+                        let a_consomme = self.afficher_details_objet(index);
+                        if a_consomme {
+                            return true; // on a consommé quelque chose → fin de l'inventaire
+                        }
+                        // Sinon, on boucle
+                    } else {
+                        println!("Numéro invalide.");
+                    }
+                }
+                Err(_) => {
+                    println!("Entrée invalide.");
+                }
+            }
+        }
+    }
+
+
+
+
+
+    // Afficher les details d'un item
+
+    pub fn afficher_details_objet(&mut self, index: usize) -> bool {
+        if index == 0 || index > self.instance.len() {
+            println!("Index invalide.");
+            return false;
+        }
+
+        let objet = &self.instance[index - 1];
+
+        println!("\n=== Détails de l'objet ===");
+        println!("Nom : {}", objet.get_nom());
+        println!("Description : {}", objet.get_description());
+
+        let consommable = objet.est_consommable(); // Une méthode booléenne que tu dois créer
+
+        if let Some(pv) = objet.get_multiplicateur_pv() {
+            println!("+{:.0}% PV", pv * 100.0);
+        }
+        if let Some(pv_max) = objet.get_multiplicateur_pv_max() {
+            println!("+{:.0}% PV max", pv_max * 100.0);
+        }
+        if let Some(force) = objet.get_multiplicateur_force() {
+            println!("+{:.0}% Force", force * 100.0);
+        }
+        if let Some(vitesse) = objet.get_multiplicateur_vitesse() {
+            println!("+{:.0}% Vitesse", vitesse * 100.0);
+        }
+
+        println!("\n[C] Consommer / [R] Retour");
+
+        let mut choix = String::new();
+        io::stdin().read_line(&mut choix).unwrap();
+
+        match choix.trim().to_lowercase().as_str() {
+            "c" => {
+                if !consommable {
+                    println!("Cet objet ne peut pas être consommé.");
+                    return false;
+                }
+
+                let objet = &mut self.instance[index - 1];
+                let nom_objet = objet.get_nom().to_string();
+                objet.consommer_perso_principal(&nom_objet);
+                println!("Objet consommé !");
+
+                if objet.get_quantite() > 1 {
+                    objet.set_quantite(objet.get_quantite() - 1);
+                } else {
+                    self.instance.remove(index - 1);
+                    println!("Objet supprimé.");
+                }
+
+                return true;
+            }
+            _ => {
+                println!("Retour à l'inventaire.");
+                return false;
+            }
+        }
+    }
+
+
+
+
 }
