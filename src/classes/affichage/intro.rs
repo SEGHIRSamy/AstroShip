@@ -1,3 +1,6 @@
+use std::io::{stdout, Write};
+use std::thread;
+use std::time::Duration;
 use crate::classes::gestion_evenement::quitter_jeu::QuitterJeu;
 use crate::classes::gestion_evenement::lancer_partie::LancerPartie;
 use crate::classes::gestion_evenement::evenement::Evenement;
@@ -40,6 +43,84 @@ impl Intro {
             ("Quitter".to_string(), Box::new(QuitterJeu::new()))
         ]);
         choix_menu_principal.lancer_choix();
+    }
+
+    pub fn lancer_outro() {
+        let vaisseau = r#"
+                            |
+                           -+-
+                          /-|-\
+                          | O |
+                          |   |
+                         /-----\
+                        |_______|
+"#;
+
+        let frames = vec![
+            r#"
+                                                 *        *
+
+                           *           *                   *
+       *       *                           *       *
+
+"#,
+            r#"
+                          *      *                 *         *
+       *       *              *           *              *
+
+                        *               *         *
+"#,
+            r#"
+           *          *     *         *      *      *       *
+
+                     *       *        *          *        *
+
+"#,
+            r#"
+                     *     *     *     *     *     *     *
+                                            *     *     *     *     *     *     *
+                         *     *     *     *     *     *     *
+"#,
+            r#"
+
+
+
+"#,r#"
+                         *
+          *                             *
+                    *         *
+       *      *           *         *      *
+                            *
+    *         *   *      *       *        *
+               *                  *
+
+               *                  *
+    *        *     *     *     *     *
+         *      *         *       *
+   *               *                  *
+"#,
+            r#"
+          *          *         *
+       *       *          *         *      *
+
+
+
+       *          *         *       *    *
+   *         *         *       *        *
+"#,
+        ];
+
+        for i in 0..5 {
+            for stars in &frames {
+                print!("\x1B[2J\x1B[1;1H"); // Clear screen
+                println!("{}{}\n{}", stars, stars,vaisseau);
+                stdout().flush().unwrap();
+                thread::sleep(Duration::from_millis(300));
+            }
+        }
+
+        println!("Entrée réussie dans l'hyperespace !");
+        println!("Vous apercevez votre planète, Astro ne peut s'emppêcher d'être ému en disant que \nc'est les émotions !");
     }
 }
 impl Evenement for Intro {

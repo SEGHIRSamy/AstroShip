@@ -62,6 +62,9 @@ impl Entite {
         self.force += force;
     }
 
+    pub fn set_points_de_vie(&mut self, points_de_vie: u32) {
+        self.points_de_vie = points_de_vie;
+    }
     pub fn add_points_de_vie(&mut self, points_de_vie: u32) {
         self.points_de_vie += points_de_vie;
     }
