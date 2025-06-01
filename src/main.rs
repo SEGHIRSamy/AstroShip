@@ -1,10 +1,7 @@
 mod classes;
 
 use crate::classes::affichage::intro::Intro;
-use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::gestion_evenement::evenement::Evenement;
-use crate::classes::planete::planete::Planete;
-use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 
 fn main() {
     Intro::new().action();
@@ -42,10 +39,10 @@ fn main() {
     }*/
 
 
-    let mut plat = Planete::charge_planete("Mars");
+    /*let mut plat = Planete::charge_planete("Mars");
     let sauvegarde: Sauvegarde = Sauvegarde::new();
     let mut personnage_principale : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
 
-    plat.visiter(&mut personnage_principale);
+    plat.visiter(&mut personnage_principale);*/
 
 }

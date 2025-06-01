@@ -1,6 +1,6 @@
 {
   "nom": "Mars",
-  "cout_voyage" : 0,
+  "cout_voyage" : 10,
   "auberge": {
     "prix_repos": 50
   },

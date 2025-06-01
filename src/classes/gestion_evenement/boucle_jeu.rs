@@ -2,6 +2,7 @@ use std::io;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::planete::planete::Planete;
 use crate::classes::affichage::affiche_texte::AfficheTexte;
+use crate::classes::affichage::intro::Intro;
 use crate::classes::gestion_evenement::charger_partie::ChargerPartie;
 use crate::classes::gestion_evenement::choix::Choix;
 use crate::classes::gestion_evenement::quitter_jeu::QuitterJeu;
@@ -29,7 +30,7 @@ impl BoucleJeu {
     } else {
       AfficheTexte::affiche("Chargement de la partie sauvegardée...".to_string(), 30);
       let personnage: PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
-      let planete: Planete = sauvegarde.charge("planete_json/".to_owned()+&personnage.get_planete_nom()+&"json".to_string()).unwrap();
+      let planete: Planete = sauvegarde.charge("planete_json/".to_owned()+&personnage.get_planete_nom()+&".json".to_string()).unwrap();
 
 
       let voyage = VoyagePlanete::new(personnage.get_planete_nom(),planete.get_cout_voyage());
@@ -52,19 +53,26 @@ impl BoucleJeu {
       VoyagePlanete::new("Pluton", 40),
     ];
     
-    while jeu_en_cours && self.personnage.entite.get_points_de_vie() > 0 &&
-        self.personnage.get_uranium() < nbr_uranium_demande {
+    while (jeu_en_cours && self.personnage.entite.get_points_de_vie() > 0) &&
+        (self.personnage.get_uranium() < nbr_uranium_demande) {
+
+      if (self.personnage.get_carburant()<=0) {
+        println!("Malheuresement vous êtes bloqué dans l'espace, vous n'avez pas su gérer votre budget carburant\n\
+         cela vous a offert une croisière dans l'espace jusqu'à la fin de vos jours.\n\
+         Entre autre : ");
+        self.personnage.entite.set_points_de_vie(0);
+        jeu_en_cours = false;
+        break;
+      }
 
       let sauvegarde: Sauvegarde = Sauvegarde::new();
-      let mut personnage_principale : PersonnagePrincipal  =
-          sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
 
-
+      //TODO voir pour comment faire pour charger directement la planete quand on charge le jeu
       println!("\n=== Menu de navigation ===");
       self.vaisseau.afficher_etat();
       println!("Choisissez une planète à visiter :");
       for (i, p) in planetes_disponibles.iter().enumerate() {
-        println!("[{}] {} (Coût uranium: {}", i + 1, p.nom, p.cout_voyage);
+        println!("[{}] {} Carburant nécessaire : {}", i + 1, p.nom, p.cout_voyage);
       }
       println!("[0] Quitter");
 
@@ -74,28 +82,29 @@ impl BoucleJeu {
       match choix.trim().parse::<usize>() {
         Ok(0) => {
           println!("Vous avez quitté le jeu.");
+          sauvegarde.sauvegarde("personnage_principal.json".to_string(), self.personnage.clone()).expect("Enregistrement Personnage échoué");
           jeu_en_cours = false;
         }
         Ok(index) if index >= 1 && index <= planetes_disponibles.len() => {
           let planete_selectionnee = &planetes_disponibles[index - 1];
-          personnage_principale.set_planete(&*planete_selectionnee.nom.clone());
-
-          // Ici tu peux lancer le voyage ou l’événement lié à la planète
           println!("Vous avez choisi de voyager vers {}", planete_selectionnee.nom);
+          self.personnage.set_planete(&*planete_selectionnee.nom.clone());
+          self.personnage.set_carburant(self.personnage.get_carburant()-planete_selectionnee.cout_voyage);
+          self.vaisseau.voyager(planete_selectionnee);
+
+          let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
+          plat.visiter(&mut self.personnage);
+
         }
         _ => {
           println!("Choix invalide. Veuillez entrer un nombre valide.");
         }
       }
 
-      let mut plat = Planete::charge_planete(personnage_principale.get_planete_nom());
-      plat.visiter(&mut personnage_principale);
-
-
     }
 
     if self.personnage.entite.get_points_de_vie() <= 0 {
-      AfficheTexte::affiche("Vous êtes mort !".to_string(), 30);
+      AfficheTexte::affiche("\nVous êtes mort !".to_string(), 30);
       let choix_mort = Choix::new(vec![
         ("Charger la dernière sauvegarde".to_string(), Box::new(ChargerPartie::new())),
         ("Quitter".to_string(), Box::new(QuitterJeu::new()))
@@ -103,8 +112,8 @@ impl BoucleJeu {
       choix_mort.lancer_choix();
     } 
     else if self.personnage.get_uranium() >= nbr_uranium_demande {
-      println!("@@@ hello on a uranium > ");
       sauvegarde.sauvegarde("personnage_principal.json".to_string(), &self.personnage).unwrap();
+      Intro::lancer_outro();
       AfficheTexte::affiche("Vous avez gagné !!!!!!!".to_string(), 50);
     }
   }

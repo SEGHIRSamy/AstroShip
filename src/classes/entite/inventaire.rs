@@ -6,7 +6,7 @@ use crate::classes::entite::entite::Entite;
 /// La structure `Inventaire` représente un inventaire contenant
 /// une certaine somme d'argent (`monnaie`) et un objet spécifique (`instance`).
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Inventaire {
     monnaie : u32, // valeur maximal dans le jeu : 99,999,999
     #[serde(rename = "objets")]

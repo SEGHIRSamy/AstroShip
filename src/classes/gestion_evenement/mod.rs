@@ -5,4 +5,4 @@ pub mod lancer_partie;
 pub mod charger_partie;
 pub mod quitter_jeu;
 pub mod combat;
-pub mod boucleJeu;
+pub mod boucle_jeu;
