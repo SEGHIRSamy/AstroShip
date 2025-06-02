@@ -19,7 +19,11 @@ impl BoucleJeu {
   pub fn new(nouvelle_partie: bool) -> BoucleJeu {
     let sauvegarde: Sauvegarde = Sauvegarde::new();
     if nouvelle_partie {
-      AfficheTexte::affiche("Création d'une nouvelle partie...".to_string(), 30);
+      AfficheTexte::affiche("Bienvenue, aventurier des étoiles.
+        Votre vaisseau vient de subir une panne critique : plus une goutte d'uranium, le précieux carburant qui alimente votre propulsion hyperespace.
+        Vous dérivez désormais au cœur d’une galaxie inconnue, isolé, vulnérable... mais pas sans ressources.
+        Votre mission : explorer, survivre et trouver suffisamment d’uranium pour rallumer vos moteurs et rentrer enfin chez vous.
+        ".to_string(), 30);
       let personnage: PersonnagePrincipal = sauvegarde.charge("nouveau_personnage.json".to_string()).unwrap();
       sauvegarde.sauvegarde("personnage_principal.json".to_string(), &personnage).unwrap();
       let vaisseau = Vaisseau::new(personnage.get_carburant() , personnage.get_uranium() , None);
