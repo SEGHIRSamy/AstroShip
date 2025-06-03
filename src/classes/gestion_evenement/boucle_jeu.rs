@@ -60,7 +60,7 @@ impl BoucleJeu {
     while (jeu_en_cours && self.personnage.entite.get_points_de_vie() > 0) &&
         (self.personnage.get_uranium() < nbr_uranium_demande) {
 
-      if (self.personnage.get_carburant()<=0) {
+      if self.personnage.get_carburant()<=0 && self.vaisseau.afficher_etat() == "Dans l'espace".to_string() {
         println!("Malheuresement vous êtes bloqué dans l'espace, vous n'avez pas su gérer votre budget carburant\n\
          cela vous a offert une croisière dans l'espace jusqu'à la fin de vos jours.\n\
          Entre autre : ");
@@ -74,6 +74,10 @@ impl BoucleJeu {
       //TODO voir pour comment faire pour charger directement la planete quand on charge le jeu
       println!("\n=== Menu de navigation ===");
       self.vaisseau.afficher_etat();
+      if !self.vaisseau.get_position().is_none() {
+        let mut plat = Planete::charge_planete(self.personnage.get_planete_nom().clone());
+        plat.visiter(&mut self.personnage);
+      }
       println!("Choisissez une planète à visiter :");
       for (i, p) in planetes_disponibles.iter().enumerate() {
         println!("[{}] {} Carburant nécessaire : {}", i + 1, p.nom, p.cout_voyage);
@@ -93,10 +97,10 @@ impl BoucleJeu {
           let planete_selectionnee = &planetes_disponibles[index - 1];
           println!("Vous avez choisi de voyager vers {}", planete_selectionnee.nom);
           self.personnage.set_planete(&*planete_selectionnee.nom.clone());
-          self.personnage.set_carburant(self.personnage.get_carburant()-planete_selectionnee.cout_voyage);
+          self.personnage.set_carburant(self.personnage.get_carburant()-planete_selectionnee.cout_voyage.clone());
+          sauvegarde.sauvegarde("personnage_principal.json".to_string(), self.personnage.clone()).expect("Enregistrement boucle jeu 98 raté");
           self.vaisseau.voyager(planete_selectionnee);
-
-          let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
+          let mut plat = Planete::charge_planete(self.personnage.get_planete_nom().clone());
           plat.visiter(&mut self.personnage);
 
         }

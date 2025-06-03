@@ -14,7 +14,7 @@ impl Vaisseau {
     }
 
     /// Affiche l'état actuel du vaisseau dans la console
-    pub fn afficher_etat(&self) {
+    pub fn afficher_etat(&self) -> String {
         let position_str = match &self.position {
             Some(planete) => format!("Sur {}", planete.nom),
             None => "Dans l'espace".to_string(),
@@ -23,6 +23,7 @@ impl Vaisseau {
             "Carburant: {}, Uranium: {}, Position: {}",
             self.carburant, self.uranium, position_str
         );
+        position_str
     }
 
     /// Permet de voyager vers une planète si le carburant est suffisant

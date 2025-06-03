@@ -2,9 +2,7 @@ use rand::{rng, SeedableRng};
 use std::io;
 use rand::prelude::StdRng;
 use serde::{Deserialize, Serialize};
-use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 use crate::classes::entite::ennemie::Ennemi;
-use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::gestion_evenement::combat::Combat;
 
 #[allow(dead_code)]
@@ -35,8 +33,6 @@ impl ZoneHostile {
             println!("\n {} apparaît : ", ennemi.get_base().get_nom());
 
             let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
-            let sauvegarde: Sauvegarde = Sauvegarde::new();
-            let personnage_principale : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
 
             let resultat = Combat::lancer_combat(
                 intro,

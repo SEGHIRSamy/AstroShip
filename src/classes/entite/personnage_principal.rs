@@ -61,6 +61,10 @@ impl PersonnagePrincipal {
         self.carburant
     }
 
+    pub fn get_chance(&self) -> u32 {
+        self.chance
+    }
+
 }
 
 #[allow(dead_code)]
