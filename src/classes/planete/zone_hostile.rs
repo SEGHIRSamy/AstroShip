@@ -40,9 +40,6 @@ impl ZoneHostile {
 
             let resultat = Combat::lancer_combat(
                 intro,
-                personnage_principale.entite.get_points_de_vie(),
-                personnage_principale.entite.get_force(),
-                personnage_principale.entite.get_vitesse(),
                 ennemi.get_base().get_points_de_vie(),
                 ennemi.get_base().get_force(),
                 ennemi.get_base().get_vitesse(),
