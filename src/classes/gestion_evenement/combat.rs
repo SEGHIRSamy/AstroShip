@@ -155,6 +155,7 @@ impl Combat {
                         let mut rng = rng();
                         for obj in ennemi.interaction(&mut rng) {
                             charge_player.inventaire.add_objet(obj.get_objet());
+                            obj.get_objet().afficher()
                         }
                         update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                         sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
@@ -182,7 +183,7 @@ impl Combat {
             }
 
             if ennemi.base.get_points_de_vie() == 0 {
-                AfficheTexte::affiche("🎉 Ennemi vaincu !".to_string(), 20);
+                AfficheTexte::affiche("🎉 Ennemi vaincu !\n".to_string(), 20);
                 update_player = PersonnagePrincipal::new(
                     charge_player.entite.get_nom(),
                     pv_joueur,
@@ -197,6 +198,7 @@ impl Combat {
                 let mut rng = rng();
                 for obj in ennemi.interaction(&mut rng) {
                     charge_player.inventaire.add_objet(obj.get_objet());
+                    obj.get_objet().afficher()
                 }
                 update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                 sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");

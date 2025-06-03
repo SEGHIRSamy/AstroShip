@@ -69,7 +69,6 @@ impl Planete {
 
     pub fn charge_planete(nom: &str) -> Planete {
         let sauvegarde: Sauvegarde = Sauvegarde::new();
-        println!("@@@ affichage charge planete : {}",nom);
         sauvegarde.charge("planete_json/".to_owned() + &*nom.to_owned() + &*".json".to_string()).unwrap()
     }
 
