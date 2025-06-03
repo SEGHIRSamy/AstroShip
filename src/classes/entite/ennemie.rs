@@ -6,7 +6,7 @@ use crate::classes::marchandage::butin::Butin;
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
 pub struct Ennemi {
-    base: Entite,                 // L'entité de base pour les statistiques
+    pub base: Entite,                 // L'entité de base pour les statistiques
     pub butins_passifs: Vec<Butin>,   // Butins obtenu si on le laisse vivre
     pub butins_hostiles: Vec<Butin>,  // Butins obtenu si on le tue
 
@@ -35,10 +35,8 @@ impl Ennemi {
     /// Interagir avec l'ennemi : décider de tuer ou d'épargner (
     pub fn interaction<R: Rng>(&self, rng: &mut R) -> Vec<Butin> {
         if self.base.get_points_de_vie() <= 0 {
-            println!("{} a été vaincu !", self.base.get_nom());
             self.obtenir_butins_hostiles(rng)
         } else {
-            println!("{} a été épargné.", self.base.get_nom());
             self.obtenir_butins_passifs(rng)
         }
     }

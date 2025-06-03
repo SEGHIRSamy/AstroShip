@@ -1,4 +1,4 @@
-use rand::{rng, SeedableRng};
+use rand::{SeedableRng};
 use std::io;
 use rand::prelude::StdRng;
 use serde::{Deserialize, Serialize};
@@ -27,35 +27,16 @@ impl ZoneHostile {
     pub fn explorer(&mut self) {
         println!("Vous venez de vous aventurer dans la zone hostile : ");
 
-        let mut rng = rng();
 
         for ennemi in &mut self.ennemis {
             println!("\n {} apparaît : ", ennemi.get_base().get_nom());
 
             let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
 
-            let resultat = Combat::lancer_combat(
+            Combat::lancer_combat(
                 intro,
-                ennemi.get_base().get_points_de_vie(),
-                ennemi.get_base().get_force(),
-                ennemi.get_base().get_vitesse(),
+                ennemi,
             );
-            // ⚔️ Combat terminé : interaction
-            let butins = match resultat {
-                true => {
-                    // Ennemi vaincu
-                    ennemi.interaction(&mut rng)
-                }
-                false => {
-                    println!("Vous avez fui ou perdu le combat.");
-                    break;
-                }
-            };
-
-            println!("Butins obtenus :");
-            for butin in butins {
-                println!(" - {}", butin.objet.get_nom());
-            }
 
             // Demande au joueur s'il veut continuer
             println!("Souhaitez-vous continuer à explorer ? (oui/non)");

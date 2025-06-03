@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::classes::marchandage::objet::Objet;
-use std::io::{self, Write};
-use crate::classes::entite::entite::Entite;
+use std::io::{self};
 
 /// La structure `Inventaire` représente un inventaire contenant
 /// une certaine somme d'argent (`monnaie`) et un objet spécifique (`instance`).

@@ -141,8 +141,8 @@ impl Objet {
 
 
     pub fn consommer_perso_principal(&self, nom_objet: &str) {
-        let mut sauvegarde = Sauvegarde::new();
-        let mut charge_player: PersonnagePrincipal = sauvegarde
+        let sauvegarde = Sauvegarde::new();
+        let charge_player: PersonnagePrincipal = sauvegarde
             .charge("personnage_principal.json".to_string())
             .expect("Chargement du joueur échoué");
 

@@ -65,7 +65,6 @@ impl BoucleJeu {
          cela vous a offert une croisière dans l'espace jusqu'à la fin de vos jours.\n\
          Entre autre : ");
         self.personnage.entite.set_points_de_vie(0);
-        jeu_en_cours = false;
         break;
       }
 
@@ -75,7 +74,7 @@ impl BoucleJeu {
       println!("\n=== Menu de navigation ===");
       self.vaisseau.afficher_etat();
       if !self.vaisseau.get_position().is_none() {
-        let mut plat = Planete::charge_planete(self.personnage.get_planete_nom().clone());
+        let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
         plat.visiter(&mut self.personnage);
       }
       println!("Choisissez une planète à visiter :");
@@ -100,7 +99,7 @@ impl BoucleJeu {
           self.personnage.set_carburant(self.personnage.get_carburant()-planete_selectionnee.cout_voyage.clone());
           sauvegarde.sauvegarde("personnage_principal.json".to_string(), self.personnage.clone()).expect("Enregistrement boucle jeu 98 raté");
           self.vaisseau.voyager(planete_selectionnee);
-          let mut plat = Planete::charge_planete(self.personnage.get_planete_nom().clone());
+          let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
           plat.visiter(&mut self.personnage);
 
         }
