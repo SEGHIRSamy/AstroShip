@@ -49,10 +49,10 @@ impl BoucleJeu {
   pub fn boucle_jeu(&mut self) {
     let sauvegarde: Sauvegarde = Sauvegarde::new();
     let nbr_uranium_demande: u32 = 10;
-    let mut jeu_en_cours: bool = true; // quitter le jeu avec une option quitter
+    let mut jeu_en_cours: bool = true;
 
     let planetes_disponibles = vec![
-      VoyagePlanete::new("Mars", 20),        // Exemple
+      VoyagePlanete::new("Mars", 20),
       VoyagePlanete::new("Neptune", 30),
       VoyagePlanete::new("Pluton", 40),
     ];
