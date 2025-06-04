@@ -1,8 +1,8 @@
 use crate::classes::affichage::affiche_texte::AfficheTexte;
 use crate::classes::gestion_evenement::lancer_dice::LancerDice;
 use std::io::{self, Write};
-use crate::classes::entite::entite::Personnage;
-use crate::classes::entite::inventaire::Inventaire;
+use rand::rng;
+use crate::classes::entite::ennemie::Ennemi;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 
@@ -64,32 +64,28 @@ impl Combat {
 
     // Lancer un combat
     /*
-        Va lancer un combat, pour le moment on lance avec les stats bruts du joueur et de l'ennemi a remplacer quand on gerera les json
+        Fonction de combat, on rcupere les stats du joueur que l'on charge dans les variables
+        Si on fuit ou qu'on tue l'ennemi on sauvegarde ces variables de stats dans le json
+        A la fin du passgae de l'inventaire on doit recharger les stats du joueur si il a consommé des objets
      */
     pub fn lancer_combat(
         intro: &str,
-        mut pv_joueur: u32,
-        mut attaque_joueur: u32,
-        mut vitesse_joueur: u32,
-        mut pv_ennemi: u32,
-        attaque_ennemi: u32,
-        vitesse_ennemi: u32,
+        ennemi: &mut Ennemi
     ) -> bool {
+        // Chargement initial des stats du joueur
         let sauvegarde: Sauvegarde = Sauvegarde::new();
-        let mut charge_player : PersonnagePrincipal;
-        let mut pv_max : u32;
+        let mut charge_player : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+        let mut pv_max : u32 = charge_player.entite.get_points_de_vie_max();
+        let mut pv_joueur : u32 = charge_player.entite.get_points_de_vie();
+        let mut attaque_joueur : u32 = charge_player.entite.get_force();
+        let mut vitesse_joueur : u32 = charge_player.entite.get_vitesse();
+
+        let mut update_player : PersonnagePrincipal;
 
         AfficheTexte::affiche(intro.to_string(), 25);
 
+        // Boucle du combat
         loop {
-            charge_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
-            pv_joueur = charge_player.entite.get_points_de_vie();
-            attaque_joueur = charge_player.entite.get_force();
-            vitesse_joueur = charge_player.entite.get_vitesse();
-            pv_max = charge_player.entite.get_points_de_vie_max();
-
-
-
             std::thread::sleep(std::time::Duration::from_millis(1500));
             AfficheTexte::affiche(
                 format!(
@@ -106,7 +102,7 @@ impl Combat {
             AfficheTexte::affiche(
                 format!(
                     "Ennemi : PV : {} | Attaque : {} | Vitesse : {}\n",
-                    pv_ennemi, attaque_ennemi, vitesse_ennemi
+                    ennemi.base.get_points_de_vie(), ennemi.base.get_force(), ennemi.base.get_vitesse()
                 ), 15,
             );
             AfficheTexte::affiche("[1] Attaquer".to_string(), 10);
@@ -124,10 +120,17 @@ impl Combat {
                 "1" => {
                     let lancer = LancerDice::lancer_console_combat(true);
                     let degats =
-                        Combat::calculer_degats(attaque_joueur, attaque_ennemi, lancer);
-                    pv_ennemi = pv_ennemi.saturating_sub(degats);
+                        Combat::calculer_degats(attaque_joueur, ennemi.base.get_force(), lancer);
+                    // On met a jour els pv de l'ennemi apres qu'on l'avoir attaqué
+                    let vie_actuelle = ennemi.base.get_points_de_vie();
+                    let nouvelle_vie = if degats > ennemi.base.get_points_de_vie() {
+                        0
+                    } else {
+                        vie_actuelle - degats
+                    };
+                    ennemi.base.set_points_de_vie(nouvelle_vie);
                     AfficheTexte::affiche(
-                        format!("Vous infligez {} dégâts. PV Ennemi restants : {}", degats, pv_ennemi),
+                        format!("Vous infligez {} dégâts. PV Ennemi restants : {}", degats, ennemi.base.get_points_de_vie()),
                         15,
                     );
                 }
@@ -135,8 +138,27 @@ impl Combat {
                 "2" => {
                     let lancer = LancerDice::lancer_console_combat(true);
 
-                    if Combat::tenter_fuite(vitesse_joueur, vitesse_ennemi, lancer) {
+                    if Combat::tenter_fuite(vitesse_joueur, ennemi.base.get_vitesse(), lancer) {
                         AfficheTexte::affiche("✅ Vous avez réussi à fuir !".to_string(), 20);
+                        // On arrive a fuir : le combat est fini donc on save les stats et l'inventaire du perso dans le json
+                        update_player = PersonnagePrincipal::new(
+                            charge_player.entite.get_nom(),
+                            pv_joueur,
+                            pv_max,
+                            attaque_joueur,
+                            charge_player.entite.get_intelligence(),
+                            vitesse_joueur,
+                            charge_player.chance,
+                            charge_player.get_uranium()
+                        );
+                        // #A_faire_combat gérer l'obtention du loot passif si on fuit le combat
+                        let mut rng = rng();
+                        for obj in ennemi.interaction(&mut rng) {
+                            charge_player.inventaire.add_objet(obj.get_objet());
+                            obj.get_objet().afficher()
+                        }
+                        update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
+                        sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
                         return true;
                     } else {
                         AfficheTexte::affiche("❌ Vous n'avez pas réussi à fuir.".to_string(), 20);
@@ -144,11 +166,15 @@ impl Combat {
                 }
                 // Inventaire
                 "3" => {
-                    //charge_player.inventaire.afficher_inventaire_interactif(charge_player);
                     let a_consomme = charge_player.inventaire.afficher_inventaire_interactif();
-                    charge_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
-                    pv_joueur = charge_player.entite.get_points_de_vie();
+                    // Si on a rien consommé dans l'inventaire on repart dans la boucle sans sauvegarder les stats dans le json
                     if !a_consomme { continue }
+                    // Si on a consommé alors on save les stats du perso et son inventaire
+                    charge_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+                    pv_max = charge_player.entite.get_points_de_vie_max();
+                    pv_joueur = charge_player.entite.get_points_de_vie();
+                    attaque_joueur = charge_player.entite.get_force();
+                    vitesse_joueur = charge_player.entite.get_vitesse();
                 }
                 _ => {
                     AfficheTexte::affiche("❗ Choix invalide !".to_string(), 20);
@@ -156,20 +182,24 @@ impl Combat {
                 }
             }
 
-            if pv_ennemi == 0 {
-                AfficheTexte::affiche("🎉 Ennemi vaincu !".to_string(), 20);
-                //let sauvegarde: Sauvegarde = Sauvegarde::new();
-                //let charge_player : PersonnagePrincipal  = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
-                let mut update_player = PersonnagePrincipal::new(
+            if ennemi.base.get_points_de_vie() == 0 {
+                AfficheTexte::affiche("🎉 Ennemi vaincu !\n".to_string(), 20);
+                update_player = PersonnagePrincipal::new(
                     charge_player.entite.get_nom(),
                     pv_joueur,
-                    charge_player.entite.get_points_de_vie_max(),
-                    charge_player.entite.get_force(),
+                    pv_max,
+                    attaque_joueur,
                     charge_player.entite.get_intelligence(),
-                    charge_player.entite.get_vitesse(),
+                    vitesse_joueur,
                     charge_player.chance,
                     charge_player.get_uranium()
                 );
+                // #A_faire_combat gérer l'obtention du loot hostile quand on tue l'ennemi
+                let mut rng = rng();
+                for obj in ennemi.interaction(&mut rng) {
+                    charge_player.inventaire.add_objet(obj.get_objet());
+                    obj.get_objet().afficher()
+                }
                 update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                 sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
                 return true;
@@ -179,23 +209,8 @@ impl Combat {
             AfficheTexte::affiche("\n--- Tour de l'ennemi ---".to_string(), 20);
             let lancer = LancerDice::lancer_console_combat(false);
 
-            let degats = Combat::calculer_degats(attaque_ennemi, attaque_joueur, lancer);
-            //-----
-            let mut update_player = PersonnagePrincipal::new(
-                charge_player.entite.get_nom(),
-                pv_joueur.saturating_sub(degats),
-                charge_player.entite.get_points_de_vie_max(),
-                charge_player.entite.get_force(),
-                charge_player.entite.get_intelligence(),
-                charge_player.entite.get_vitesse(),
-                charge_player.chance,
-                charge_player.get_uranium()
-            );
-            update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
-            sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
-
-
-            //-----
+            let degats = Combat::calculer_degats(ennemi.base.get_force(), attaque_joueur, lancer);
+            // L'ennemi nous a tpé donc on met les pv du joueur a jour de maniere locale
             pv_joueur = pv_joueur.saturating_sub(degats);
             AfficheTexte::affiche(
                 format!(

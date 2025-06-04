@@ -3,9 +3,9 @@
     "nom": "Astro",
     "points_de_vie": 50,
     "points_de_vie_max": 50,
-    "force": 5,
+    "force": 20,
     "intelligence": 5,
-    "vitesse": 1
+    "vitesse": 20
   },
   "inventaire": {
     "monnaie": 0,
@@ -14,11 +14,31 @@
         "nom": "Insigne du voyageur de l'espace",
         "description": "Prouve que vous êtes tellement ce voyageur que vous pensez être.",
         "quantite": 1
+      },
+      {
+        "nom": "Potion de soin",
+        "description": "Restaure 10% points de vie.",
+        "quantite": 2,
+        "multiplicateur_pv": 1.1
+      },
+      {
+        "nom": "Potion de vitalité",
+        "description": "Augmente les pv max et l'attaque de 10%",
+        "quantite": 2,
+        "multiplicateur_pv_max": 1.1,
+        "multiplicateur_force": 1.1
+      },
+      {
+        "nom": "Potion de force",
+        "description": "Augmente la force de 50% et baisse la vitesse de 10%",
+        "quantite": 2,
+        "multiplicateur_force": 1.5,
+        "multiplicateur_vitesse": 0.9
       }
     ]
   },
   "chance": 1,
   "uranium": 0,
-  "planete": "Mars",
-  "carburant": 100
+  "planete": "",
+  "carburant": 20
 }

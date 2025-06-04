@@ -36,6 +36,7 @@ impl Planete {
     pub fn visiter(&mut self, personnage: &mut PersonnagePrincipal) {
         loop {
             println!("\nBienvenue sur la planète {} !", self.nom);
+            println!("\nVotre réserve de carburant : [{}]", personnage.get_carburant());
             println!("Que souhaitez-vous faire ?");
             println!("[1] Explorer une zone hostile");
             println!("[2] Aller à l'auberge");

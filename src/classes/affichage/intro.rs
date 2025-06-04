@@ -110,7 +110,7 @@ impl Intro {
 "#,
         ];
 
-        for i in 0..5 {
+        for _ in 0..5 {
             for stars in &frames {
                 print!("\x1B[2J\x1B[1;1H"); // Clear screen
                 println!("{}{}\n{}", stars, stars,vaisseau);

@@ -141,8 +141,8 @@ impl Objet {
 
 
     pub fn consommer_perso_principal(&self, nom_objet: &str) {
-        let mut sauvegarde = Sauvegarde::new();
-        let mut charge_player: PersonnagePrincipal = sauvegarde
+        let sauvegarde = Sauvegarde::new();
+        let charge_player: PersonnagePrincipal = sauvegarde
             .charge("personnage_principal.json".to_string())
             .expect("Chargement du joueur échoué");
 
@@ -206,6 +206,25 @@ impl Objet {
             .expect("Sauvegarde du joueur échouée");
     }
 
+
+    pub fn afficher(&self) {
+        println!("📦 Objet : {}", self.nom);
+        println!("   📖 Description : {}", self.description);
+        println!("   🔢 Quantité : {}", self.quantite);
+
+        if let Some(pv) = self.multiplicateur_pv {
+            println!("   ❤ Recuperation PV : x{:.2}", pv);
+        }
+        if let Some(pv_max) = self.multiplicateur_pv_max {
+            println!("   ❤ Multiplicateur PV Max : x{:.2}", pv_max);
+        }
+        if let Some(force) = self.multiplicateur_force {
+            println!("   o()xxxx[@::::::::::::::::::> Multiplicateur Force : x{:.2}", force);
+        }
+        if let Some(vitesse) = self.multiplicateur_vitesse {
+            println!("   ⚡ Multiplicateur Vitesse : x{:.2}", vitesse);
+        }
+    }
 
 
 }
