@@ -4,6 +4,7 @@ use rand::prelude::StdRng;
 use serde::{Deserialize, Serialize};
 use crate::classes::entite::ennemie::Ennemi;
 use crate::classes::gestion_evenement::combat::Combat;
+use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
 
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
@@ -25,6 +26,8 @@ impl ZoneHostile {
     }
 
     pub fn explorer(&mut self) {
+        AffichageDeplacement::lancer_animation("zone hostile");
+
         println!("Vous venez de vous aventurer dans la zone hostile : ");
 
 

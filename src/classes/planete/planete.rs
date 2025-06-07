@@ -4,8 +4,10 @@ use crate::classes::{
     planete::magasin::Magasin,
     planete::zone_hostile::ZoneHostile,
     entite::personnage_principal::PersonnagePrincipal,
-    sauvegarde::sauvegarde::Sauvegarde
+    sauvegarde::sauvegarde::Sauvegarde,
+    affichage::affichage_deplacement::AffichageDeplacement
 };
+
 
 // Permet de sérialiser/désérialiser la planète pour l'enregistrer ou la lire depuis un fichier JSON
 #[allow(dead_code)]
@@ -34,6 +36,8 @@ impl Planete {
 
     /// Proposer les 3 choix au joueur
     pub fn visiter(&mut self, personnage: &mut PersonnagePrincipal) {
+        AffichageDeplacement::lancer_animation_spatiale("arrivee");
+
         loop {
             println!("\nBienvenue sur la planète {} !", self.nom);
             println!("\nVotre réserve de carburant : [{}]", personnage.get_carburant());
@@ -52,6 +56,8 @@ impl Planete {
                 "3" => self.magasin.interaction_magasin(personnage),
                 "4" => {
                     println!("Vous quittez la planète {}.", self.nom);
+
+                    AffichageDeplacement::lancer_animation_spatiale("depart");
                     break;
                 }
                 _ => println!("Choix invalide."),

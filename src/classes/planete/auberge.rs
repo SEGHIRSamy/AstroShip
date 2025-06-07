@@ -1,6 +1,7 @@
 use std::{thread};
 use serde::{Deserialize, Serialize};
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
+use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
 
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
@@ -16,6 +17,8 @@ impl Auberge {
     }
 
     pub fn proposer_repos(&self, personnage: &mut PersonnagePrincipal, choix: Option<u8>) {
+        AffichageDeplacement::lancer_animation("auberge");
+
         println!(
             "Bienvenue à l'auberge. Le prix pour se reposer est de {} pièces.",
             self.prix_repos

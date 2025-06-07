@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::entite::inventaire::Inventaire;
 use crate::classes::marchandage::{affaire::Affaire};
+use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
 
 /// Structure représentant un magasin qui propose des affaires à l'achat.
 #[allow(dead_code)]
@@ -75,6 +76,8 @@ impl Magasin {
     /// Fonction pour acheter dans le magasin
     /// Fonction pour acheter dans le magasin
     pub fn interaction_magasin(&mut self, personnage: &mut PersonnagePrincipal) {
+        AffichageDeplacement::lancer_animation("magasin");
+
         loop {
             let affaires = self.get_affaires();
             println!("\n=== Bienvenue au magasin ===");

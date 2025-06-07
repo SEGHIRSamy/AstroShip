@@ -39,6 +39,6 @@
   },
   "chance": 1,
   "uranium": 0,
-  "planete": "",
-  "carburant": 20
+  "planete": "Mars",
+  "carburant": 0
 }
