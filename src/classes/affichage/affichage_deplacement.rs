@@ -2,7 +2,7 @@ use std::{io, thread, time};
 
 use rand::{prelude::IndexedRandom, rng};
 
-use crate::classes::{affichage::affiche_texte::AfficheTexte, sauvegarde::sauvegarde::Sauvegarde};
+use crate::classes::affichage::affiche_texte::AfficheTexte;
 
 const STICKMAN: [&str; 6] = [
     "",
@@ -69,29 +69,11 @@ impl AffichageDeplacement {
         }
     }
 
-    fn phrase_random(destination: &str) {
-        let chargeur: Sauvegarde = Sauvegarde::new();
-        let phrases_zone_hostile: Vec<String> = chargeur.charge("phrase_lieux/zone_hostile.json".to_string()).unwrap();
-
-        let phrases_magasin: Vec<String>      = chargeur.charge("phrase_lieux/magasin.json".to_string()).unwrap();
-
-        let phrases_auberge: Vec<String>      = chargeur.charge("phrase_lieux/auberge.json".to_string()).unwrap();
-
-        let phrases = match destination {
-            "zone hostile" => &phrases_zone_hostile,
-            "magasin" => &phrases_magasin,
-            "auberge" => &phrases_auberge,
-            _ => {
-                println!("Pas de phrases disponibles pour ce lieu.");
-                return;
-            }
-        };
-
+    fn phrase_random(phrases: Vec<String>) {
         if let Some(phrase) = phrases.choose(&mut rng()) {
             AfficheTexte::affiche(phrase.to_string(), 10);
             thread::sleep(time::Duration::from_millis(1500));
         }
-
     }
 
     pub fn afficher_frame(lieu: &[&str; 6], position: usize) {
@@ -104,7 +86,7 @@ impl AffichageDeplacement {
         }
     }
 
-    pub fn lancer_animation_spatiale(destination: &str) {
+    pub fn lancer_animation_spatiale(destination: &str, phrase_arrive: Vec<String>) {
         let frames = 20;
         let delay = time::Duration::from_millis(100);
 
@@ -137,7 +119,7 @@ impl AffichageDeplacement {
                     thread::sleep(delay);
                 }
 
-                println!("\n🌍 La fusée a atterri sur la planète !");
+                AffichageDeplacement::phrase_random(phrase_arrive);
             }
 
             "depart" => {
@@ -175,7 +157,7 @@ impl AffichageDeplacement {
         }
     }
 
-    pub fn lancer_animation(destination: &str) {
+    pub fn lancer_animation(destination: &str, phrase_arrive: Vec<String>) {
         let lieu_ascii = match AffichageDeplacement::get_lieu_ascii(destination) {
             Some(l) => l,
             None => {
@@ -191,7 +173,7 @@ impl AffichageDeplacement {
             thread::sleep(time::Duration::from_millis(120));
         }
 
-        AffichageDeplacement::phrase_random(destination);
+        AffichageDeplacement::phrase_random(phrase_arrive);
 
         println!("\nLe personnage est arrivé à la {} !", destination);
     }

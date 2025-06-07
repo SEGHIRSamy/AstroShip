@@ -7,17 +7,18 @@ use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
 #[derive(Serialize, Deserialize)]
 pub struct Auberge {
     prix_repos: u32, // Prix pour se reposer
+    phrase_arrive: Vec<String>,
 }
 
 #[allow(dead_code)]
 impl Auberge {
     /// Créer une nouvelle auberge avec un prix fixe.
-    pub fn new(prix_repos: u32) -> Self {
-        Self { prix_repos }
+    pub fn new(prix_repos: u32, phrase_arrive: Vec<String>) -> Self {
+        Self { prix_repos, phrase_arrive }
     }
 
     pub fn proposer_repos(&self, personnage: &mut PersonnagePrincipal, choix: Option<u8>) {
-        AffichageDeplacement::lancer_animation("auberge");
+        AffichageDeplacement::lancer_animation("auberge", self.phrase_arrive.clone());
 
         println!(
             "Bienvenue à l'auberge. Le prix pour se reposer est de {} pièces.",

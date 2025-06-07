@@ -9,7 +9,8 @@ pub struct Ennemi {
     pub base: Entite,                 // L'entité de base pour les statistiques
     pub butins_passifs: Vec<Butin>,   // Butins obtenu si on le laisse vivre
     pub butins_hostiles: Vec<Butin>,  // Butins obtenu si on le tue
-
+    pub phrase_intro: String,          // Phrase d'intro lancée au début du combat
+    pub phrase_attaque: String,         // Phrase lancée quand l'ennemi attaque
 }
 
 #[allow(dead_code)]
@@ -24,11 +25,15 @@ impl Ennemi {
         vitesse: u32,
         butins_passifs: Vec<Butin>,
         butins_hostiles: Vec<Butin>,
+        phrase_intro: String,
+        phrase_attaque: String,
     ) -> Self {
         Self {
             base: Entite::new(nom, points_de_vie, points_de_vie_max, force, intelligence, vitesse),
             butins_passifs,
             butins_hostiles,
+            phrase_intro,
+            phrase_attaque,
         }
     }
 

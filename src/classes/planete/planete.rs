@@ -20,23 +20,25 @@ pub struct Planete {
     pub cout_voyage : u32,
     //Todo zone passive
     pub zone_hostile: ZoneHostile,
+    pub phrase_arrive: Vec<String>,
 }
 
 #[allow(dead_code)]
 impl Planete {
-    pub fn new(nom: &str, auberge: Auberge, magasin: Magasin, zone_hostile: ZoneHostile) -> Self {
+    pub fn new(nom: &str, auberge: Auberge, magasin: Magasin, zone_hostile: ZoneHostile, phrase_arrive: Vec<String>) -> Self {
         Self {
             nom: nom.to_string(),
             auberge,
             magasin,
             cout_voyage: 0,
             zone_hostile,
+            phrase_arrive,
         }
     }
 
     /// Proposer les 3 choix au joueur
     pub fn visiter(&mut self, personnage: &mut PersonnagePrincipal) {
-        AffichageDeplacement::lancer_animation_spatiale("arrivee");
+        AffichageDeplacement::lancer_animation_spatiale("arrivee", self.phrase_arrive.clone());
 
         loop {
             println!("\nBienvenue sur la planète {} !", self.nom);
@@ -57,7 +59,7 @@ impl Planete {
                 "4" => {
                     println!("Vous quittez la planète {}.", self.nom);
 
-                    AffichageDeplacement::lancer_animation_spatiale("depart");
+                    AffichageDeplacement::lancer_animation_spatiale("depart", self.phrase_arrive.clone());
                     break;
                 }
                 _ => println!("Choix invalide."),

@@ -1,11 +1,11 @@
 {
   "entite": {
   "nom": "Astro",
-  "points_de_vie": 50,
-  "points_de_vie_max": 50,
-  "force": 20,
-  "intelligence": 5,
-  "vitesse": 20
+  "points_de_vie": 30,
+  "points_de_vie_max": 30,
+  "force": 30,
+  "intelligence": 30,
+  "vitesse": 30
   },
   "inventaire": {
     "monnaie": 0,
@@ -40,5 +40,5 @@
   "chance": 1,
   "uranium": 0,
   "planete": "",
-  "carburant" : 20
+  "carburant" : 100
 }

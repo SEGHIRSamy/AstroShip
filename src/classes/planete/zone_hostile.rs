@@ -11,13 +11,15 @@ use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
 pub struct ZoneHostile {
     ennemis: Vec<Ennemi>,
     nom: String,
+    phrase_arrive: Vec<String>
 }
 #[allow(dead_code)]
 impl ZoneHostile {
-    pub fn new(nom: &str, ennemis: Vec<Ennemi>) -> Self {
+    pub fn new(nom: &str, ennemis: Vec<Ennemi>, phrase_arrive: Vec<String>) -> Self {
         Self {
             ennemis,
             nom: nom.to_string(),
+            phrase_arrive
         }
     }
 
@@ -26,20 +28,14 @@ impl ZoneHostile {
     }
 
     pub fn explorer(&mut self) {
-        AffichageDeplacement::lancer_animation("zone hostile");
+        AffichageDeplacement::lancer_animation("zone hostile", self.phrase_arrive.clone());
 
         println!("Vous venez de vous aventurer dans la zone hostile : ");
 
 
         for ennemi in &mut self.ennemis {
-            println!("\n {} apparaît : ", ennemi.get_base().get_nom());
 
-            let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
-
-            Combat::lancer_combat(
-                intro,
-                ennemi,
-            );
+            Combat::lancer_combat(ennemi);
 
             // Demande au joueur s'il veut continuer
             println!("Souhaitez-vous continuer à explorer ? (oui/non)");

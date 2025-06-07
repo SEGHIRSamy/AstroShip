@@ -9,6 +9,7 @@ use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
 #[derive(Serialize, Deserialize)]
 pub struct Magasin {
     pub affaires: Vec<Affaire>, // Liste des affaires disponibles
+    pub phrase_arrive: Vec<String>,
 }
 #[allow(dead_code)]
 impl Magasin {
@@ -16,8 +17,8 @@ impl Magasin {
     ///
     /// # Arguments
     /// - `affaires`: Un vecteur contenant les objets et leurs prix/quantités.
-    pub fn new(affaires: Vec<Affaire>) -> Magasin {
-        Magasin { affaires }
+    pub fn new(affaires: Vec<Affaire>, phrase_arrive: Vec<String>) -> Magasin {
+        Magasin { affaires, phrase_arrive }
     }
 
     /// Retourne une référence à la liste des affaires du magasin.
@@ -76,7 +77,7 @@ impl Magasin {
     /// Fonction pour acheter dans le magasin
     /// Fonction pour acheter dans le magasin
     pub fn interaction_magasin(&mut self, personnage: &mut PersonnagePrincipal) {
-        AffichageDeplacement::lancer_animation("magasin");
+        AffichageDeplacement::lancer_animation("auberge", self.phrase_arrive.clone());
 
         loop {
             let affaires = self.get_affaires();
