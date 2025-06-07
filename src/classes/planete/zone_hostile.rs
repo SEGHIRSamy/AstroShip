@@ -29,14 +29,8 @@ impl ZoneHostile {
 
 
         for ennemi in &mut self.ennemis {
-            println!("\n {} apparaît : ", ennemi.get_base().get_nom());
 
-            let intro = "Un terrible ennemi apparaît ! Préparez-vous au combat !";
-
-            Combat::lancer_combat(
-                intro,
-                ennemi,
-            );
+            Combat::lancer_combat(ennemi);
 
             // Demande au joueur s'il veut continuer
             println!("Souhaitez-vous continuer à explorer ? (oui/non)");

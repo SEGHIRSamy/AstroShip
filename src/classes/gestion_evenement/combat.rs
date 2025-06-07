@@ -69,7 +69,6 @@ impl Combat {
         A la fin du passgae de l'inventaire on doit recharger les stats du joueur si il a consommé des objets
      */
     pub fn lancer_combat(
-        intro: &str,
         ennemi: &mut Ennemi
     ) -> bool {
         // Chargement initial des stats du joueur
@@ -82,7 +81,14 @@ impl Combat {
 
         let mut update_player : PersonnagePrincipal;
 
-        AfficheTexte::affiche(intro.to_string(), 25);
+        // on va calculer les stats de l'ennemi en fonction de celles du joueur
+        let pourcentage_amelioration = Combat::pourcentage_amelioration_joueur(pv_max, attaque_joueur, vitesse_joueur);
+        let mut pv_ennemi = (ennemi.get_base().get_points_de_vie() as f64 * pourcentage_amelioration) as u32;
+        let pv_max_ennemi = pv_ennemi;
+        let attaque_ennemi = (ennemi.get_base().get_force() as f64 * pourcentage_amelioration) as u32;
+        let vitesse_ennemi = (ennemi.get_base().get_vitesse() as f64 * pourcentage_amelioration) as u32;
+
+        AfficheTexte::affiche(ennemi.phrase_intro.to_string(), 25);
 
         // Boucle du combat
         loop {
@@ -101,8 +107,8 @@ impl Combat {
             );
             AfficheTexte::affiche(
                 format!(
-                    "Ennemi : PV : {} | Attaque : {} | Vitesse : {}\n",
-                    ennemi.base.get_points_de_vie(), ennemi.base.get_force(), ennemi.base.get_vitesse()
+                    "{} : PV : {}/{} | Attaque : {} | Vitesse : {}\n",
+                    ennemi.get_base().get_nom(), pv_ennemi, pv_max_ennemi, attaque_ennemi, vitesse_ennemi
                 ), 15,
             );
             AfficheTexte::affiche("[1] Attaquer".to_string(), 10);
@@ -120,17 +126,17 @@ impl Combat {
                 "1" => {
                     let lancer = LancerDice::lancer_console_combat(true);
                     let degats =
-                        Combat::calculer_degats(attaque_joueur, ennemi.base.get_force(), lancer);
+                        Combat::calculer_degats(attaque_joueur, attaque_ennemi, lancer);
                     // On met a jour els pv de l'ennemi apres qu'on l'avoir attaqué
-                    let vie_actuelle = ennemi.base.get_points_de_vie();
-                    let nouvelle_vie = if degats > ennemi.base.get_points_de_vie() {
+                    let nouvelle_vie = if degats > pv_ennemi {
                         0
                     } else {
-                        vie_actuelle - degats
+                        pv_ennemi - degats
                     };
-                    ennemi.base.set_points_de_vie(nouvelle_vie);
+                    //ennemi.base.set_points_de_vie(nouvelle_vie);
+                    pv_ennemi = nouvelle_vie;
                     AfficheTexte::affiche(
-                        format!("Vous infligez {} dégâts. PV Ennemi restants : {}", degats, ennemi.base.get_points_de_vie()),
+                        format!("Vous infligez {} dégâts. PV Ennemi restants : {}", degats, pv_ennemi),
                         15,
                     );
                 }
@@ -138,7 +144,7 @@ impl Combat {
                 "2" => {
                     let lancer = LancerDice::lancer_console_combat(true);
 
-                    if Combat::tenter_fuite(vitesse_joueur, ennemi.base.get_vitesse(), lancer) {
+                    if Combat::tenter_fuite(vitesse_joueur, vitesse_ennemi, lancer) {
                         AfficheTexte::affiche("✅ Vous avez réussi à fuir !".to_string(), 20);
                         // On arrive a fuir : le combat est fini donc on save les stats et l'inventaire du perso dans le json
                         update_player = PersonnagePrincipal::new(
@@ -151,7 +157,7 @@ impl Combat {
                             charge_player.chance,
                             charge_player.get_uranium()
                         );
-                        // #A_faire_combat gérer l'obtention du loot passif si on fuit le combat
+
                         let mut rng = rng();
                         for obj in ennemi.interaction(&mut rng) {
                             charge_player.inventaire.add_objet(obj.get_objet());
@@ -182,7 +188,7 @@ impl Combat {
                 }
             }
 
-            if ennemi.base.get_points_de_vie() == 0 {
+            if pv_ennemi == 0 {
                 AfficheTexte::affiche("🎉 Ennemi vaincu !\n".to_string(), 20);
                 update_player = PersonnagePrincipal::new(
                     charge_player.entite.get_nom(),
@@ -194,7 +200,7 @@ impl Combat {
                     charge_player.chance,
                     charge_player.get_uranium()
                 );
-                // #A_faire_combat gérer l'obtention du loot hostile quand on tue l'ennemi
+
                 let mut rng = rng();
                 for obj in ennemi.interaction(&mut rng) {
                     charge_player.inventaire.add_objet(obj.get_objet());
@@ -209,13 +215,13 @@ impl Combat {
             AfficheTexte::affiche("\n--- Tour de l'ennemi ---".to_string(), 20);
             let lancer = LancerDice::lancer_console_combat(false);
 
-            let degats = Combat::calculer_degats(ennemi.base.get_force(), attaque_joueur, lancer);
-            // L'ennemi nous a tpé donc on met les pv du joueur a jour de maniere locale
+            let degats = Combat::calculer_degats(attaque_ennemi, attaque_joueur, lancer);
+            // L'ennemi nous a tapé donc on met les pv du joueur a jour de maniere locale
             pv_joueur = pv_joueur.saturating_sub(degats);
             AfficheTexte::affiche(
                 format!(
-                    "L'ennemi vous inflige {} dégâts. Vos PV restants : {}",
-                    degats, pv_joueur
+                    "{} Vous subissez {} dégâts. Vos PV restants : {}",
+                    ennemi.phrase_attaque, degats, pv_joueur
                 ),
                 15,
             );
@@ -225,6 +231,20 @@ impl Combat {
                 return false;
             }
         }
+    }
+
+
+    // --- Fonction pour calculer adapter les stats de l'ennemi a celles du joueur ---
+    // la fonction va calculer la difference entre les bases stats par defaut du jouer et ses bases stats actuelles
+    // ensuite on va recupere un pourcentage que l'on va adapter aux bases stats de l'ennmi pour y appliquer
+    // une augmentation proportionelle a celle que les stats du joueur ont subies
+    fn pourcentage_amelioration_joueur(pv_max_joueur: u32, force_joueur: u32, vitesse_joueur: u32) -> f64 {
+        // les bases stats cumulées du joueur sans amélioration
+        let base_stat:u32 = 90;
+        // les nouvelles stats du joueur
+        let nv_stats:u32 = pv_max_joueur + force_joueur + vitesse_joueur;
+
+        nv_stats as f64 / base_stat as f64
     }
 
 }

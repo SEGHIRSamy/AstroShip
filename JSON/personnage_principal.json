@@ -1,11 +1,11 @@
 {
   "entite": {
     "nom": "Astro",
-    "points_de_vie": 50,
-    "points_de_vie_max": 50,
-    "force": 20,
-    "intelligence": 5,
-    "vitesse": 20
+    "points_de_vie": 24,
+    "points_de_vie_max": 36,
+    "force": 36,
+    "intelligence": 30,
+    "vitesse": 30
   },
   "inventaire": {
     "monnaie": 0,
@@ -22,23 +22,21 @@
         "multiplicateur_pv": 1.1
       },
       {
-        "nom": "Potion de vitalité",
-        "description": "Augmente les pv max et l'attaque de 10%",
-        "quantite": 2,
-        "multiplicateur_pv_max": 1.1,
-        "multiplicateur_force": 1.1
-      },
-      {
         "nom": "Potion de force",
         "description": "Augmente la force de 50% et baisse la vitesse de 10%",
         "quantite": 2,
         "multiplicateur_force": 1.5,
         "multiplicateur_vitesse": 0.9
+      },
+      {
+        "nom": "Or",
+        "description": "Une pièce d'or brillante.",
+        "quantite": 80
       }
     ]
   },
   "chance": 1,
   "uranium": 0,
   "planete": "",
-  "carburant": 20
+  "carburant": 100
 }

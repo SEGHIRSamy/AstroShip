@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests {
+    use serde_json::to_string;
     use astroship::classes::marchandage::butin::Butin;
     use astroship::classes::entite::ennemie::Ennemi;
     use astroship::classes::marchandage::butin::Rarete;
@@ -22,6 +23,8 @@ mod tests {
             3,
             vec![butin_or.clone()],
             vec![butin_potion.clone()],
+            "Intro".to_string(),
+            "Attaque".to_string(),
         );
         ennemi
     }
