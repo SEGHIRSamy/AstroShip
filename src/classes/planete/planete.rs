@@ -48,12 +48,15 @@ impl Planete {
             let mut choix = String::new();
             std::io::stdin().read_line(&mut choix).unwrap();
             //let choix_mort = Choix::new(vec![("[1] Explorer une zone hostile".to_string(),Box::new(self.zone_hostile.explorer())),]);
-
+            let sauvegarde: Sauvegarde = Sauvegarde::new();
             match choix.trim() {
-                "1" => self.zone_hostile.explorer(),
+                "1" => {self.zone_hostile.explorer();
+                    let tmp_joueur : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+                    personnage.inventaire.set_monnaie(tmp_joueur.inventaire.get_monnaie());
+                    },
                 "2" => self.auberge.proposer_repos(),
                 "3" => {self.magasin.interaction_magasin(personnage);
-                    let sauvegarde: Sauvegarde = Sauvegarde::new();
+
                     sauvegarde.sauvegarde("planete_json/".to_owned() + &*personnage.get_planete_nom().to_owned() + &*".json".to_string(), self.clone()).expect("TODO: panic message");
                 },
                 "0" => QuitterJeu::new().quitter_jeu(),
