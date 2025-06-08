@@ -99,7 +99,8 @@
           }
         ],
         "phrase_intro": "Un redoutable bipboop surgit de derrière un rocher !",
-        "phrase_attaque": "Le bip boop vous envoie un coup de pied !"
+        "phrase_attaque": "Le bip boop vous envoie un coup de pied !",
+        "monnaie" : 50
       },
       {
         "base": {
@@ -136,7 +137,8 @@
           }
         ],
         "phrase_intro": "Un terrible tes tard gazeux surgit hors de l'eau !",
-        "phrase_attaque": "Le tes tard gazeux vous envoie un gaz toxique au visage !"
+        "phrase_attaque": "Le tes tard gazeux vous envoie un gaz toxique au visage !",
+        "monnaie" : 60
       }
     ]
   }
