@@ -1,10 +1,15 @@
 use rand::{SeedableRng};
+use std::cell::RefCell;
 use std::io;
+use std::rc::Rc;
 use rand::prelude::StdRng;
 use serde::{Deserialize, Serialize};
 use crate::classes::entite::ennemie::Ennemi;
+use crate::classes::gestion_evenement::choix::Choix;
 use crate::classes::gestion_evenement::combat::Combat;
 use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
+use crate::classes::gestion_evenement::continuer::Continuer;
+use crate::classes::gestion_evenement::zone_hostile::stop_explorer::StopExplorer;
 
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
@@ -27,23 +32,44 @@ impl ZoneHostile {
         &self.nom
     }
 
+    // pub fn explorer(&mut self) {
+    //     AffichageDeplacement::lancer_animation("zone hostile", self.phrase_arrive.clone());
+    //     println!("Vous venez de vous aventurer dans la zone hostile : ");
+    //     for ennemi in &mut self.ennemis {
+    //         Combat::lancer_combat(ennemi);
+    //         // Demande au joueur s'il veut continuer
+    //         println!("Souhaitez-vous continuer à explorer ? (oui/non)");
+    //         let mut input = String::new();
+    //         io::stdin().read_line(&mut input).unwrap();
+    //         if input.trim().to_lowercase() == "non" {
+    //             println!("Vous quittez la zone hostile.");
+    //             break;
+    //         }
+    //     }
+    //     println!("Exploration terminée.");
+    // }
+
     pub fn explorer(&mut self) {
         AffichageDeplacement::lancer_animation("zone hostile", self.phrase_arrive.clone());
 
         println!("Vous venez de vous aventurer dans la zone hostile : ");
 
-
         for ennemi in &mut self.ennemis {
-
+            let stop = Rc::new(RefCell::new(false));
             Combat::lancer_combat(ennemi);
 
             // Demande au joueur s'il veut continuer
             println!("Souhaitez-vous continuer à explorer ? (oui/non)");
-            let mut input = String::new();
-            io::stdin().read_line(&mut input).unwrap();
+            let oui = Box::new(Continuer::new());
+            let non = Box::new(StopExplorer::new(Rc::clone(&stop)));
 
-            if input.trim().to_lowercase() == "non" {
-                println!("Vous quittez la zone hostile.");
+            let mut choix = Choix::new(vec![
+                ("Oui".to_string(), oui),
+                ("Non".to_string(), non),
+            ]);
+
+            choix.lancer_choix();
+            if *stop.borrow() {
                 break;
             }
         }

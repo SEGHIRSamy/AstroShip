@@ -1,6 +1,5 @@
 #[cfg(test)]
 mod tests {
-    use serde_json::to_string;
     use astroship::classes::marchandage::butin::Butin;
     use astroship::classes::entite::ennemie::Ennemi;
     use astroship::classes::marchandage::butin::Rarete;
@@ -35,7 +34,7 @@ mod tests {
             creer_ennemi_mock("Gobelin", ),
             creer_ennemi_mock("Orc", ),
         ];
-        let mut zone = ZoneHostile::new("Zone Test", ennemis);
+        let mut zone = ZoneHostile::new("Zone Test", ennemis, vec!["test".to_string()]);
 
         // on arrête après le premier ennemi
         let butins = zone.explorer_auto(|i| i == 0);
@@ -46,7 +45,7 @@ mod tests {
     #[test]
     fn test_zone_hostile_creation() {
         let ennemi = creer_ennemi_mock("Bob de l'espace");
-        let zone = ZoneHostile::new("Mars sombre", vec![ennemi]);
+        let zone = ZoneHostile::new("Mars sombre", vec![ennemi], vec!["test".to_string()]);
         assert_eq!(zone.get_nom(), "Mars sombre");
     }
 }

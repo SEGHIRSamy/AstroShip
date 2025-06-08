@@ -13,7 +13,7 @@ impl QuitterJeu {
 }
 
 impl Evenement for QuitterJeu {
-    fn action(&self) {
+    fn action(&mut self) {
         self.quitter_jeu();
     }
 }

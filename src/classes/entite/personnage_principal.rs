@@ -4,7 +4,7 @@ use crate::classes::entite::inventaire::Inventaire;
 
 
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[derive(Clone)]
 pub struct PersonnagePrincipal {
     pub entite: Entite,      // Composition, réutilise `Entite`

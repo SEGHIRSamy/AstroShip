@@ -1,11 +1,8 @@
+use std::{cell::RefCell, rc::Rc};
+
 use serde::{Deserialize, Serialize};
 use crate::classes::{
-    planete::auberge::Auberge,
-    planete::magasin::Magasin,
-    planete::zone_hostile::ZoneHostile,
-    entite::personnage_principal::PersonnagePrincipal,
-    sauvegarde::sauvegarde::Sauvegarde,
-    affichage::affichage_deplacement::AffichageDeplacement
+    affichage::{affichage_deplacement::AffichageDeplacement}, entite::personnage_principal::PersonnagePrincipal, gestion_evenement::{choix::Choix, planete::{auberge_proposer_repos::AubergeProposerRepos, explorer_zone_hostile::ExplorerZoneHostile, magasin_interaction::MagasinInteraction, stop_choix::StopChoix}}, planete::{auberge::Auberge, magasin::Magasin, zone_hostile::ZoneHostile}, sauvegarde::sauvegarde::Sauvegarde
 };
 
 
@@ -36,33 +33,73 @@ impl Planete {
         }
     }
 
+    // /// Proposer les 3 choix au joueur
+    // pub fn visiter(&mut self, personnage: &mut PersonnagePrincipal) {
+    //     AffichageDeplacement::lancer_animation_spatiale("arrivee", self.phrase_arrive.clone());
+
+    //     loop {
+    //         println!("\nBienvenue sur la planète {} !", self.nom);
+    //         println!("\nVotre réserve de carburant : [{}]", personnage.get_carburant());
+    //         println!("Que souhaitez-vous faire ?");
+    //         println!("[1] Explorer une zone hostile");
+    //         println!("[2] Aller à l'auberge");
+    //         println!("[3] Marchander avec le magasin");
+    //         println!("[4] Quitter la planète");
+
+    //         let mut choix = String::new();
+    //         std::io::stdin().read_line(&mut choix).unwrap();
+
+    //         match choix.trim() {
+    //             "1" => self.zone_hostile.explorer(),
+    //             "2" => self.auberge.proposer_repos(personnage, None),
+    //             "3" => self.magasin.interaction_magasin(personnage),
+    //             "4" => {
+    //                 println!("Vous quittez la planète {}.", self.nom);
+
+    //                 AffichageDeplacement::lancer_animation_spatiale("depart", self.phrase_arrive.clone());
+    //                 break;
+    //             }
+    //             _ => println!("Choix invalide."),
+    //         }
+    //     }
+    // }
+
     /// Proposer les 3 choix au joueur
     pub fn visiter(&mut self, personnage: &mut PersonnagePrincipal) {
         AffichageDeplacement::lancer_animation_spatiale("arrivee", self.phrase_arrive.clone());
-
         loop {
+            let stop = Rc::new(RefCell::new(false));
+            let tmp_personnage = Rc::new(RefCell::new(personnage.clone()));
+
             println!("\nBienvenue sur la planète {} !", self.nom);
             println!("\nVotre réserve de carburant : [{}]", personnage.get_carburant());
             println!("Que souhaitez-vous faire ?");
-            println!("[1] Explorer une zone hostile");
-            println!("[2] Aller à l'auberge");
-            println!("[3] Marchander avec le magasin");
-            println!("[4] Quitter la planète");
 
-            let mut choix = String::new();
-            std::io::stdin().read_line(&mut choix).unwrap();
+            let zone_event = Box::new(ExplorerZoneHostile::new(&mut self.zone_hostile));
+            let auberge_event = Box::new(AubergeProposerRepos::new(&self.auberge, Rc::clone(&tmp_personnage)));
+            let magasin_event = Box::new(MagasinInteraction::new(&mut self.magasin, Rc::clone(&tmp_personnage)));
+            let stop_event = Box::new(StopChoix::new(self.nom.clone(), self.phrase_arrive.clone(), Rc::clone(&stop)));
 
-            match choix.trim() {
-                "1" => self.zone_hostile.explorer(),
-                "2" => self.auberge.proposer_repos(personnage, None),
-                "3" => self.magasin.interaction_magasin(personnage),
-                "4" => {
-                    println!("Vous quittez la planète {}.", self.nom);
+            let mut choix = Choix::new(vec![
+                ("Explorer une zone hostile".to_string(), zone_event),
+                ("Aller à l'auberge".to_string(), auberge_event),
+                ("Marchander avec le magasin".to_string(), magasin_event),
+                ("Quitter la planète".to_string(), stop_event),
+            ]);
 
-                    AffichageDeplacement::lancer_animation_spatiale("depart", self.phrase_arrive.clone());
-                    break;
-                }
-                _ => println!("Choix invalide."),
+            choix.lancer_choix();
+            drop(choix);
+
+            // Récupérer les données modifiées
+            let personnage_modifie = Rc::try_unwrap(tmp_personnage)
+                .expect("Personnage encore emprunté ailleurs")
+                .into_inner();
+
+            // copier dans `personnage` original si besoin
+            *personnage = personnage_modifie;
+
+            if *stop.borrow() {
+                return;
             }
         }
     }

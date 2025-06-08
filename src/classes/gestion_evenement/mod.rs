@@ -6,3 +6,7 @@ pub mod charger_partie;
 pub mod quitter_jeu;
 pub mod combat;
 pub mod boucle_jeu;
+pub mod planete;
+pub mod auberge;
+pub mod zone_hostile;
+pub mod continuer;

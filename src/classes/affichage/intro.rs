@@ -37,7 +37,7 @@ impl Intro {
                                                             |_______|
                                   "#.to_string(), 1);
 
-        let choix_menu_principal =  Choix::new(vec![
+        let mut choix_menu_principal =  Choix::new(vec![
             ("Nouvelle partie".to_string(), Box::new(LancerPartie::new())),
             ("Charger Partie".to_string(), Box::new(ChargerPartie::new())),
             ("Quitter".to_string(), Box::new(QuitterJeu::new()))
@@ -124,7 +124,7 @@ impl Intro {
     }
 }
 impl Evenement for Intro {
-    fn action(&self) {
+    fn action(&mut self) {
        self.lancer_intro();
     }
 }

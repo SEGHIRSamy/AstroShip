@@ -1,3 +1,3 @@
 pub trait Evenement{
-    fn action(&self);
+    fn action(&mut self);
 }

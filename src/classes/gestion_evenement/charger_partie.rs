@@ -13,7 +13,7 @@ impl ChargerPartie {
 }
 
 impl Evenement for ChargerPartie {
-    fn action(&self) {
+    fn action(&mut self) {
         self.charger_partie();
     }
 }

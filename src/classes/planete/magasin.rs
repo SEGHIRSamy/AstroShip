@@ -77,7 +77,7 @@ impl Magasin {
     /// Fonction pour acheter dans le magasin
     /// Fonction pour acheter dans le magasin
     pub fn interaction_magasin(&mut self, personnage: &mut PersonnagePrincipal) {
-        AffichageDeplacement::lancer_animation("auberge", self.phrase_arrive.clone());
+        AffichageDeplacement::lancer_animation("magasin", self.phrase_arrive.clone());
 
         loop {
             let affaires = self.get_affaires();

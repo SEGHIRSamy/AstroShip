@@ -3,7 +3,6 @@ mod tests {
 
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use serde_json::to_string;
     use astroship::classes::entite::ennemie::Ennemi;
     use astroship::classes::marchandage::butin::{Butin, Rarete};
     use astroship::classes::marchandage::objet::Objet;
