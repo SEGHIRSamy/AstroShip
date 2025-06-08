@@ -25,15 +25,17 @@ impl PersonnagePrincipal {
         intelligence: u32,
         vitesse: u32,
         chance: u32,
-        uranium: u32
+        uranium: u32,
+        carburant: u32,
+        planete: String,
     ) -> Self {
         Self {
             entite: Entite::new(nom, points_de_vie, points_de_vie_max, force, intelligence, vitesse),
             inventaire: Inventaire::new(),
             chance,
             uranium,
-            planete: "".to_string(),
-            carburant: 100,
+            planete,
+            carburant,
         }
     }
 

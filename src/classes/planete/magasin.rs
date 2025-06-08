@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::entite::inventaire::Inventaire;
 use crate::classes::marchandage::{affaire::Affaire};
@@ -73,8 +74,9 @@ impl Magasin {
     }
 
     /// Fonction pour acheter dans le magasin
-    /// Fonction pour acheter dans le magasin
-    pub fn interaction_magasin(&mut self, personnage: &mut PersonnagePrincipal) {
+    pub fn interaction_magasin(&mut self) {
+        let sauvegarde: Sauvegarde = Sauvegarde::new();
+        let mut personnage : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
         loop {
             let affaires = self.get_affaires();
             println!("\n=== Bienvenue au magasin ===");
@@ -111,9 +113,14 @@ impl Magasin {
             };
 
             match self.acheter(index, &mut personnage.inventaire) {
-                Ok(_) => println!("Achat réussi."),
+                Ok(_) => {
+                    println!("Achat réussi.");
+
+                },
                 Err(e) => println!("Achat échoué : {}", e),
             }
+            println!("on passe ici à l'achat");
+            sauvegarde.sauvegarde("personnage_principal.json".to_string(), personnage.clone()).expect("Enregistrement Personnage échoué");
         }
     }
 

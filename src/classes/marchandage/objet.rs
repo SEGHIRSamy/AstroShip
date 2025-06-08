@@ -196,6 +196,8 @@ impl Objet {
             vitesse,
             charge_player.chance,
             charge_player.get_uranium(),
+            charge_player.get_carburant(),
+            charge_player.get_planete_nom().to_string(),
         );
 
         update_player.inventaire.set_instance(nouveaux_objets);

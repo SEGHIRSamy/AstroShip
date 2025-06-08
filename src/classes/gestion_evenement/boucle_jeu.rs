@@ -34,14 +34,22 @@ impl BoucleJeu {
     } else {
       AfficheTexte::affiche("Chargement de la partie sauvegardée...".to_string(), 30);
       let personnage: PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
-      let planete: Planete = sauvegarde.charge("planete_json/".to_owned()+&personnage.get_planete_nom()+&".json".to_string()).unwrap();
-
-
-      let voyage = VoyagePlanete::new(personnage.get_planete_nom(),planete.get_cout_voyage());
-      let vaisseau = Vaisseau::new(personnage.get_carburant(), personnage.get_uranium(), Option::from(voyage));
-      BoucleJeu {
-        personnage,
-        vaisseau
+      if personnage.get_planete_nom() != "" && personnage.get_planete_nom() != "None" {
+        let planete: Planete = sauvegarde.charge("planete_json/".to_owned()+&personnage.get_planete_nom()+&".json".to_string()).unwrap();
+        let voyage = VoyagePlanete::new(personnage.get_planete_nom(),planete.get_cout_voyage());
+        let vaisseau = Vaisseau::new(personnage.get_carburant(), personnage.get_uranium(), Option::from(voyage));
+        BoucleJeu {
+          personnage,
+          vaisseau
+        }
+      }
+      else {
+        println!("@@@ second print \n");
+        let vaisseau = Vaisseau::new(personnage.get_carburant() , personnage.get_uranium() , None);
+        BoucleJeu {
+          personnage,
+          vaisseau
+        }
       }
     }
   }
@@ -60,6 +68,13 @@ impl BoucleJeu {
     while (jeu_en_cours && self.personnage.entite.get_points_de_vie() > 0) &&
         (self.personnage.get_uranium() < nbr_uranium_demande) {
 
+      if !self.vaisseau.get_position().is_none() && self.personnage.get_planete_nom() != "Dans l'espace" {
+        let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
+        plat.visiter(&mut self.personnage);
+        self.vaisseau.set_position(None);
+      }
+
+
       if self.personnage.get_carburant()<=0 && self.vaisseau.afficher_etat() == "Dans l'espace".to_string() {
         println!("Malheuresement vous êtes bloqué dans l'espace, vous n'avez pas su gérer votre budget carburant\n\
          cela vous a offert une croisière dans l'espace jusqu'à la fin de vos jours.\n\
@@ -73,10 +88,7 @@ impl BoucleJeu {
       //TODO voir pour comment faire pour charger directement la planete quand on charge le jeu
       println!("\n=== Menu de navigation ===");
       self.vaisseau.afficher_etat();
-      if !self.vaisseau.get_position().is_none() {
-        let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
-        plat.visiter(&mut self.personnage);
-      }
+
       println!("Choisissez une planète à visiter :");
       for (i, p) in planetes_disponibles.iter().enumerate() {
         println!("[{}] {} Carburant nécessaire : {}", i + 1, p.nom, p.cout_voyage);
@@ -101,13 +113,12 @@ impl BoucleJeu {
           self.vaisseau.voyager(planete_selectionnee);
           let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
           plat.visiter(&mut self.personnage);
-
+          self.vaisseau.set_position(None);
         }
         _ => {
           println!("Choix invalide. Veuillez entrer un nombre valide.");
         }
       }
-
     }
 
     if self.personnage.entite.get_points_de_vie() <= 0 {

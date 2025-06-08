@@ -6,6 +6,7 @@ use crate::classes::{
     entite::personnage_principal::PersonnagePrincipal,
     sauvegarde::sauvegarde::Sauvegarde
 };
+use crate::classes::gestion_evenement::quitter_jeu::QuitterJeu;
 
 // Permet de sérialiser/désérialiser la planète pour l'enregistrer ou la lire depuis un fichier JSON
 #[allow(dead_code)]
@@ -34,22 +35,25 @@ impl Planete {
 
     /// Proposer les 3 choix au joueur
     pub fn visiter(&mut self, personnage: &mut PersonnagePrincipal) {
+        println!("\nBienvenue sur la planète {} !", self.nom);
         loop {
-            println!("\nBienvenue sur la planète {} !", self.nom);
             println!("\nVotre réserve de carburant : [{}]", personnage.get_carburant());
             println!("Que souhaitez-vous faire ?");
             println!("[1] Explorer une zone hostile");
             println!("[2] Aller à l'auberge");
             println!("[3] Marchander avec le magasin");
             println!("[4] Quitter la planète");
+            println!("[0] Arrêter de jouer");
 
             let mut choix = String::new();
             std::io::stdin().read_line(&mut choix).unwrap();
+            //let choix_mort = Choix::new(vec![("[1] Explorer une zone hostile".to_string(),Box::new(self.zone_hostile.explorer())),]);
 
             match choix.trim() {
                 "1" => self.zone_hostile.explorer(),
-                "2" => self.auberge.proposer_repos(personnage, None),
-                "3" => self.magasin.interaction_magasin(personnage),
+                "2" => self.auberge.proposer_repos(),
+                "3" => self.magasin.interaction_magasin(),
+                "0" => QuitterJeu::new().quitter_jeu(),
                 "4" => {
                     println!("Vous quittez la planète {}.", self.nom);
                     break;
@@ -69,6 +73,7 @@ impl Planete {
 
     pub fn charge_planete(nom: &str) -> Planete {
         let sauvegarde: Sauvegarde = Sauvegarde::new();
+
         sauvegarde.charge("planete_json/".to_owned() + &*nom.to_owned() + &*".json".to_string()).unwrap()
     }
 

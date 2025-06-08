@@ -1,5 +1,6 @@
 use std::{thread};
 use serde::{Deserialize, Serialize};
+use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 
 #[allow(dead_code)]
@@ -15,11 +16,58 @@ impl Auberge {
         Self { prix_repos }
     }
 
-    pub fn proposer_repos(&self, personnage: &mut PersonnagePrincipal, choix: Option<u8>) {
-        println!(
-            "Bienvenue à l'auberge. Le prix pour se reposer est de {} pièces.",
-            self.prix_repos
-        );
+    pub fn proposer_repos(&self) {
+        let sauvegarde: Sauvegarde = Sauvegarde::new();
+        let mut personnage : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+        println!("Bienvenue à l'auberge. Le prix pour se reposer est de {} pièces.",self.prix_repos);
+        println!("Vos points de vies sont actuellement de : {}",personnage.entite.get_points_de_vie());
+
+        // Vérifier si le personnage a assez d'argent
+        if personnage.inventaire.get_monnaie() < self.prix_repos {
+            println!("Vous n'avez pas assez d'argent pour vous reposer.");
+            return;
+        }
+        else if personnage.entite.get_points_de_vie() == personnage.entite.get_points_de_vie_max() {
+            println!("Vous êtes en pleine forme ! [{}/{}]",personnage.entite.get_points_de_vie(), personnage.entite.get_points_de_vie_max());
+            return;
+        }
+
+        // Si le choix est fourni, on utilise directement cette valeur (pour les tests)
+        println!("Souhaitez-vous vous reposer ? [1] Oui / [2] Non");
+        let reponse: u8;
+        loop {
+            let mut choix_utilisateur = String::new();
+            std::io::stdin().read_line(&mut choix_utilisateur).unwrap();
+
+            let tentative = choix_utilisateur.trim().parse::<u8>();
+            match tentative {
+                Ok(val) if val == 1 || val == 2 => {
+                    reponse = val;
+                    break;
+                }
+                _ => println!("L'aubergiste ne sait comprendre que les chiffre 1 ou 2\n"),
+            }
+        }
+
+        if reponse == 1 {
+            // Déduire le prix et soigner le personnage
+            personnage.inventaire.remove_monnaie(self.prix_repos);
+            println!("Vous vous reposez...");
+            let trois_secondes = std::time::Duration::from_secs(3);
+            thread::sleep(trois_secondes);
+
+            personnage.entite.soigner_completement();
+            println!("Vous êtes complètement soigné !");
+            sauvegarde.sauvegarde("personnage_principal.json".to_string(), personnage.clone()).expect("Enregistrement Personnage échoué");
+
+        } else {
+            println!("Très bien, peut-être une autre fois.");
+        }
+    }
+
+    pub fn proposer_repos_test(&self,  personnage: &mut PersonnagePrincipal,choix: Option<u8>) {
+        println!("Bienvenue à l'auberge. Le prix pour se reposer est de {} pièces.",self.prix_repos);
+        println!("Vos points de vies sont actuellement de : {}",personnage.entite.get_points_de_vie());
 
         // Vérifier si le personnage a assez d'argent
         if personnage.inventaire.get_monnaie() < self.prix_repos {

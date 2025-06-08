@@ -11,6 +11,7 @@ pub struct Ennemi {
     pub butins_hostiles: Vec<Butin>,  // Butins obtenu si on le tue
     pub phrase_intro: String,          // Phrase d'intro lancée au début du combat
     pub phrase_attaque: String,         // Phrase lancée quand l'ennemi attaque
+    monnaie : u32,
 }
 
 #[allow(dead_code)]
@@ -27,6 +28,7 @@ impl Ennemi {
         butins_hostiles: Vec<Butin>,
         phrase_intro: String,
         phrase_attaque: String,
+        monnaie: u32,
     ) -> Self {
         Self {
             base: Entite::new(nom, points_de_vie, points_de_vie_max, force, intelligence, vitesse),
@@ -34,6 +36,7 @@ impl Ennemi {
             butins_hostiles,
             phrase_intro,
             phrase_attaque,
+            monnaie,
         }
     }
 
@@ -59,7 +62,7 @@ impl Ennemi {
     pub fn obtenir_butins_passifs<R: Rng>(&self, rng: &mut R) -> Vec<Butin> {
         self.butins_passifs
             .iter()
-            .filter(|butin| butin.est_obtenu(rng)) // `rng` est maintenant passé
+            .filter(|butin| butin.est_obtenu(rng))
             .cloned()
             .collect()
     }
@@ -67,9 +70,13 @@ impl Ennemi {
     pub fn obtenir_butins_hostiles<R: Rng>(&self, rng: &mut R) -> Vec<Butin> {
         self.butins_hostiles
             .iter()
-            .filter(|butin| butin.est_obtenu(rng)) // `rng` est maintenant passé
+            .filter(|butin| butin.est_obtenu(rng))
             .cloned()
             .collect()
+    }
+
+    pub fn get_monnaie(&self) -> u32 {
+        self.monnaie
     }
 
 }

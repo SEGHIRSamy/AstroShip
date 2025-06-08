@@ -7,12 +7,12 @@ mod tests {
     /// Tester le cas où le personnage n'a pas assez d'argent pour se reposer
     #[test]
     fn test_pas_assez_d_argent() {
-        let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0);
+        let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0,0,"plante".to_string());
         personnage.inventaire.set_monnaie(10); // Le personnage a seulement 10 pièces
 
         let auberge = Auberge::new(30); // Prix du repos : 30 pièces
 
-        auberge.proposer_repos(&mut personnage, Some(1)); // Simuler que le joueur accepte
+        auberge.proposer_repos_test(&mut personnage, Some(1)); // Simuler que le joueur accepte
 
         // Les points de vie ne doivent pas changer
         assert_eq!(personnage.entite.get_points_de_vie(), 50);
@@ -23,12 +23,12 @@ mod tests {
     /// Tester le cas où le personnage est déjà en pleine santé
     #[test]
     fn test_deja_en_pleine_sante() {
-        let mut personnage = PersonnagePrincipal::new("Héros", 100, 100, 10, 10, 10, 5,0); // PV déjà max
+        let mut personnage = PersonnagePrincipal::new("Héros", 100, 100, 10, 10, 10, 5,0,0,"plante".to_string()); // PV déjà max
         personnage.inventaire.set_monnaie(100); // Le personnage a assez de monnaie
 
         let auberge = Auberge::new(30); // Prix du repos : 30 pièces
 
-        auberge.proposer_repos(&mut personnage, Some(1)); // Simuler que le joueur souhaite se reposer
+        auberge.proposer_repos_test(&mut personnage, Some(1)); // Simuler que le joueur souhaite se reposer
 
         // Les points de vie restent au maximum
         assert_eq!(personnage.entite.get_points_de_vie(), 100);
@@ -39,12 +39,12 @@ mod tests {
     /// Tester le cas où le repos est réussi (le personnage paie et est soigné)
     #[test]
     fn test_repos_reussi() {
-        let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0);
+        let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0,0,"plante".to_string());
         personnage.inventaire.set_monnaie(50); // Le personnage a 50 pièces
 
         let auberge = Auberge::new(30); // Prix du repos : 30 pièces
 
-        auberge.proposer_repos(&mut personnage, Some(1)); // Simuler que le joueur accepte
+        auberge.proposer_repos_test(&mut personnage, Some(1)); // Simuler que le joueur accepte
 
         // Les points de vie doivent être restaurés à leur maximum
         assert_eq!(personnage.entite.get_points_de_vie(), 100);
@@ -55,12 +55,12 @@ mod tests {
     /// Tester le cas où le personnage refuse le repos
     #[test]
     fn test_refus_repos() {
-        let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0);
+        let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0,0,"plante".to_string());
         personnage.inventaire.set_monnaie(50); // Le personnage a 50 pièces
 
         let auberge = Auberge::new(30); // Prix du repos : 30 pièces
 
-        auberge.proposer_repos(&mut personnage, Some(2)); // Simuler que le joueur refuse
+        auberge.proposer_repos_test(&mut personnage, Some(2)); // Simuler que le joueur refuse
 
         // Les points de vie ne doivent pas changer
         assert_eq!(personnage.entite.get_points_de_vie(), 50);

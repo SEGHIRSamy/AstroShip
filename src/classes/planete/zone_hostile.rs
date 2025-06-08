@@ -25,25 +25,33 @@ impl ZoneHostile {
     }
 
     pub fn explorer(&mut self) {
-        println!("Vous venez de vous aventurer dans la zone hostile : ");
+        println!("Vous venez de vous aventurer dans la zone hostile :");
 
+        let mut index = 0;
+        loop {
 
-        for ennemi in &mut self.ennemis {
+            if index >= self.ennemis.len() {
+                index = 0; // Recommence au début du vecteur
+            }
 
+            let ennemi = &mut self.ennemis[index];
             Combat::lancer_combat(ennemi);
 
-            // Demande au joueur s'il veut continuer
             println!("Souhaitez-vous continuer à explorer ? (oui/non)");
             let mut input = String::new();
-            io::stdin().read_line(&mut input).unwrap();
+            std::io::stdin().read_line(&mut input).unwrap();
 
             if input.trim().to_lowercase() == "non" {
                 println!("Vous quittez la zone hostile.");
                 break;
             }
+
+            index += 1;
         }
+
         println!("Exploration terminée.");
     }
+
 
     // Fonction de test
     pub fn explorer_auto(&mut self, continuer: impl Fn(usize) -> bool) -> Vec<String> {
