@@ -45,8 +45,6 @@ impl PersonnagePrincipal {
 
     pub fn add_uranium(&mut self) {
         for obj in self.inventaire.get_instance() {
-            println!("@@@check cond ura = {}\n",obj.get_nom().to_string() == "Uranium");
-            println!("@@@ nom :{}",obj.get_nom().to_string() );
             if obj.get_nom().to_string() == "Uranium" {
                 self.uranium = obj.get_quantite();
             }
