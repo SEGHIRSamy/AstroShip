@@ -4,6 +4,7 @@ use rand::{prelude::IndexedRandom, rng};
 
 use crate::classes::affichage::affiche_texte::AfficheTexte;
 
+// On définit les diffénrents assets pour les animations
 const STICKMAN: [&str; 6] = [
     "",
     "",
@@ -60,6 +61,7 @@ pub struct AffichageDeplacement {
 }
 
 impl AffichageDeplacement {
+    // Retourne l'asset correspondant au lieux voulu
     pub fn get_lieu_ascii(destination: &str) -> Option<&'static [&'static str; 6]> {
         match destination {
             "zone hostile" => Some(&GROTTE),
@@ -69,6 +71,7 @@ impl AffichageDeplacement {
         }
     }
 
+    // Renvoie une phrase aléatoire
     fn phrase_random(phrases: Vec<String>) {
         if let Some(phrase) = phrases.choose(&mut rng()) {
             AfficheTexte::affiche(phrase.to_string(), 10);
@@ -76,6 +79,7 @@ impl AffichageDeplacement {
         }
     }
 
+    // Affiche une frame de l'animation
     pub fn afficher_frame(lieu: &[&str; 6], position: usize) {
         for i in 0..lieu.len() {
             if i < STICKMAN.len() {
@@ -86,6 +90,7 @@ impl AffichageDeplacement {
         }
     }
 
+    // Permet de lancer une animation de transition entre les planetes
     pub fn lancer_animation_spatiale(destination: &str, phrase_arrive: Vec<String>) {
         let frames = 20;
         let delay = time::Duration::from_millis(100);
@@ -157,6 +162,7 @@ impl AffichageDeplacement {
         }
     }
 
+    // Permet de lancer une animation de transition entre zone d'une planete
     pub fn lancer_animation(destination: &str, phrase_arrive: Vec<String>) {
         let lieu_ascii = match AffichageDeplacement::get_lieu_ascii(destination) {
             Some(l) => l,

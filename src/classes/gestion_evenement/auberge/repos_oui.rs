@@ -5,6 +5,7 @@ use std::thread;
 use crate::classes::affichage::affiche_texte::AfficheTexte;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::gestion_evenement::evenement::Evenement;
+use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 
 pub struct ReposOui {
     prix_repos: u32,
@@ -17,6 +18,7 @@ impl ReposOui {
     }
 
     pub fn accepter(&mut self) {
+        let sauvegarde = Sauvegarde::new();
         let mut perso = self.personnage.borrow_mut();
         let delais = 10;
         perso.inventaire.remove_monnaie(self.prix_repos);
@@ -26,6 +28,7 @@ impl ReposOui {
 
         perso.entite.soigner_completement();
         AfficheTexte::affiche("Vous êtes complètement soigné !".to_string(), delais);
+        sauvegarde.sauvegarde("personnage_principal.json".to_string(), perso.clone()).expect("Enregistrement Personnage échoué");
     }
 }
 

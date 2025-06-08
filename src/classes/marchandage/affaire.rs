@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::classes::marchandage::objet::Objet;
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Affaire {
     prix : u32, // valeur maximal dans le jeu : 99,999,999
     instance : Objet, // variable contenant le type d'objet

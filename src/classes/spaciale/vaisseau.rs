@@ -16,7 +16,7 @@ impl Vaisseau {
     /// Affiche l'état actuel du vaisseau dans la console
     pub fn afficher_etat(&self) -> String {
         let position_str = match &self.position {
-            Some(planete) => format!("Sur {}", planete.nom),
+            Some(planete) => format!("{}", planete.nom),
             None => "Dans l'espace".to_string(),
         };
         println!(
@@ -55,5 +55,9 @@ impl Vaisseau {
     /// Retourne la position actuelle du vaisseau
     pub fn get_position(&self) -> Option<&VoyagePlanete> {
         self.position.as_ref()
+    }
+
+    pub fn set_position(&mut self,  position: Option<VoyagePlanete>) {
+        self.position = position;
     }
 }

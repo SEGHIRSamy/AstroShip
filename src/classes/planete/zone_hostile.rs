@@ -1,6 +1,5 @@
 use rand::{SeedableRng};
 use std::cell::RefCell;
-use std::io;
 use std::rc::Rc;
 use rand::prelude::StdRng;
 use serde::{Deserialize, Serialize};
@@ -12,7 +11,7 @@ use crate::classes::gestion_evenement::continuer::Continuer;
 use crate::classes::gestion_evenement::zone_hostile::stop_explorer::StopExplorer;
 
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize,Clone)]
 pub struct ZoneHostile {
     ennemis: Vec<Ennemi>,
     nom: String,
@@ -32,33 +31,21 @@ impl ZoneHostile {
         &self.nom
     }
 
-    // pub fn explorer(&mut self) {
-    //     AffichageDeplacement::lancer_animation("zone hostile", self.phrase_arrive.clone());
-    //     println!("Vous venez de vous aventurer dans la zone hostile : ");
-    //     for ennemi in &mut self.ennemis {
-    //         Combat::lancer_combat(ennemi);
-    //         // Demande au joueur s'il veut continuer
-    //         println!("Souhaitez-vous continuer à explorer ? (oui/non)");
-    //         let mut input = String::new();
-    //         io::stdin().read_line(&mut input).unwrap();
-    //         if input.trim().to_lowercase() == "non" {
-    //             println!("Vous quittez la zone hostile.");
-    //             break;
-    //         }
-    //     }
-    //     println!("Exploration terminée.");
-    // }
-
     pub fn explorer(&mut self) {
         AffichageDeplacement::lancer_animation("zone hostile", self.phrase_arrive.clone());
 
         println!("Vous venez de vous aventurer dans la zone hostile : ");
 
-        for ennemi in &mut self.ennemis {
+        let mut index = 0;
+        loop {
+            if index >= self.ennemis.len() {
+                index = 0; // Recommence au début du vecteur
+            }
+
             let stop = Rc::new(RefCell::new(false));
+            let ennemi = &mut self.ennemis[index];
             Combat::lancer_combat(ennemi);
 
-            // Demande au joueur s'il veut continuer
             println!("Souhaitez-vous continuer à explorer ? (oui/non)");
             let oui = Box::new(Continuer::new());
             let non = Box::new(StopExplorer::new(Rc::clone(&stop)));
@@ -72,9 +59,13 @@ impl ZoneHostile {
             if *stop.borrow() {
                 break;
             }
+
+            index += 1;
         }
+
         println!("Exploration terminée.");
     }
+
 
     // Fonction de test
     pub fn explorer_auto(&mut self, continuer: impl Fn(usize) -> bool) -> Vec<String> {

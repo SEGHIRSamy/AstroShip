@@ -13,7 +13,7 @@ use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 pub struct Objet {
     nom: String,
     description: String,
-    quantite: u8,
+    quantite: u32,
 
     // Multiplicateurs appliqués si l'objet est un consommable
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -35,7 +35,7 @@ impl Objet {
     ///
     /// # Retourne
     /// Une instance de la structure `Objet` initialisée avec `nom` et `description`.
-    pub fn new(nom: &str, description: &str,quantite: u8) -> Self {
+    pub fn new(nom: &str, description: &str,quantite: u32) -> Self {
         Objet {
             nom: nom.to_string(),
             description: description.to_string(),
@@ -79,11 +79,11 @@ impl Objet {
         self.nom = n;
     }
 
-    pub fn get_quantite(&self) -> u8 {
+    pub fn get_quantite(&self) -> u32 {
         self.quantite
     }
 
-    pub fn set_quantite(&mut self, q: u8) {
+    pub fn set_quantite(&mut self, q: u32) {
         self.quantite = q;
     }
 
@@ -196,6 +196,8 @@ impl Objet {
             vitesse,
             charge_player.chance,
             charge_player.get_uranium(),
+            charge_player.get_carburant(),
+            charge_player.get_planete_nom().to_string(),
         );
 
         update_player.inventaire.set_instance(nouveaux_objets);

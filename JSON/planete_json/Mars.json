@@ -1,6 +1,5 @@
 {
   "nom": "Mars",
-  "cout_voyage" : 10,
   "auberge": {
     "prix_repos": 50,
     "phrase_arrive": [
@@ -18,7 +17,7 @@
           "nom": "Potion de soin",
           "description": "Restaure 10% des points de vie.",
           "quantite": 1,
-          "multiplicateur_pv": 0.10,
+          "multiplicateur_pv": 0.1,
           "multiplicateur_force": 0.0,
           "multiplicateur_vitesse": 0.0
         },
@@ -32,11 +31,11 @@
           "description": "Augmente la force de 50% temporairement.",
           "quantite": 1,
           "multiplicateur_pv": 0.0,
-          "multiplicateur_force": 0.50,
+          "multiplicateur_force": 0.5,
           "multiplicateur_vitesse": 0.0
         },
         "infini": false,
-        "quantite": 5
+        "quantite": 4
       },
       {
         "prix": 300,
@@ -59,10 +58,20 @@
           "quantite": 1,
           "multiplicateur_pv": 0.15,
           "multiplicateur_force": 0.25,
-          "multiplicateur_vitesse": 0.30
+          "multiplicateur_vitesse": 0.3
         },
         "infini": false,
         "quantite": 1
+      },
+      {
+        "prix": 500,
+        "instance": {
+          "nom": "Uranium",
+          "description": "Giga carburant de l'espace",
+          "quantite": 10
+        },
+        "infini": false,
+        "quantite": 34
       }
     ],
     "phrase_arrive": [
@@ -72,8 +81,8 @@
       "Le tintement d'une caisse enregistreuse résonne au loin."
     ]
   },
+  "cout_voyage": 10,
   "zone_hostile": {
-    "nom": "Crevasse nauséabonde",
     "ennemis": [
       {
         "base": {
@@ -110,7 +119,8 @@
           }
         ],
         "phrase_intro": "Un redoutable bipboop surgit de derrière un rocher !",
-        "phrase_attaque": "Le bip boop vous envoie un coup de pied !"
+        "phrase_attaque": "Le bip boop vous envoie un coup de pied !",
+        "monnaie": 50
       },
       {
         "base": {
@@ -147,7 +157,8 @@
           }
         ],
         "phrase_intro": "Un terrible tes tard gazeux surgit hors de l'eau !",
-        "phrase_attaque": "Le tes tard gazeux vous envoie un gaz toxique au visage !"
+        "phrase_attaque": "Le tes tard gazeux vous envoie un gaz toxique au visage !",
+        "monnaie": 60
       }
     ],
     "phrase_arrive": [
@@ -155,7 +166,8 @@
       "Vous entendez des bruits de pas grouiller autour de vous. Visiblement vous n'êtes pas seul.",
       "Vous finissez par sentire un frisson parcourir le long de votre dos, un danger est proche.",
       "Plus vous vous enfoncer dans cette crevasse plus l'obscurité vous gagne."
-    ]
+    ],
+    "nom": "Crevasse nauséabonde"
   },
   "phrase_arrive": [
     "Une fois sorti de votre vaiseau une vaste étendu rouge se dresse devant vous.",

@@ -24,6 +24,7 @@ mod tests {
             vec![butin_potion.clone()],
             "Intro".to_string(),
             "Attaque".to_string(),
+            10
         );
         ennemi
     }

@@ -25,15 +25,17 @@ impl PersonnagePrincipal {
         intelligence: u32,
         vitesse: u32,
         chance: u32,
-        uranium: u32
+        uranium: u32,
+        carburant: u32,
+        planete: String,
     ) -> Self {
         Self {
             entite: Entite::new(nom, points_de_vie, points_de_vie_max, force, intelligence, vitesse),
             inventaire: Inventaire::new(),
             chance,
             uranium,
-            planete: "".to_string(),
-            carburant: 100,
+            planete,
+            carburant,
         }
     }
 
@@ -41,8 +43,12 @@ impl PersonnagePrincipal {
         self.uranium
     }
 
-    pub fn add_uranium(&mut self, uranium: u32) {
-        self.uranium = uranium;
+    pub fn add_uranium(&mut self) {
+        for obj in self.inventaire.get_instance() {
+            if obj.get_nom().to_string() == "Uranium" {
+                self.uranium = obj.get_quantite();
+            }
+        }
     }
 
     pub fn get_planete_nom(&self) -> &str {

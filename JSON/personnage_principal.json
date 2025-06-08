@@ -1,25 +1,19 @@
 {
   "entite": {
     "nom": "Astro",
-    "points_de_vie": 18,
+    "points_de_vie": 22,
     "points_de_vie_max": 30,
     "force": 30,
     "intelligence": 30,
     "vitesse": 30
   },
   "inventaire": {
-    "monnaie": 0,
+    "monnaie": 50,
     "objets": [
       {
         "nom": "Insigne du voyageur de l'espace",
         "description": "Prouve que vous êtes tellement ce voyageur que vous pensez être.",
         "quantite": 1
-      },
-      {
-        "nom": "Potion de soin",
-        "description": "Restaure 10% points de vie.",
-        "quantite": 2,
-        "multiplicateur_pv": 1.1
       },
       {
         "nom": "Potion de vitalité",
@@ -39,21 +33,11 @@
         "nom": "Or",
         "description": "Une pièce d'or brillante.",
         "quantite": 80
-      },
-      {
-        "nom": "Or",
-        "description": "Une pièce d'or brillante.",
-        "quantite": 100
-      },
-      {
-        "nom": "Or",
-        "description": "Une pièce d'or brillante.",
-        "quantite": 80
       }
     ]
   },
   "chance": 1,
   "uranium": 0,
-  "planete": "",
-  "carburant": 100
+  "planete": "Mars",
+  "carburant": 80
 }

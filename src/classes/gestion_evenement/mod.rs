@@ -10,3 +10,5 @@ pub mod planete;
 pub mod auberge;
 pub mod zone_hostile;
 pub mod continuer;
+pub mod action_combat;
+pub mod action_inventaire;
