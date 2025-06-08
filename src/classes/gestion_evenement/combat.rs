@@ -165,9 +165,7 @@ impl Combat {
                             charge_player.inventaire.add_objet(obj.get_objet());
                             obj.get_objet().afficher()
                         }
-                        println!("@@@ eDSOFNP GET MONNAIE {}\n",ennemi.get_monnaie());
                         update_player.inventaire.add_monnaie(charge_player.inventaire.get_monnaie()+ennemi.get_monnaie().clone());
-                        println!("@@@ eDSOFNP GET MONNAIE {}\n",ennemi.get_monnaie());
                         update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                         sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
                         return true;
@@ -213,7 +211,6 @@ impl Combat {
                     charge_player.inventaire.add_objet(obj.get_objet());
                     obj.get_objet().afficher()
                 }
-                println!("@@@ eDSOFNP GET MONNAIE {}",ennemi.get_monnaie().clone());
                 update_player.inventaire.add_monnaie(charge_player.inventaire.get_monnaie()+ennemi.get_monnaie().clone());
                 update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                 sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");

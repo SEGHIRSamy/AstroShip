@@ -109,6 +109,8 @@ impl Intro {
    *         *         *       *        *
 "#,
         ];
+        AfficheTexte::affiche("Vous avez réussi à accumuler assez d'uranium, vous pressez sur le bouton d'hyper espace pour commencer votre voyage retour".to_string(), 25);
+        thread::sleep(Duration::from_millis(5000));
 
         for _ in 0..5 {
             for stars in &frames {

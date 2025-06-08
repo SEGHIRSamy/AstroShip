@@ -40,8 +40,21 @@ impl Inventaire {
         self.instance = instance;
     }
 
-    pub fn add_objet(&mut self, objet: Objet) {
-        self.instance.push(objet);
+    // Remplacez votre méthode add_objet actuelle par celle-ci dans la classe Inventaire
+
+    pub fn add_objet(&mut self, nouvel_objet: Objet) {
+        // Chercher si un objet avec le même nom existe déjà
+        for objet_existant in &mut self.instance {
+            if objet_existant.get_nom() == nouvel_objet.get_nom() {
+                // Si l'objet existe déjà, on additionne les quantités
+                let nouvelle_quantite = objet_existant.get_quantite() + nouvel_objet.get_quantite();
+                objet_existant.set_quantite(nouvelle_quantite);
+                return; // On sort de la fonction car l'objet a été trouvé et mis à jour
+            }
+        }
+
+        // Si on arrive ici, l'objet n'existait pas encore, on l'ajoute
+        self.instance.push(nouvel_objet);
     }
 
     /// Met à jour la quantité de monnaie.

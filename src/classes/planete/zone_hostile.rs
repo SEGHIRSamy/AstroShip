@@ -1,12 +1,11 @@
 use rand::{SeedableRng};
-use std::io;
 use rand::prelude::StdRng;
 use serde::{Deserialize, Serialize};
 use crate::classes::entite::ennemie::Ennemi;
 use crate::classes::gestion_evenement::combat::Combat;
 
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize,Clone)]
 pub struct ZoneHostile {
     ennemis: Vec<Ennemi>,
     nom: String,

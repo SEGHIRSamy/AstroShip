@@ -7,6 +7,7 @@ use crate::classes::marchandage::{affaire::Affaire};
 /// Structure représentant un magasin qui propose des affaires à l'achat.
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Magasin {
     pub affaires: Vec<Affaire>, // Liste des affaires disponibles
 }
@@ -74,9 +75,8 @@ impl Magasin {
     }
 
     /// Fonction pour acheter dans le magasin
-    pub fn interaction_magasin(&mut self) {
+    pub fn interaction_magasin(&mut self, mut personnage: &mut PersonnagePrincipal) {
         let sauvegarde: Sauvegarde = Sauvegarde::new();
-        let mut personnage : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
         loop {
             let affaires = self.get_affaires();
             println!("\n=== Bienvenue au magasin ===");
@@ -120,7 +120,9 @@ impl Magasin {
                 Err(e) => println!("Achat échoué : {}", e),
             }
             println!("on passe ici à l'achat");
+            personnage.add_uranium();
             sauvegarde.sauvegarde("personnage_principal.json".to_string(), personnage.clone()).expect("Enregistrement Personnage échoué");
+
         }
     }
 

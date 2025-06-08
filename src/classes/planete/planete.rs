@@ -11,7 +11,7 @@ use crate::classes::gestion_evenement::quitter_jeu::QuitterJeu;
 // Permet de sérialiser/désérialiser la planète pour l'enregistrer ou la lire depuis un fichier JSON
 #[allow(dead_code)]
 // Permet de sérialiser/désérialiser la planète pour l'enregistrer ou la lire depuis un fichier JSON
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize,Clone)]
 pub struct Planete {
     pub nom: String,
     pub auberge: Auberge,
@@ -52,7 +52,10 @@ impl Planete {
             match choix.trim() {
                 "1" => self.zone_hostile.explorer(),
                 "2" => self.auberge.proposer_repos(),
-                "3" => self.magasin.interaction_magasin(),
+                "3" => {self.magasin.interaction_magasin(personnage);
+                    let sauvegarde: Sauvegarde = Sauvegarde::new();
+                    sauvegarde.sauvegarde("planete_json/".to_owned() + &*personnage.get_planete_nom().to_owned() + &*".json".to_string(), self.clone()).expect("TODO: panic message");
+                },
                 "0" => QuitterJeu::new().quitter_jeu(),
                 "4" => {
                     println!("Vous quittez la planète {}.", self.nom);

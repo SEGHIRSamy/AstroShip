@@ -43,8 +43,14 @@ impl PersonnagePrincipal {
         self.uranium
     }
 
-    pub fn add_uranium(&mut self, uranium: u32) {
-        self.uranium = uranium;
+    pub fn add_uranium(&mut self) {
+        for obj in self.inventaire.get_instance() {
+            println!("@@@check cond ura = {}\n",obj.get_nom().to_string() == "Uranium");
+            println!("@@@ nom :{}",obj.get_nom().to_string() );
+            if obj.get_nom().to_string() == "Uranium" {
+                self.uranium = obj.get_quantite();
+            }
+        }
     }
 
     pub fn get_planete_nom(&self) -> &str {

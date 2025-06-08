@@ -4,7 +4,7 @@ use crate::classes::entite::entite::Entite;
 use crate::classes::marchandage::butin::Butin;
 
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize,Clone)]
 pub struct Ennemi {
     pub base: Entite,                 // L'entité de base pour les statistiques
     pub butins_passifs: Vec<Butin>,   // Butins obtenu si on le laisse vivre

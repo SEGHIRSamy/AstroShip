@@ -37,15 +37,14 @@ impl BoucleJeu {
       if personnage.get_planete_nom() != "" && personnage.get_planete_nom() != "None" {
         let planete: Planete = sauvegarde.charge("planete_json/".to_owned()+&personnage.get_planete_nom()+&".json".to_string()).unwrap();
         let voyage = VoyagePlanete::new(personnage.get_planete_nom(),planete.get_cout_voyage());
-        let vaisseau = Vaisseau::new(personnage.get_carburant(), personnage.get_uranium(), Option::from(voyage));
+        let vaisseau = Vaisseau::new(personnage.get_carburant(), personnage.get_uranium() as u32, Option::from(voyage));
         BoucleJeu {
           personnage,
           vaisseau
         }
       }
       else {
-        println!("@@@ second print \n");
-        let vaisseau = Vaisseau::new(personnage.get_carburant() , personnage.get_uranium() , None);
+        let vaisseau = Vaisseau::new(personnage.get_carburant(), personnage.get_uranium(), None);
         BoucleJeu {
           personnage,
           vaisseau
@@ -72,10 +71,12 @@ impl BoucleJeu {
         let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
         plat.visiter(&mut self.personnage);
         self.vaisseau.set_position(None);
+        if self.personnage.get_uranium() >= nbr_uranium_demande {
+          break;
+        }
       }
 
-
-      if self.personnage.get_carburant()<=0 && self.vaisseau.afficher_etat() == "Dans l'espace".to_string() {
+      if self.personnage.get_carburant() <= 0 && self.vaisseau.afficher_etat() == "Dans l'espace".to_string() {
         println!("Malheuresement vous êtes bloqué dans l'espace, vous n'avez pas su gérer votre budget carburant\n\
          cela vous a offert une croisière dans l'espace jusqu'à la fin de vos jours.\n\
          Entre autre : ");
@@ -128,7 +129,7 @@ impl BoucleJeu {
         ("Quitter".to_string(), Box::new(QuitterJeu::new()))
       ]);
       choix_mort.lancer_choix();
-    } 
+    }
     else if self.personnage.get_uranium() >= nbr_uranium_demande {
       sauvegarde.sauvegarde("personnage_principal.json".to_string(), &self.personnage).unwrap();
       Intro::lancer_outro();

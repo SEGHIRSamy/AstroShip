@@ -4,7 +4,7 @@ use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize,Clone)]
 pub struct Auberge {
     prix_repos: u32, // Prix pour se reposer
 }

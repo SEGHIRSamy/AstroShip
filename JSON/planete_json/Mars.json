@@ -1,7 +1,5 @@
 {
   "nom": "Mars",
-  "cout_voyage" : 10,
-  "puissance_uranium" : 0,
   "auberge": {
     "prix_repos": 50
   },
@@ -13,7 +11,7 @@
           "nom": "Potion de soin",
           "description": "Restaure 10% des points de vie.",
           "quantite": 1,
-          "multiplicateur_pv": 0.10,
+          "multiplicateur_pv": 0.1,
           "multiplicateur_force": 0.0,
           "multiplicateur_vitesse": 0.0
         },
@@ -27,11 +25,11 @@
           "description": "Augmente la force de 50% temporairement.",
           "quantite": 1,
           "multiplicateur_pv": 0.0,
-          "multiplicateur_force": 0.50,
+          "multiplicateur_force": 0.5,
           "multiplicateur_vitesse": 0.0
         },
         "infini": false,
-        "quantite": 5
+        "quantite": 4
       },
       {
         "prix": 300,
@@ -54,15 +52,25 @@
           "quantite": 1,
           "multiplicateur_pv": 0.15,
           "multiplicateur_force": 0.25,
-          "multiplicateur_vitesse": 0.30
+          "multiplicateur_vitesse": 0.3
         },
         "infini": false,
         "quantite": 1
+      },
+      {
+        "prix": 500,
+        "instance": {
+          "nom": "Uranium",
+          "description": "Giga carburant de l'espace",
+          "quantite": 10
+        },
+        "infini": false,
+        "quantite": 34
       }
     ]
   },
+  "cout_voyage": 10,
   "zone_hostile": {
-    "nom": "Crevasse nauséabonde",
     "ennemis": [
       {
         "base": {
@@ -100,7 +108,7 @@
         ],
         "phrase_intro": "Un redoutable bipboop surgit de derrière un rocher !",
         "phrase_attaque": "Le bip boop vous envoie un coup de pied !",
-        "monnaie" : 50
+        "monnaie": 50
       },
       {
         "base": {
@@ -138,8 +146,9 @@
         ],
         "phrase_intro": "Un terrible tes tard gazeux surgit hors de l'eau !",
         "phrase_attaque": "Le tes tard gazeux vous envoie un gaz toxique au visage !",
-        "monnaie" : 60
+        "monnaie": 60
       }
-    ]
+    ],
+    "nom": "Crevasse nauséabonde"
   }
 }
