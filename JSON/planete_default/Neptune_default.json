@@ -1,10 +1,10 @@
 {
-  "nom": "Mars",
+  "nom": "Neptune",
   "auberge": {
     "prix_repos": 50,
     "phrase_arrive": [
-      "Vous passez la porte de ce qui semble être une auberge, les hommes à la peau bleue semblent vous accueillir chaleureusement.",
-      "En entrant dans ce lieu, vous entendez une douce musique appaisante qui vous rappelle étrangement quelque chose..."
+      "Vous entrez dans une structure en cristal bleuté, baignée dans une lumière tamisée. Les habitants à la peau translucide vous saluent par des gestes harmonieux.",
+      "Un bourdonnement apaisant résonne dans les murs liquides de l'auberge. Vous ressentez une étrange sensation de sérénité vous envahir."
     ]
   },
   "magasin": {
@@ -23,11 +23,11 @@
       {
         "prix": 100,
         "instance": {
-          "nom": "Stéroïdes",
-          "description": "Une étrange seringue contenant un liquide luisant. Augmente la force de 50% et réduit la vitesse de 20%",
+          "nom": "Stéroïdes de neptune",
+          "description": "Une étrange seringue contenant un liquide luisant. Augmente la force de 30% et réduit la vitesse de 10%",
           "quantite": 1,
-          "multiplicateur_force": 1.5,
-          "multiplicateur_vitesse": 0.8
+          "multiplicateur_force": 1.3,
+          "multiplicateur_vitesse": 0.9
         },
         "infini": false,
         "quantite": 3
@@ -35,8 +35,8 @@
       {
         "prix": 1,
         "instance": {
-          "nom": "Amulette porte bonheur",
-          "description": "Un bibelot sans grande valeur",
+          "nom": "Photo souvenir",
+          "description": "Une photo d'un lac gélé dans un joli cadre.",
           "quantite": 1
         },
         "infini": false,
@@ -64,8 +64,8 @@
       }
     ],
     "phrase_arrive": [
-      "Vous entrez dans ce qui semble être une boutique gérée par ces mêmes petits hommes. Ils utilisent visiblement la monnaie universelle. Une aubaine !",
-      "Vous entrez dans un magasin et êtes accueillis par ces petits hommes bleurs qui semblent enthousiastes à l'idée de commercer avec vous"
+      "Vous poussez la porte d’un marché bio-luminescent où les marchands aux yeux globuleux vous observent avec curiosité.",
+      "Un néon bleuâtre vous attire vers un comptoir où les vendeurs flottent légèrement au-dessus du sol, prêts à négocier."
     ]
   },
   "cout_voyage": 10,
@@ -73,12 +73,12 @@
     "ennemis": [
       {
         "base": {
-          "nom": "canidé alien",
-          "points_de_vie": 20,
-          "points_de_vie_max": 20,
-          "force": 10,
+          "nom": "Léviathan des glaces",
+          "points_de_vie": 30,
+          "points_de_vie_max": 30,
+          "force": 20,
           "intelligence": 5,
-          "vitesse": 15
+          "vitesse": 10
         },
         "butins_passifs": [
           {
@@ -95,23 +95,23 @@
         "butins_hostiles": [
           {
             "objet": {
-              "nom": "Croc de canidé alien",
-              "description": "Un croco tranchant, qui peut être réduit en poudre pour être consommé. Augmente la force de 10%",
+              "nom": "Croc de léviathan",
+              "description": "Un croc tranchant, qui peut être réduit en poudre pour être consommé. Augmente la force de 30%",
               "quantite": 1,
-              "multiplicateur_force": 1.1
+              "multiplicateur_force": 1.3
             },
             "quantite": 1,
             "probabilite": 1.0,
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Un genre de chien alien à un oeil surgit de derrière une roche et vous attaque !",
-        "phrase_attaque": "Le canidé vous mord à la jambe",
-        "monnaie": 50
+        "phrase_intro": "Une silhouette gigantesque émerge des brumes gelées, ses yeux brillent d’une lueur turquoise avant de charger.",
+        "phrase_attaque": "Le Léviathan vous frappe de sa nageoire couverte d’épines cristallines.",
+        "monnaie": 100
       },
       {
         "base": {
-          "nom": "Tétart mutant",
+          "nom": "Écorcheur abyssal",
           "points_de_vie": 25,
           "points_de_vie_max": 25,
           "force": 10,
@@ -121,10 +121,10 @@
         "butins_passifs": [
           {
             "objet": {
-              "nom": "Ecaille de serpent",
-              "description": "Une écaille que vous avez trouvé en fuyant. Augmente la vitesse de 20%",
+              "nom": "Ecaille de serpent des glaces",
+              "description": "Une écaille que vous avez trouvé en fuyant. Augmente les pv max de 20%",
               "quantite": 1,
-              "multiplicateur_vitesse": 1.2
+              "multiplicateur_pv_max": 1.2
             },
             "quantite": 1,
             "probabilite": 1.0,
@@ -134,23 +134,23 @@
         "butins_hostiles": [
           {
             "objet": {
-              "nom": "Bave de tétart",
-              "description": "Berk... Augmente les pv max de 30%",
+              "nom": "Glace luisante",
+              "description": "Un morceau de glace luisant. Soigne 50% des points de vie",
               "quantite": 1,
-              "multiplicateur_pv_max": 1.3
+              "multiplicateur_pv": 1.5
             },
             "quantite": 1,
             "probabilite": 1.0,
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Un tétart mutant sort de l'eau et vous attaque !",
-        "phrase_attaque": "Le tétart vous envoie un gaz toxique au visage !",
-        "monnaie": 60
+        "phrase_intro": "Un Écorcheur surgit d’une faille noire et vous fonce dessus dans un cri strident.",
+        "phrase_attaque": "L’Écorcheur vous lacère de ses griffes acérées en hurlant.",
+        "monnaie": 100
       },
       {
         "base": {
-          "nom": "araignée radioactive",
+          "nom": "Veuve cryogénique",
           "points_de_vie": 20,
           "points_de_vie_max": 20,
           "force": 17,
@@ -182,21 +182,21 @@
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Une énorme araignée tombe du pladond !",
-        "phrase_attaque": "L'araignée vous mord au bras",
-        "monnaie": 50
+        "phrase_intro": "Une arachnide géante couverte de cristaux de givre tombe du plafond gelé !",
+        "phrase_attaque": "La Veuve cryogénique plante ses crocs gelés dans votre bras.",
+        "monnaie": 100
       }
     ],
-    "nom": "Crevasse nauséabonde",
     "phrase_arrive": [
-      "Une odeur putride commence à attaquer votre nez.",
-      "Vous entendez des bruits de pas autour de vous. Visiblement vous n'êtes pas seul.",
-      "Vous sentez un frisson parcourir le long de votre dos, un danger est proche.",
-      "Plus vous vous enfoncez dans cette crevasse plus l'obscurité vous gagne."
-    ]
+      "Une brume givrante recouvre le sol et obscurcit votre vision.",
+      "Des murmures résonnent à travers les glaces fissurées, comme des échos lointains.",
+      "Un froid surnaturel semble ralentir chacun de vos mouvements.",
+      "Vous vous enfoncez dans une faille abyssale, où la lumière disparaît peu à peu."
+    ],
+    "nom": "Fosse polaire de Neptune"
   },
   "phrase_arrive": [
-    "Vous débarquez de votre vaiseau... une vaste étendu rouge se dresse devant vous. Vous vous approchez de ce qui semble être un village peuplé d'étranges petits hommes à la peau bleue. Ces derniers ne semblent pas agressifs.",
-    "Vous arrivez sur cette nouvelle planète... le vent soufle et déplace le sable rouge à perte de vue. Vous marchez péniblement jusqu'a arriver à ce qu'il semble être un village peuplé d'étranges petits hommes à la peau bleue."
+    "Vous émergez de votre vaisseau. Devant vous, des mers de glace s'étendent à l'infini sous une lueur bleutée inquiétante. Au loin, un village semble être taillé dans le givre.",
+    "Votre vaisseau atterrit dans un crissement métallique. Le silence oppressant de cette planète glaciale vous entoure tandis que vous approchez d’un regroupement d’abris lumineux."
   ]
 }

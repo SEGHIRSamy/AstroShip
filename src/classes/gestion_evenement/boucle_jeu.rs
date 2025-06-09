@@ -114,7 +114,7 @@ impl BoucleJeu {
   /// - Elle **ignore les erreurs silencieusement** (fichiers illisibles, permissions...).
   pub fn boucle_jeu(&mut self) {
     let sauvegarde: Sauvegarde = Sauvegarde::new();
-    let nbr_uranium_demande: u32 = 10;
+    let nbr_uranium_demande: u32 = 30;
     let mut jeu_en_cours: bool = true;
 
     let liste_nom_planete = BoucleJeu::noms_fichiers_sans_extensions("JSON/planete_json");

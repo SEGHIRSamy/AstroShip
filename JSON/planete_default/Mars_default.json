@@ -3,52 +3,54 @@
   "auberge": {
     "prix_repos": 50,
     "phrase_arrive": [
-      "Vous arrivez dans une auberge, une douce odeur de pain vous parvient.",
-      "Alors que vous traverser le pas de porte, vous entendez quelques rires et discution aux tables autour de vous.",
-      "En entrant dans ce lieu, vous entendez une douce musique appaisante provenant d'un juxbox posé dans un coin de la salle.",
-      "Une fois rentrer vous commen,cer à sentire tout la fatigue de la journée retomber sur vos épaules, le lit semble vous appeler."
+      "Vous passez la porte de ce qui semble être une auberge, les hommes à la peau bleue semblent vous accueillir chaleureusement.",
+      "En entrant dans ce lieu, vous entendez une douce musique appaisante qui vous rappelle étrangement quelque chose..."
     ]
   },
   "magasin": {
     "affaires": [
       {
+        "prix": 50,
+        "instance": {
+          "nom": "Barre protéinée",
+          "description": "Une délicieuse barre au goût chocolaté. Restaure 30% des points de vie.",
+          "quantite": 1,
+          "multiplicateur_pv": 1.3
+        },
+        "infini": false,
+        "quantite": 3
+      },
+      {
+        "prix": 100,
+        "instance": {
+          "nom": "Stéroïdes",
+          "description": "Une étrange seringue contenant un liquide luisant. Augmente la force de 50% et réduit la vitesse de 20%",
+          "quantite": 1,
+          "multiplicateur_force": 1.5,
+          "multiplicateur_vitesse": 0.8
+        },
+        "infini": false,
+        "quantite": 3
+      },
+      {
+        "prix": 1,
+        "instance": {
+          "nom": "Amulette porte bonheur",
+          "description": "Un bibelot sans grande valeur",
+          "quantite": 1
+        },
+        "infini": false,
+        "quantite": 3
+      },
+      {
         "prix": 500,
         "instance": {
-          "nom": "Potion de soin",
-          "description": "Restaure 10% des points de vie.",
-          "quantite": 1,
-          "multiplicateur_pv": 0.1,
-          "multiplicateur_force": 0.0,
-          "multiplicateur_vitesse": 0.0
-        },
-        "infini": true,
-        "quantite": 5
-      },
-      {
-        "prix": 1200,
-        "instance": {
-          "nom": "Stéroïdes spatiaux",
-          "description": "Augmente la force de 50% temporairement.",
-          "quantite": 1,
-          "multiplicateur_pv": 0.0,
-          "multiplicateur_force": 0.5,
-          "multiplicateur_vitesse": 0.0
+          "nom": "Uranium",
+          "description": "Actuellement votre vie en dépend... Vendu par lot de 10.",
+          "quantite": 10
         },
         "infini": false,
-        "quantite": 5
-      },
-      {
-        "prix": 300,
-        "instance": {
-          "nom": "Boussole ancienne",
-          "description": "Indique le nord dans n’importe quelle galaxie.",
-          "quantite": 1,
-          "multiplicateur_pv": 0.0,
-          "multiplicateur_force": 0.0,
-          "multiplicateur_vitesse": 0.0
-        },
-        "infini": false,
-        "quantite": 5
+        "quantite": 1
       },
       {
         "prix": 50,
@@ -59,36 +61,11 @@
         },
         "infini": true,
         "quantite": 50
-      },
-      {
-        "prix": 500,
-        "instance": {
-          "nom": "Cocktail boost total",
-          "description": "Améliore toutes les statistiques.",
-          "quantite": 1,
-          "multiplicateur_pv": 0.15,
-          "multiplicateur_force": 0.25,
-          "multiplicateur_vitesse": 0.3
-        },
-        "infini": false,
-        "quantite": 5
-      },
-      {
-        "prix": 500,
-        "instance": {
-          "nom": "Uranium",
-          "description": "Giga carburant de l'espace",
-          "quantite": 10
-        },
-        "infini": false,
-        "quantite": 5
       }
     ],
     "phrase_arrive": [
-      "Une fois entrée dans le magasin, le marchand vous salue chaleureusement.",
-      "Vous entrez dans un magasin sans trops savoir à quoi vous attendre, une bonne affaire vous attend peut-être.",
-      "À peine entrée à l'intérieur du bâtiement que des objets brillants attirent votre regard.",
-      "Le tintement d'une caisse enregistreuse résonne au loin."
+      "Vous entrez dans ce qui semble être une boutique gérée par ces mêmes petits hommes. Ils utilisent visiblement la monnaie universelle. Une aubaine !",
+      "Vous entrez dans un magasin et êtes accueillis par ces petits hommes bleurs qui semblent enthousiastes à l'idée de commercer avec vous"
     ]
   },
   "cout_voyage": 10,
@@ -96,19 +73,19 @@
     "ennemis": [
       {
         "base": {
-          "nom": "bip boop",
+          "nom": "canidé alien",
           "points_de_vie": 20,
           "points_de_vie_max": 20,
-          "force": 5,
+          "force": 10,
           "intelligence": 5,
-          "vitesse": 3
+          "vitesse": 15
         },
         "butins_passifs": [
           {
             "objet": {
-              "nom": "Or",
-              "description": "Une pièce d'or brillante.",
-              "quantite": 80
+              "nom": "Caillou",
+              "description": "Une banale pierre sans intérêt vous rapellant la lacheté dont vous avez fait preuve.",
+              "quantite": 1
             },
             "quantite": 10,
             "probabilite": 1.0,
@@ -118,35 +95,74 @@
         "butins_hostiles": [
           {
             "objet": {
-              "nom": "Potion",
-              "description": "Une potion de soin.",
+              "nom": "Croc de canidé alien",
+              "description": "Un croco tranchant, qui peut être réduit en poudre pour être consommé. Augmente la force de 10%",
               "quantite": 1,
-              "multiplicateur_pv": 0.2
+              "multiplicateur_force": 1.1
             },
             "quantite": 1,
             "probabilite": 1.0,
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Un redoutable bipboop surgit de derrière un rocher !",
-        "phrase_attaque": "Le bip boop vous envoie un coup de pied !",
+        "phrase_intro": "Un genre de chien alien à un oeil surgit de derrière une roche et vous attaque !",
+        "phrase_attaque": "Le canidé vous mord à la jambe",
         "monnaie": 50
       },
       {
         "base": {
-          "nom": "tes tard gazeu",
+          "nom": "Tétart mutant",
           "points_de_vie": 25,
           "points_de_vie_max": 25,
-          "force": 6,
-          "intelligence": 5,
-          "vitesse": 10
+          "force": 10,
+          "intelligence": 1,
+          "vitesse": 20
         },
         "butins_passifs": [
           {
             "objet": {
-              "nom": "Or",
-              "description": "Une pièce d'or brillante.",
-              "quantite": 100
+              "nom": "Ecaille de serpent",
+              "description": "Une écaille que vous avez trouvé en fuyant. Augmente la vitesse de 20%",
+              "quantite": 1,
+              "multiplicateur_vitesse": 1.2
+            },
+            "quantite": 1,
+            "probabilite": 1.0,
+            "rarete": "Commun"
+          }
+        ],
+        "butins_hostiles": [
+          {
+            "objet": {
+              "nom": "Bave de tétart",
+              "description": "Berk... Augmente les pv max de 30%",
+              "quantite": 1,
+              "multiplicateur_pv_max": 1.3
+            },
+            "quantite": 1,
+            "probabilite": 1.0,
+            "rarete": "Rare"
+          }
+        ],
+        "phrase_intro": "Un tétart mutant sort de l'eau et vous attaque !",
+        "phrase_attaque": "Le tétart vous envoie un gaz toxique au visage !",
+        "monnaie": 60
+      },
+      {
+        "base": {
+          "nom": "araignée radioactive",
+          "points_de_vie": 20,
+          "points_de_vie_max": 20,
+          "force": 17,
+          "intelligence": 5,
+          "vitesse": 5
+        },
+        "butins_passifs": [
+          {
+            "objet": {
+              "nom": "Caillou",
+              "description": "Une banale pierre sans intérêt vous rapellant la lacheté dont vous avez fait preuve.",
+              "quantite": 1
             },
             "quantite": 10,
             "probabilite": 1.0,
@@ -156,31 +172,31 @@
         "butins_hostiles": [
           {
             "objet": {
-              "nom": "Potion",
-              "description": "Une potion de soin.",
+              "nom": "Croc d'arignée",
+              "description": "Un croc tranchant, qui peut être réduit en poudre pour être consommé. Augmente la vitesse de 10%",
               "quantite": 1,
-              "multiplicateur_pv": 0.2
+              "multiplicateur_vitesse": 1.1
             },
             "quantite": 1,
             "probabilite": 1.0,
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Un terrible tes tard gazeux surgit hors de l'eau !",
-        "phrase_attaque": "Le tes tard gazeux vous envoie un gaz toxique au visage !",
-        "monnaie": 60
+        "phrase_intro": "Une énorme araignée tombe du pladond !",
+        "phrase_attaque": "L'araignée vous mord au bras",
+        "monnaie": 50
       }
     ],
     "phrase_arrive": [
       "Une odeur putride commence à attaquer votre nez.",
-      "Vous entendez des bruits de pas grouiller autour de vous. Visiblement vous n'êtes pas seul.",
-      "Vous finissez par sentire un frisson parcourir le long de votre dos, un danger est proche.",
-      "Plus vous vous enfoncer dans cette crevasse plus l'obscurité vous gagne."
+      "Vous entendez des bruits de pas autour de vous. Visiblement vous n'êtes pas seul.",
+      "Vous sentez un frisson parcourir le long de votre dos, un danger est proche.",
+      "Plus vous vous enfoncez dans cette crevasse plus l'obscurité vous gagne."
     ],
     "nom": "Crevasse nauséabonde"
   },
   "phrase_arrive": [
-    "Une fois sorti de votre vaiseau une vaste étendu rouge se dresse devant vous.",
-    "Alors que vous arriver sur cette nouvelle planete, vous voyer du sable rouge se déplacer avec le vent."
+    "Vous débarquez de votre vaiseau... une vaste étendu rouge se dresse devant vous. Vous vous approchez de ce qui semble être un village peuplé d'étranges petits hommes à la peau bleue. Ces derniers ne semblent pas agressifs.",
+    "Vous arrivez sur cette nouvelle planète... le vent soufle et déplace le sable rouge à perte de vue. Vous marchez péniblement jusqu'a arriver à ce qu'il semble être un village peuplé d'étranges petits hommes à la peau bleue."
   ]
 }

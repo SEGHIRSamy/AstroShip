@@ -1,10 +1,10 @@
 {
-  "nom": "Mars",
+  "nom": "Pluton",
   "auberge": {
     "prix_repos": 50,
     "phrase_arrive": [
-      "Vous passez la porte de ce qui semble être une auberge, les hommes à la peau bleue semblent vous accueillir chaleureusement.",
-      "En entrant dans ce lieu, vous entendez une douce musique appaisante qui vous rappelle étrangement quelque chose..."
+      "Vous pénétrez dans une structure souterraine, taillée dans la glace noire. La température chute instantanément, mais une chaleur artificielle vous entoure doucement.",
+      "Des stalactites scintillants pendent du plafond de l’auberge. Des silhouettes encapuchonnées vous invitent à vous reposer en silence."
     ]
   },
   "magasin": {
@@ -64,8 +64,8 @@
       }
     ],
     "phrase_arrive": [
-      "Vous entrez dans ce qui semble être une boutique gérée par ces mêmes petits hommes. Ils utilisent visiblement la monnaie universelle. Une aubaine !",
-      "Vous entrez dans un magasin et êtes accueillis par ces petits hommes bleurs qui semblent enthousiastes à l'idée de commercer avec vous"
+      "Vous pénétrez dans un bazar glacial éclairé par des cristaux luminescents. Les marchands murmurent d’étranges mots à votre passage.",
+      "Un bâtiment de pierre gelée se dresse devant vous. À l’intérieur, des étals anciens proposent des objets venus d’un autre temps."
     ]
   },
   "cout_voyage": 10,
@@ -73,7 +73,7 @@
     "ennemis": [
       {
         "base": {
-          "nom": "canidé alien",
+          "nom": "Spectre gelé",
           "points_de_vie": 20,
           "points_de_vie_max": 20,
           "force": 10,
@@ -95,8 +95,8 @@
         "butins_hostiles": [
           {
             "objet": {
-              "nom": "Croc de canidé alien",
-              "description": "Un croco tranchant, qui peut être réduit en poudre pour être consommé. Augmente la force de 10%",
+              "nom": "Restes d'ectoplasme",
+              "description": "Un etrange tissu luisant. Augmente la force de 10%",
               "quantite": 1,
               "multiplicateur_force": 1.1
             },
@@ -105,13 +105,13 @@
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Un genre de chien alien à un oeil surgit de derrière une roche et vous attaque !",
-        "phrase_attaque": "Le canidé vous mord à la jambe",
-        "monnaie": 50
+        "phrase_intro": "Une forme translucide émerge de la brume glacée. Ses yeux morts vous fixent.",
+        "phrase_attaque": "Le spectre pousse un hurlement glacial et vous transperce de ses griffes éthérées.",
+        "monnaie": 100
       },
       {
         "base": {
-          "nom": "Tétart mutant",
+          "nom": "Larve des ténèbres",
           "points_de_vie": 25,
           "points_de_vie_max": 25,
           "force": 10,
@@ -144,13 +144,13 @@
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Un tétart mutant sort de l'eau et vous attaque !",
-        "phrase_attaque": "Le tétart vous envoie un gaz toxique au visage !",
-        "monnaie": 60
+        "phrase_intro": "Un craquement se fait entendre sous vos pieds. Une larve géante surgit de la glace sombre.",
+        "phrase_attaque": "La créature projette une gerbe d’acide noirâtre en sifflant.",
+        "monnaie": 100
       },
       {
         "base": {
-          "nom": "araignée radioactive",
+          "nom": "Veuve spectrale",
           "points_de_vie": 20,
           "points_de_vie_max": 20,
           "force": 17,
@@ -182,21 +182,21 @@
             "rarete": "Rare"
           }
         ],
-        "phrase_intro": "Une énorme araignée tombe du pladond !",
-        "phrase_attaque": "L'araignée vous mord au bras",
-        "monnaie": 50
+        "phrase_intro": "Des toiles givrées se déchirent alors qu’une créature pâle descend du plafond silencieusement.",
+        "phrase_attaque": "La veuve spectrale vous enserre d’un fil glacial avant de mordre violemment.",
+        "monnaie": 100
       }
     ],
-    "nom": "Crevasse nauséabonde",
+    "nom": "Lisière de l’oubli",
     "phrase_arrive": [
-      "Une odeur putride commence à attaquer votre nez.",
-      "Vous entendez des bruits de pas autour de vous. Visiblement vous n'êtes pas seul.",
-      "Vous sentez un frisson parcourir le long de votre dos, un danger est proche.",
-      "Plus vous vous enfoncez dans cette crevasse plus l'obscurité vous gagne."
+      "Le silence est pesant. Même votre respiration semble absorbée par les ténèbres.",
+      "Des formes floues se dessinent à travers le givre. Vous n’êtes pas seul.",
+      "La gravité semble vaciller, et votre vision se trouble. Quelque chose ici altère l’espace.",
+      "Vous avancez dans un dédale de glace noire, chaque pas résonne comme un glas funeste."
     ]
   },
   "phrase_arrive": [
-    "Vous débarquez de votre vaiseau... une vaste étendu rouge se dresse devant vous. Vous vous approchez de ce qui semble être un village peuplé d'étranges petits hommes à la peau bleue. Ces derniers ne semblent pas agressifs.",
-    "Vous arrivez sur cette nouvelle planète... le vent soufle et déplace le sable rouge à perte de vue. Vous marchez péniblement jusqu'a arriver à ce qu'il semble être un village peuplé d'étranges petits hommes à la peau bleue."
+    "Votre vaisseau se pose difficilement sur une surface craquelée, plongée dans la pénombre. Une atmosphère pesante vous entoure alors que vous marchez vers un hameau silencieux.",
+    "Vous émergez dans une nuit éternelle. Les étoiles paraissent mortes et une lumière blafarde éclaire à peine le sol gelé. Une silhouette vous fait signe depuis un abri isolé."
   ]
 }

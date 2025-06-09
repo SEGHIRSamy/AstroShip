@@ -51,9 +51,12 @@ impl Planete {
             let stop_event = Box::new(StopChoix::new(self.nom.clone(), self.phrase_arrive.clone(), Rc::clone(&stop)));
             let quitter_jeu = Box::new(QuitterJeu::new());
 
+            let sauvegarde: Sauvegarde = Sauvegarde::new();
+            let mut charge_player : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+            let charge_player_rc = Rc::new(RefCell::new(charge_player.clone()));
             let consome = Rc::new(RefCell::new(false));
             let inventaire_consulte = Rc::new(RefCell::new(false));
-            let inventaire = Box::new(InventaireInteraction::new(Rc::clone(&consome), Rc::clone(&tmp_personnage), Rc::clone(&inventaire_consulte)));
+            let inventaire = Box::new(InventaireInteraction::new(Rc::clone(&consome), Rc::clone(&charge_player_rc), Rc::clone(&inventaire_consulte)));
 
 
             let mut choix = Choix::new(vec![
