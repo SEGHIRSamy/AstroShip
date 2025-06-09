@@ -213,8 +213,8 @@ impl Combat {
             choix.lancer_choix();
             drop(choix);
 
-            /*if !*consome.borrow() { continue }
-            if *stop.borrow() { return true }*/
+            /*if !*consome.borrow() { continue }*/
+            if *stop.borrow() { return true }
             pv_ennemi = *pv_ennemi_rc.borrow();
 
 

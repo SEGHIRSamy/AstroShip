@@ -185,7 +185,7 @@ impl Inventaire {
         println!("Description : {}", objet.get_description());
 
         let consommable = objet.est_consommable(); // Une méthode booléenne que tu dois créer
-
+        /*
         if let Some(pv) = objet.get_multiplicateur_pv() {
             println!("+{:.0}% PV", pv * 100.0);
         }
@@ -198,6 +198,7 @@ impl Inventaire {
         if let Some(vitesse) = objet.get_multiplicateur_vitesse() {
             println!("+{:.0}% Vitesse", vitesse * 100.0);
         }
+         */
 
         let consommer_rc = Rc::new(RefCell::new(false));
         let instance_rc = Rc::new(RefCell::new(self.instance.clone()));
