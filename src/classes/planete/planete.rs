@@ -91,10 +91,15 @@ impl Planete {
         self.cout_voyage += cout_voyage;
     }
 
-    pub fn charge_planete(nom: &str) -> Planete {
+    pub fn charge_planete(nom: &str,flag_default: bool) -> Planete {
         let sauvegarde: Sauvegarde = Sauvegarde::new();
 
-        sauvegarde.charge("planete_json/".to_owned() + &*nom.to_owned() + &*".json".to_string()).unwrap()
+        if flag_default {
+            sauvegarde.charge("planete_default/".to_owned() + &*nom.to_owned() + &*".json".to_string()).unwrap()
+        }
+        else {
+            sauvegarde.charge("planete_json/".to_owned() + &*nom.to_owned() + &*".json".to_string()).unwrap()
+        }
     }
 
     pub fn sauvegarde_planete(planete: Planete)  {

@@ -25,6 +25,14 @@ impl BoucleJeu {
         Vous dérivez désormais au cœur d’une galaxie inconnue, isolé, vulnérable... mais pas sans ressources.
         Votre mission : explorer, survivre et trouver suffisamment d’uranium pour rallumer vos moteurs et rentrer enfin chez vous.
         ".to_string(), delais);
+      // un truc qui lit le nom des planètes dynamiquement
+      let planete_init = vec!["Mars_default"];
+
+      for pla in planete_init  {
+        let tmp_planete_init = Planete::charge_planete(pla,true);
+        Planete::sauvegarde_planete(tmp_planete_init);
+      }
+
       let personnage: PersonnagePrincipal = sauvegarde.charge("nouveau_personnage.json".to_string()).unwrap();
       sauvegarde.sauvegarde("personnage_principal.json".to_string(), &personnage).unwrap();
       let vaisseau = Vaisseau::new(personnage.get_carburant() , personnage.get_uranium() , None);
@@ -69,7 +77,7 @@ impl BoucleJeu {
         (self.personnage.get_uranium() < nbr_uranium_demande) {
 
       if !self.vaisseau.get_position().is_none() && self.personnage.get_planete_nom() != "Dans l'espace" {
-        let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
+        let mut plat = Planete::charge_planete(self.personnage.get_planete_nom(),false);
         plat.visiter(&mut self.personnage);
         self.vaisseau.set_position(None);
         if self.personnage.get_uranium() >= nbr_uranium_demande {
@@ -113,7 +121,7 @@ impl BoucleJeu {
           self.personnage.set_carburant(self.personnage.get_carburant()-planete_selectionnee.cout_voyage.clone());
           sauvegarde.sauvegarde("personnage_principal.json".to_string(), self.personnage.clone()).expect("Enregistrement boucle jeu 98 raté");
           self.vaisseau.voyager(planete_selectionnee);
-          let mut plat = Planete::charge_planete(self.personnage.get_planete_nom());
+          let mut plat = Planete::charge_planete(self.personnage.get_planete_nom(),false);
           plat.visiter(&mut self.personnage);
           self.vaisseau.set_position(None);
         }
