@@ -36,22 +36,23 @@ impl Combat {
     }
 
 
+    // Fonction calculer si une fuite est reussite
     pub fn tenter_fuite(vitesse_fuyard: u32, vitesse_adversaire: u32, lancer_de: u32) -> bool {
         let resultat = match lancer_de {
             1 => {
-                false
+                false // Echec critique
             },
             20 => {
-                true
+                true // Reussite critique
             },
             2..=19 => {
                 let diff_vitesse = vitesse_fuyard as i32 - vitesse_adversaire as i32;
                 let mut seuil = 10 - diff_vitesse / 2;
 
-                if seuil < 5 {
-                    seuil = 5;
-                } else if seuil > 18 {
-                    seuil = 18;
+                if seuil < 2 {
+                    seuil = 2;
+                } else if seuil > 19 {
+                    seuil = 19;
                 }
 
                 AfficheTexte::affiche(format!("Pour réussir la fuite, il faut faire {} ou plus au lancer de dé.", seuil), 20);
