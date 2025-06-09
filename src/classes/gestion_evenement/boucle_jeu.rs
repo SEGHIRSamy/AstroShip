@@ -1,4 +1,4 @@
-use std::io;
+use std::{fs, io};
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::planete::planete::Planete;
 use crate::classes::affichage::affiche_texte::AfficheTexte;
@@ -26,10 +26,10 @@ impl BoucleJeu {
         Votre mission : explorer, survivre et trouver suffisamment d’uranium pour rallumer vos moteurs et rentrer enfin chez vous.
         ".to_string(), delais);
       // un truc qui lit le nom des planètes dynamiquement
-      let planete_init = vec!["Mars_default"];
+      let planete_init = BoucleJeu::noms_fichiers_sans_extensions("JSON/planete_default");
 
       for pla in planete_init  {
-        let tmp_planete_init = Planete::charge_planete(pla,true);
+        let tmp_planete_init = Planete::charge_planete(&pla,true);
         Planete::sauvegarde_planete(tmp_planete_init);
       }
 
@@ -62,17 +62,71 @@ impl BoucleJeu {
     }
   }
 
+  /// Récupère les noms de fichiers sans extensions dans un dossier donné.
+  pub fn noms_fichiers_sans_extensions(dossier: &str) -> Vec<String> {
+    let mut noms = Vec::new();
+
+    if let Ok(entries) = fs::read_dir(dossier) {
+        for entry in entries.flatten() {
+            let chemin = entry.path();
+
+            if chemin.is_file() {
+                if let Some(nom_fichier) = chemin.file_stem() {
+                    if let Some(nom_str) = nom_fichier.to_str() {
+                        noms.push(nom_str.to_string());
+                    }
+                }
+            }
+        }
+    }
+
+    noms
+  }
+
+  /// Récupère la liste des noms de fichiers (sans extensions) présents dans un dossier donné.
+  ///
+  /// Cette fonction lit le contenu du répertoire spécifié, filtre uniquement les fichiers (en
+  /// ignorant les dossiers et fichiers illisibles), extrait le nom de chaque fichier sans son
+  /// extension, et retourne la liste de ces noms sous forme de `Vec<String>`.
+  ///
+  /// # Arguments
+  ///
+  /// * `dossier` - Un chemin vers le répertoire à parcourir (ex: `"./mes_fichiers"`).
+  ///
+  /// # Retour
+  ///
+  /// Un `Vec<String>` contenant les noms de fichiers sans extensions.  
+  /// Si le répertoire n'existe pas ou ne peut pas être lu, la fonction retourne une liste vide.
+  ///
+  /// # Exemple
+  ///
+  /// ```rust
+  /// let fichiers = noms_fichiers_sans_extensions("./data");
+  /// for nom in fichiers {
+  ///     println!("{}", nom);
+  /// }
+  /// ```
+  ///
+  /// # Remarques
+  ///
+  /// - Les fichiers dont le nom n’est pas valide en UTF-8 sont ignorés.
+  /// - Cette fonction **n'explore pas les sous-dossiers** (pas de récursivité).
+  /// - Elle **ignore les erreurs silencieusement** (fichiers illisibles, permissions...).
   pub fn boucle_jeu(&mut self) {
     let sauvegarde: Sauvegarde = Sauvegarde::new();
     let nbr_uranium_demande: u32 = 10;
     let mut jeu_en_cours: bool = true;
 
-    let planetes_disponibles = vec![
-      VoyagePlanete::new("Mars", 20),
-      VoyagePlanete::new("Neptune", 30),
-      VoyagePlanete::new("Pluton", 40),
-    ];
-    
+    let liste_nom_planete = BoucleJeu::noms_fichiers_sans_extensions("JSON/planete_json");
+
+    let mut planetes_disponibles: Vec<VoyagePlanete> = Vec::new();
+
+    for pla in liste_nom_planete {
+        let tmp_planete = Planete::charge_planete(&pla, false);
+        let voyage = VoyagePlanete::new(&tmp_planete.nom, tmp_planete.get_cout_voyage());
+        planetes_disponibles.push(voyage);
+    }
+
     while (jeu_en_cours && self.personnage.entite.get_points_de_vie() > 0) &&
         (self.personnage.get_uranium() < nbr_uranium_demande) {
 

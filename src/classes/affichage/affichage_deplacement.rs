@@ -61,7 +61,14 @@ pub struct AffichageDeplacement {
 }
 
 impl AffichageDeplacement {
-    // Retourne l'asset correspondant au lieux voulu
+    /// Retourne une représentation ASCII d’un lieu donné sous forme de tableau de 6 lignes.
+    ///
+    /// # Arguments
+    /// - `destination`: Le nom du lieu (par exemple "magasin", "auberge", "zone hostile").
+    ///
+    /// # Returns
+    /// - `Some(&[&str; 6])` : Si le lieu est reconnu.
+    /// - `None` : Si le lieu n'est pas défini.
     pub fn get_lieu_ascii(destination: &str) -> Option<&'static [&'static str; 6]> {
         match destination {
             "zone hostile" => Some(&GROTTE),
@@ -71,7 +78,20 @@ impl AffichageDeplacement {
         }
     }
 
-    // Renvoie une phrase aléatoire
+    /// Affiche une phrase aléatoire parmi une liste, avec un effet de délai.
+    ///
+    /// # Arguments
+    /// - `phrases`: Un vecteur de chaînes de caractères contenant les phrases possibles.
+    ///
+    /// # Comportement
+    /// - Sélectionne une phrase aléatoire.
+    /// - L'affiche avec une animation (délai entre caractères + pause).
+    ///
+    /// # Panics
+    /// - Ne panique pas directement, mais ne fait rien si la liste est vide.
+    ///
+    /// # Remarque
+    /// - Cette fonction utilise un RNG (aléatoire), assure-toi que le crate `rand` est importé correctement.
     fn phrase_random(phrases: Vec<String>) {
         if let Some(phrase) = phrases.choose(&mut rng()) {
             AfficheTexte::affiche(phrase.to_string(), 10);
@@ -79,7 +99,15 @@ impl AffichageDeplacement {
         }
     }
 
-    // Affiche une frame de l'animation
+    /// Affiche une frame ASCII combinant un lieu et un personnage (stickman) à une position donnée.
+    ///
+    /// # Arguments
+    /// - `lieu`: Un tableau de 6 lignes ASCII représentant un environnement.
+    /// - `position`: La position horizontale du personnage.
+    ///
+    /// # Comportement
+    /// - Affiche chaque ligne du décor.
+    /// - Ajoute le personnage à la bonne position sur chaque ligne.
     pub fn afficher_frame(lieu: &[&str; 6], position: usize) {
         for i in 0..lieu.len() {
             if i < STICKMAN.len() {
@@ -90,7 +118,18 @@ impl AffichageDeplacement {
         }
     }
 
-    // Permet de lancer une animation de transition entre les planetes
+    /// Lance une animation spatiale simulant le départ ou l'arrivée d'une fusée sur une planète.
+    ///
+    /// # Arguments
+    /// - `destination`: Soit `"depart"`, soit `"arrivee"`.
+    /// - `phrase_arrive`: Un vecteur de phrases aléatoires à afficher à la fin.
+    ///
+    /// # Comportement
+    /// - Affiche une animation console en ASCII simulant le mouvement.
+    /// - Affiche ensuite une phrase aléatoire si disponible.
+    ///
+    /// # Erreurs
+    /// - Affiche un message si la destination est inconnue.
     pub fn lancer_animation_spatiale(destination: &str, phrase_arrive: Vec<String>) {
         let frames = 20;
         let delay = time::Duration::from_millis(100);
@@ -162,7 +201,18 @@ impl AffichageDeplacement {
         }
     }
 
-    // Permet de lancer une animation de transition entre zone d'une planete
+    /// Lance une animation console représentant un déplacement dans une zone d’une planète (auberge, magasin...).
+    ///
+    /// # Arguments
+    /// - `destination`: Nom du lieu (doit être reconnu par `get_lieu_ascii`).
+    /// - `phrase_arrive`: Une liste de phrases à afficher après l'animation.
+    ///
+    /// # Comportement
+    /// - Affiche une animation de transition du stickman jusqu’au lieu cible.
+    /// - Affiche une phrase d’arrivée aléatoire.
+    ///
+    /// # Erreurs
+    /// - Affiche "Destination inconnue" si le lieu n’est pas reconnu.
     pub fn lancer_animation(destination: &str, phrase_arrive: Vec<String>) {
         let lieu_ascii = match AffichageDeplacement::get_lieu_ascii(destination) {
             Some(l) => l,
