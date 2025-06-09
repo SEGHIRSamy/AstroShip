@@ -118,7 +118,8 @@ impl Combat {
             );
             let charge_player_rc = Rc::new(RefCell::new(charge_player.clone()));
             let stop = Rc::new(RefCell::new(false));
-            let consome = Rc::new(RefCell::new(true));
+            let consome = Rc::new(RefCell::new(false));
+            let inventaire_consulte = Rc::new(RefCell::new(false));
             let pv_ennemi_rc = Rc::new(RefCell::new(pv_ennemi));
 
             // AfficheTexte::affiche("[1] Attaquer".to_string(), 10);
@@ -201,7 +202,7 @@ impl Combat {
 
             let attaquer = Box::new(Attaquer::new(Rc::clone(&pv_ennemi_rc), attaque_joueur.clone(), attaque_ennemi.clone()));
             let fuir = Box::new(Fuir::new(Rc::clone(&stop), Rc::clone(&charge_player_rc), attaque_joueur.clone(), vitesse_joueur.clone(), pv_max.clone(), pv_joueur.clone(), ennemi.clone(), vitesse_ennemi.clone()));
-            let inventaire = Box::new(InventaireInteraction::new(Rc::clone(&consome), Rc::clone(&charge_player_rc)));
+            let inventaire = Box::new(InventaireInteraction::new(Rc::clone(&consome), Rc::clone(&charge_player_rc), Rc::clone(&inventaire_consulte)));
 
             let mut choix = Choix::new(vec![
                 ("Attaquer".to_string(), attaquer),
@@ -212,14 +213,27 @@ impl Combat {
             choix.lancer_choix();
             drop(choix);
 
-            if !*consome.borrow() { continue }
-            if *stop.borrow() { return true }
+            /*if !*consome.borrow() { continue }
+            if *stop.borrow() { return true }*/
             pv_ennemi = *pv_ennemi_rc.borrow();
 
-            // Récupérer les données modifiées
-            charge_player = Rc::try_unwrap(charge_player_rc)
-                .expect("Personnage encore emprunté ailleurs")
-                .into_inner();
+
+            if *inventaire_consulte.borrow() {
+                if *consome.borrow() {
+                    // Récupérer les données modifiées
+                    charge_player = Rc::try_unwrap(charge_player_rc)
+                        .expect("Personnage encore emprunté ailleurs")
+                        .into_inner();
+
+                    pv_max = charge_player.entite.get_points_de_vie_max();
+                    pv_joueur = charge_player.entite.get_points_de_vie();
+                    attaque_joueur = charge_player.entite.get_force();
+                    vitesse_joueur = charge_player.entite.get_vitesse();
+                }
+                else { continue }
+            }
+
+
 
             if pv_ennemi == 0 {
                 AfficheTexte::affiche("🎉 Ennemi vaincu !\n".to_string(), 20);
@@ -247,11 +261,6 @@ impl Combat {
                 return true;
             }
 
-            pv_max = charge_player.entite.get_points_de_vie_max();
-            pv_joueur = charge_player.entite.get_points_de_vie();
-            attaque_joueur = charge_player.entite.get_force();
-            vitesse_joueur = charge_player.entite.get_vitesse();
-
             std::thread::sleep(std::time::Duration::from_millis(1500));
             AfficheTexte::affiche("\n--- Tour de l'ennemi ---".to_string(), 20);
             let lancer = LancerDice::lancer_console_combat(false);
@@ -271,6 +280,11 @@ impl Combat {
                 AfficheTexte::affiche("💀 Vous êtes vaincu...".to_string(), 20);
                 return false;
             }
+
+            // On met a jour les pv du jouer a la fin du tour de l'ennemi
+            update_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+            update_player.entite.set_points_de_vie(pv_joueur);
+            sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
         }
     }
 
