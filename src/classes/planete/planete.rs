@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use crate::classes::{
     affichage::affichage_deplacement::AffichageDeplacement, entite::personnage_principal::PersonnagePrincipal, gestion_evenement::{choix::Choix, planete::{auberge_proposer_repos::AubergeProposerRepos, explorer_zone_hostile::ExplorerZoneHostile, magasin_interaction::MagasinInteraction, stop_choix::StopChoix}}, planete::{auberge::Auberge, magasin::Magasin, zone_hostile::ZoneHostile}, sauvegarde::sauvegarde::Sauvegarde
 };
+use crate::classes::gestion_evenement::action_combat::inventaire_interaction::InventaireInteraction;
 use crate::classes::gestion_evenement::quitter_jeu::QuitterJeu;
 
 
@@ -51,10 +52,16 @@ impl Planete {
             let stop_event = Box::new(StopChoix::new(self.nom.clone(), self.phrase_arrive.clone(), Rc::clone(&stop)));
             let quitter_jeu = Box::new(QuitterJeu::new());
 
+            let consome = Rc::new(RefCell::new(false));
+            let inventaire_consulte = Rc::new(RefCell::new(false));
+            let inventaire = Box::new(InventaireInteraction::new(Rc::clone(&consome), Rc::clone(&tmp_personnage), Rc::clone(&inventaire_consulte)));
+
+
             let mut choix = Choix::new(vec![
                 ("Explorer une zone hostile".to_string(), zone_event),
                 ("Aller à l'auberge".to_string(), auberge_event),
                 ("Marchander avec le magasin".to_string(), magasin_event),
+                ("Inventaire".to_string(), inventaire),
                 ("Quitter la planète".to_string(), stop_event),
                 ("Quitter le jeux".to_string(), quitter_jeu),
             ]);
