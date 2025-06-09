@@ -52,7 +52,7 @@ impl Planete {
             let quitter_jeu = Box::new(QuitterJeu::new());
 
             let sauvegarde: Sauvegarde = Sauvegarde::new();
-            let mut charge_player : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+            let charge_player : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
             let charge_player_rc = Rc::new(RefCell::new(charge_player.clone()));
             let consome = Rc::new(RefCell::new(false));
             let inventaire_consulte = Rc::new(RefCell::new(false));
