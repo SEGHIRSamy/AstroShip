@@ -68,7 +68,7 @@
       "Un néon bleuâtre vous attire vers un comptoir où les vendeurs flottent légèrement au-dessus du sol, prêts à négocier."
     ]
   },
-  "cout_voyage": 10,
+  "cout_voyage": 50,
   "zone_hostile": {
     "ennemis": [
       {

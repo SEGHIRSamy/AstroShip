@@ -68,7 +68,7 @@
       "Un bâtiment de pierre gelée se dresse devant vous. À l’intérieur, des étals anciens proposent des objets venus d’un autre temps."
     ]
   },
-  "cout_voyage": 10,
+  "cout_voyage": 100,
   "zone_hostile": {
     "ennemis": [
       {
