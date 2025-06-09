@@ -1,6 +1,11 @@
 use crate::classes::affichage::affiche_texte::AfficheTexte;
+use crate::classes::gestion_evenement::action_combat::attaquer::Attaquer;
+use crate::classes::gestion_evenement::action_combat::fuir::Fuir;
+use crate::classes::gestion_evenement::action_combat::inventaire_interaction::InventaireInteraction;
+use crate::classes::gestion_evenement::choix::Choix;
 use crate::classes::gestion_evenement::lancer_dice::LancerDice;
-use std::io::{self, Write};
+use std::cell::RefCell;
+use std::rc::Rc;
 use rand::rng;
 use crate::classes::entite::ennemie::Ennemi;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
@@ -111,85 +116,124 @@ impl Combat {
                     ennemi.get_base().get_nom(), pv_ennemi, pv_max_ennemi, attaque_ennemi, vitesse_ennemi
                 ), 15,
             );
-            AfficheTexte::affiche("[1] Attaquer".to_string(), 10);
-            AfficheTexte::affiche("[2] Fuir".to_string(), 10);
-            AfficheTexte::affiche("[3] Inventaire".to_string(), 10);
+            let charge_player_rc = Rc::new(RefCell::new(charge_player.clone()));
+            let stop = Rc::new(RefCell::new(false));
+            let consome = Rc::new(RefCell::new(false));
+            let inventaire_consulte = Rc::new(RefCell::new(false));
+            let pv_ennemi_rc = Rc::new(RefCell::new(pv_ennemi));
 
-            print!("Votre choix : ");
-            io::stdout().flush().unwrap();
+            // AfficheTexte::affiche("[1] Attaquer".to_string(), 10);
+            // AfficheTexte::affiche("[2] Fuir".to_string(), 10);
+            // AfficheTexte::affiche("[3] Inventaire".to_string(), 10);
 
-            let mut choix = String::new();
-            io::stdin().read_line(&mut choix).unwrap();
+            // print!("Votre choix : ");
+            // io::stdout().flush().unwrap();
 
-            match choix.trim() {
-                // Attaquer
-                "1" => {
-                    let lancer = LancerDice::lancer_console_combat(true);
-                    let degats =
-                        Combat::calculer_degats(attaque_joueur, attaque_ennemi, lancer);
-                    // On met a jour els pv de l'ennemi apres qu'on l'avoir attaqué
-                    let nouvelle_vie = if degats > pv_ennemi {
-                        0
-                    } else {
-                        pv_ennemi - degats
-                    };
-                    //ennemi.base.set_points_de_vie(nouvelle_vie);
-                    pv_ennemi = nouvelle_vie;
-                    AfficheTexte::affiche(
-                        format!("Vous infligez {} dégâts. PV Ennemi restants : {}", degats, pv_ennemi),
-                        15,
-                    );
-                }
-                // Fuir
-                "2" => {
-                    let lancer = LancerDice::lancer_console_combat(true);
+            // let mut choix = String::new();
+            // io::stdin().read_line(&mut choix).unwrap();
 
-                    if Combat::tenter_fuite(vitesse_joueur, vitesse_ennemi, lancer) {
-                        AfficheTexte::affiche("✅ Vous avez réussi à fuir !".to_string(), 20);
-                        // On arrive a fuir : le combat est fini donc on save les stats et l'inventaire du perso dans le json
-                        update_player = PersonnagePrincipal::new(
-                            charge_player.entite.get_nom(),
-                            pv_joueur,
-                            pv_max,
-                            attaque_joueur,
-                            charge_player.entite.get_intelligence(),
-                            vitesse_joueur,
-                            charge_player.chance,
-                            charge_player.get_uranium(),
-                            charge_player.get_carburant(),
-                            charge_player.get_planete_nom().to_string(),
-                        );
+            // match choix.trim() {
+            //     // Attaquer
+            //     "1" => {
+            //         let lancer = LancerDice::lancer_console_combat(true);
+            //         let degats =
+            //             Combat::calculer_degats(attaque_joueur, attaque_ennemi, lancer);
+            //         // On met a jour els pv de l'ennemi apres qu'on l'avoir attaqué
+            //         let nouvelle_vie = if degats > pv_ennemi {
+            //             0
+            //         } else {
+            //             pv_ennemi - degats
+            //         };
+            //         //ennemi.base.set_points_de_vie(nouvelle_vie);
+            //         pv_ennemi = nouvelle_vie;
+            //         AfficheTexte::affiche(
+            //             format!("Vous infligez {} dégâts. PV Ennemi restants : {}", degats, pv_ennemi),
+            //             15,
+            //         );
+            //     }
+            //     // Fuir
+            //     "2" => {
+            //         let lancer = LancerDice::lancer_console_combat(true);
+            //         if Combat::tenter_fuite(vitesse_joueur, vitesse_ennemi, lancer) {
+            //             AfficheTexte::affiche("✅ Vous avez réussi à fuir !".to_string(), 20);
+            //             // On arrive a fuir : le combat est fini donc on save les stats et l'inventaire du perso dans le json
+            //             update_player = PersonnagePrincipal::new(
+            //                 charge_player.entite.get_nom(),
+            //                 pv_joueur,
+            //                 pv_max,
+            //                 attaque_joueur,
+            //                 charge_player.entite.get_intelligence(),
+            //                 vitesse_joueur,
+            //                 charge_player.chance,
+            //                 charge_player.get_uranium(),
+            //                 charge_player.get_carburant(),
+            //                 charge_player.get_planete_nom().to_string(),
+            //             );
+            //             let mut rng = rng();
+            //             for obj in ennemi.interaction(&mut rng) {
+            //                 charge_player.inventaire.add_objet(obj.get_objet());
+            //                 obj.get_objet().afficher()
+            //             }
+            //             update_player.inventaire.add_monnaie(charge_player.inventaire.get_monnaie()+ennemi.get_monnaie().clone());
+            //             update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
+            //             sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
+            //             return true;
+            //         } else {
+            //             AfficheTexte::affiche("❌ Vous n'avez pas réussi à fuir.".to_string(), 20);
+            //         }
+            //     }
+            //     // Inventaire
+            //     "3" => {
+            //         let a_consomme = charge_player.inventaire.afficher_inventaire_interactif();
+            //         // Si on a rien consommé dans l'inventaire on repart dans la boucle sans sauvegarder les stats dans le json
+            //         if !a_consomme { continue }
+            //         // Si on a consommé alors on save les stats du perso et son inventaire
+            //         charge_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+            //         pv_max = charge_player.entite.get_points_de_vie_max();
+            //         pv_joueur = charge_player.entite.get_points_de_vie();
+            //         attaque_joueur = charge_player.entite.get_force();
+            //         vitesse_joueur = charge_player.entite.get_vitesse();
+            //     }
+            //     _ => {
+            //         AfficheTexte::affiche("❗ Choix invalide !".to_string(), 20);
+            //         continue;
+            //     }
+            // }
 
-                        let mut rng = rng();
-                        for obj in ennemi.interaction(&mut rng) {
-                            charge_player.inventaire.add_objet(obj.get_objet());
-                            obj.get_objet().afficher()
-                        }
-                        update_player.inventaire.add_monnaie(charge_player.inventaire.get_monnaie()+ennemi.get_monnaie().clone());
-                        update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
-                        sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
-                        return true;
-                    } else {
-                        AfficheTexte::affiche("❌ Vous n'avez pas réussi à fuir.".to_string(), 20);
-                    }
-                }
-                // Inventaire
-                "3" => {
-                    let a_consomme = charge_player.inventaire.afficher_inventaire_interactif();
-                    // Si on a rien consommé dans l'inventaire on repart dans la boucle sans sauvegarder les stats dans le json
-                    if !a_consomme { continue }
-                    // Si on a consommé alors on save les stats du perso et son inventaire
-                    charge_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+            let attaquer = Box::new(Attaquer::new(Rc::clone(&pv_ennemi_rc), attaque_joueur.clone(), attaque_ennemi.clone()));
+            let fuir = Box::new(Fuir::new(Rc::clone(&stop), Rc::clone(&charge_player_rc), attaque_joueur.clone(), vitesse_joueur.clone(), pv_max.clone(), pv_joueur.clone(), ennemi.clone(), vitesse_ennemi.clone()));
+            let inventaire = Box::new(InventaireInteraction::new(Rc::clone(&consome), Rc::clone(&charge_player_rc), Rc::clone(&inventaire_consulte)));
+
+            let mut choix = Choix::new(vec![
+                ("Attaquer".to_string(), attaquer),
+                ("Fuir".to_string(), fuir),
+                ("Inventaire".to_string(), inventaire),
+            ]);
+
+            choix.lancer_choix();
+            drop(choix);
+
+            /*if !*consome.borrow() { continue }
+            if *stop.borrow() { return true }*/
+            pv_ennemi = *pv_ennemi_rc.borrow();
+
+
+            if *inventaire_consulte.borrow() {
+                if *consome.borrow() {
+                    // Récupérer les données modifiées
+                    charge_player = Rc::try_unwrap(charge_player_rc)
+                        .expect("Personnage encore emprunté ailleurs")
+                        .into_inner();
+
                     pv_max = charge_player.entite.get_points_de_vie_max();
                     pv_joueur = charge_player.entite.get_points_de_vie();
                     attaque_joueur = charge_player.entite.get_force();
                     vitesse_joueur = charge_player.entite.get_vitesse();
                 }
-                _ => {
-                    AfficheTexte::affiche("❗ Choix invalide !".to_string(), 20);
-                    continue;
-                }
+                else { continue }
             }
+
+
 
             if pv_ennemi == 0 {
                 AfficheTexte::affiche("🎉 Ennemi vaincu !\n".to_string(), 20);
@@ -236,6 +280,11 @@ impl Combat {
                 AfficheTexte::affiche("💀 Vous êtes vaincu...".to_string(), 20);
                 return false;
             }
+
+            // On met a jour les pv du jouer a la fin du tour de l'ennemi
+            update_player = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+            update_player.entite.set_points_de_vie(pv_joueur);
+            sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
         }
     }
 

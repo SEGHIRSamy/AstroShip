@@ -2,12 +2,12 @@ use crate::classes::affichage::affiche_texte::AfficheTexte;
 use std::io::{self, Write};
 use crate::classes::gestion_evenement::evenement::Evenement;
 
-pub struct Choix {
-    choix: Vec<(String, Box<dyn Evenement>)>,
+pub struct Choix<'a> {
+    choix: Vec<(String, Box<dyn Evenement + 'a>)>,
 }
 
-impl Choix {
-    pub fn new(choix: Vec<(String, Box<dyn Evenement>)>) -> Self {
+impl<'a> Choix<'a> {
+    pub fn new(choix: Vec<(String, Box<dyn Evenement + 'a>)>) -> Self {
         Choix { choix }
     }
 
@@ -18,7 +18,7 @@ impl Choix {
         }
     }
 
-    pub fn demander_choix(&self) -> &dyn Evenement {
+    pub fn demander_choix(&mut self) -> &mut dyn Evenement {
         let total_choix = self.choix.len();
 
         loop {
@@ -30,14 +30,14 @@ impl Choix {
 
             match input.trim().parse::<usize>() {
                 Ok(num) if (1..=total_choix).contains(&num) => {
-                    return self.choix[num - 1].1.as_ref();
+                    return &mut *self.choix[num - 1].1;
                 }
                 _ => println!("Entrée invalide. Essayez encore."),
             }
         }
     }
 
-    pub fn lancer_choix(&self) {
+    pub fn lancer_choix(&mut self) {
         self.affiche();
         let evenement = self.demander_choix();
         evenement.action();

@@ -3,6 +3,7 @@ use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
 use crate::classes::entite::inventaire::Inventaire;
 use crate::classes::marchandage::{affaire::Affaire};
+use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
 
 /// Structure représentant un magasin qui propose des affaires à l'achat.
 #[allow(dead_code)]
@@ -10,6 +11,7 @@ use crate::classes::marchandage::{affaire::Affaire};
 #[derive(Clone)]
 pub struct Magasin {
     pub affaires: Vec<Affaire>, // Liste des affaires disponibles
+    pub phrase_arrive: Vec<String>,
 }
 #[allow(dead_code)]
 impl Magasin {
@@ -17,8 +19,8 @@ impl Magasin {
     ///
     /// # Arguments
     /// - `affaires`: Un vecteur contenant les objets et leurs prix/quantités.
-    pub fn new(affaires: Vec<Affaire>) -> Magasin {
-        Magasin { affaires }
+    pub fn new(affaires: Vec<Affaire>, phrase_arrive: Vec<String>) -> Magasin {
+        Magasin { affaires, phrase_arrive }
     }
 
     /// Retourne une référence à la liste des affaires du magasin.
@@ -75,7 +77,9 @@ impl Magasin {
     }
 
     /// Fonction pour acheter dans le magasin
-    pub fn interaction_magasin(&mut self, mut personnage: &mut PersonnagePrincipal) {
+    pub fn interaction_magasin(&mut self, personnage: &mut PersonnagePrincipal) {
+        AffichageDeplacement::lancer_animation("magasin", self.phrase_arrive.clone());
+
         let sauvegarde: Sauvegarde = Sauvegarde::new();
         loop {
             let affaires = self.get_affaires();

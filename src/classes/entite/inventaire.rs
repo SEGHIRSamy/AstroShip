@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
-use crate::classes::marchandage::objet::Objet;
-use std::io::{self};
+use crate::classes::{gestion_evenement::{action_inventaire::{annuler::Annuler, consomer::Consommer}, choix::Choix}, marchandage::objet::Objet};
+use std::{cell::RefCell, io::{self}, rc::Rc};
 
 /// La structure `Inventaire` représente un inventaire contenant
 /// une certaine somme d'argent (`monnaie`) et un objet spécifique (`instance`).
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Inventaire {
     monnaie : u32, // valeur maximal dans le jeu : 99,999,999
     #[serde(rename = "objets")]
@@ -170,10 +170,6 @@ impl Inventaire {
         }
     }
 
-
-
-
-
     // Afficher les details d'un item
 
     pub fn afficher_details_objet(&mut self, index: usize) -> bool {
@@ -203,37 +199,21 @@ impl Inventaire {
             println!("+{:.0}% Vitesse", vitesse * 100.0);
         }
 
-        println!("\n[C] Consommer / [R] Retour");
+        let consommer_rc = Rc::new(RefCell::new(false));
+        let instance_rc = Rc::new(RefCell::new(self.instance.clone()));
 
-        let mut choix = String::new();
-        io::stdin().read_line(&mut choix).unwrap();
+        let consommer = Box::new(Consommer::new(Rc::clone(&consommer_rc), consommable, index, Rc::clone(&instance_rc)));
+        let annuler = Box::new(Annuler::new(Rc::clone(&consommer_rc)));
 
-        match choix.trim().to_lowercase().as_str() {
-            "c" => {
-                if !consommable {
-                    println!("Cet objet ne peut pas être consommé.");
-                    return false;
-                }
+        let mut choix = Choix::new(vec![
+            ("Consommer".to_string(), consommer),
+            ("Retour".to_string(), annuler),
+        ]);
 
-                let objet = &mut self.instance[index - 1];
-                let nom_objet = objet.get_nom().to_string();
-                objet.consommer_perso_principal(&nom_objet);
-                println!("Objet consommé !");
+        self.instance = instance_rc.borrow().clone();
 
-                if objet.get_quantite() > 1 {
-                    objet.set_quantite(objet.get_quantite() - 1);
-                } else {
-                    self.instance.remove(index - 1);
-                    println!("Objet supprimé.");
-                }
-
-                return true;
-            }
-            _ => {
-                println!("Retour à l'inventaire.");
-                return false;
-            }
-        }
+        choix.lancer_choix();
+        return *consommer_rc.borrow();
     }
 
 

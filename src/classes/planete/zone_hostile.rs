@@ -1,21 +1,29 @@
 use rand::{SeedableRng};
+use std::cell::RefCell;
+use std::rc::Rc;
 use rand::prelude::StdRng;
 use serde::{Deserialize, Serialize};
 use crate::classes::entite::ennemie::Ennemi;
+use crate::classes::gestion_evenement::choix::Choix;
 use crate::classes::gestion_evenement::combat::Combat;
+use crate::classes::affichage::affichage_deplacement::AffichageDeplacement;
+use crate::classes::gestion_evenement::continuer::Continuer;
+use crate::classes::gestion_evenement::zone_hostile::stop_explorer::StopExplorer;
 
 #[allow(dead_code)]
 #[derive(Serialize, Deserialize,Clone)]
 pub struct ZoneHostile {
     ennemis: Vec<Ennemi>,
     nom: String,
+    phrase_arrive: Vec<String>
 }
 #[allow(dead_code)]
 impl ZoneHostile {
-    pub fn new(nom: &str, ennemis: Vec<Ennemi>) -> Self {
+    pub fn new(nom: &str, ennemis: Vec<Ennemi>, phrase_arrive: Vec<String>) -> Self {
         Self {
             ennemis,
             nom: nom.to_string(),
+            phrase_arrive
         }
     }
 
@@ -24,24 +32,31 @@ impl ZoneHostile {
     }
 
     pub fn explorer(&mut self) {
-        println!("Vous venez de vous aventurer dans la zone hostile :");
+        AffichageDeplacement::lancer_animation("zone hostile", self.phrase_arrive.clone());
+
+        println!("Vous venez de vous aventurer dans la zone hostile : ");
 
         let mut index = 0;
         loop {
-
             if index >= self.ennemis.len() {
                 index = 0; // Recommence au début du vecteur
             }
 
+            let stop = Rc::new(RefCell::new(false));
             let ennemi = &mut self.ennemis[index];
             Combat::lancer_combat(ennemi);
 
             println!("Souhaitez-vous continuer à explorer ? (oui/non)");
-            let mut input = String::new();
-            std::io::stdin().read_line(&mut input).unwrap();
+            let oui = Box::new(Continuer::new());
+            let non = Box::new(StopExplorer::new(Rc::clone(&stop)));
 
-            if input.trim().to_lowercase() == "non" {
-                println!("Vous quittez la zone hostile.");
+            let mut choix = Choix::new(vec![
+                ("Oui".to_string(), oui),
+                ("Non".to_string(), non),
+            ]);
+
+            choix.lancer_choix();
+            if *stop.borrow() {
                 break;
             }
 

@@ -3,7 +3,6 @@ mod tests {
 
     use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
-    use serde_json::to_string;
     use astroship::classes::entite::ennemie::Ennemi;
     use astroship::classes::marchandage::butin::{Butin, Rarete};
     use astroship::classes::marchandage::objet::Objet;
@@ -26,6 +25,7 @@ mod tests {
             vec![butin_potion.clone()],
             "Intro".to_string(),
             "Attaque".to_string(),
+            10
         );
 
         assert_eq!(ennemi.get_base().get_nom(), "Gobelin");
@@ -56,6 +56,7 @@ mod tests {
             vec![],
             "intro".to_string(),
             "Attaque".to_string(),
+            10
         );
 
         let mut rng = ChaCha8Rng::seed_from_u64(42);
@@ -94,6 +95,7 @@ mod tests {
             vec![butin_or.clone(), butin_epee.clone()],
             "intro".to_string(),
             "Attaque".to_string(),
+            10
         );
 
         // Utilisation d'un générateur déterministe
@@ -141,6 +143,7 @@ mod tests {
             vec![butin_epee.clone(), butin_bouclier.clone()],
             "Intro".to_string(),
             "Attaque".to_string(),
+            10
         );
 
         // Utilisation d'un générateur déterministe
@@ -183,6 +186,7 @@ mod tests {
             vec![butin1, butin2], // Butins hostiles
             "intro".to_string(),
             "Attaque".to_string(),
+            10
         );
 
         let butins = ennemi.interaction_par_defaut();

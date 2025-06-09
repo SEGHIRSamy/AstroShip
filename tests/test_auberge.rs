@@ -10,7 +10,7 @@ mod tests {
         let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0,0,"plante".to_string());
         personnage.inventaire.set_monnaie(10); // Le personnage a seulement 10 pièces
 
-        let auberge = Auberge::new(30); // Prix du repos : 30 pièces
+        let auberge = Auberge::new(30, vec!["test".to_string()]); // Prix du repos : 30 pièces
 
         auberge.proposer_repos_test(&mut personnage, Some(1)); // Simuler que le joueur accepte
 
@@ -26,7 +26,7 @@ mod tests {
         let mut personnage = PersonnagePrincipal::new("Héros", 100, 100, 10, 10, 10, 5,0,0,"plante".to_string()); // PV déjà max
         personnage.inventaire.set_monnaie(100); // Le personnage a assez de monnaie
 
-        let auberge = Auberge::new(30); // Prix du repos : 30 pièces
+        let auberge = Auberge::new(30, vec!["test".to_string()]); // Prix du repos : 30 pièces
 
         auberge.proposer_repos_test(&mut personnage, Some(1)); // Simuler que le joueur souhaite se reposer
 
@@ -42,7 +42,7 @@ mod tests {
         let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0,0,"plante".to_string());
         personnage.inventaire.set_monnaie(50); // Le personnage a 50 pièces
 
-        let auberge = Auberge::new(30); // Prix du repos : 30 pièces
+        let auberge = Auberge::new(30, vec!["test".to_string()]); // Prix du repos : 30 pièces
 
         auberge.proposer_repos_test(&mut personnage, Some(1)); // Simuler que le joueur accepte
 
@@ -58,7 +58,7 @@ mod tests {
         let mut personnage = PersonnagePrincipal::new("Héros", 50, 100, 10, 10, 10, 5,0,0,"plante".to_string());
         personnage.inventaire.set_monnaie(50); // Le personnage a 50 pièces
 
-        let auberge = Auberge::new(30); // Prix du repos : 30 pièces
+        let auberge = Auberge::new(30, vec!["test".to_string()]); // Prix du repos : 30 pièces
 
         auberge.proposer_repos_test(&mut personnage, Some(2)); // Simuler que le joueur refuse
 

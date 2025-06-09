@@ -1,7 +1,13 @@
 {
   "nom": "Mars",
   "auberge": {
-    "prix_repos": 50
+    "prix_repos": 50,
+    "phrase_arrive": [
+      "Vous arrivez dans une auberge, une douce odeur de pain vous parvient.",
+      "Alors que vous traverser le pas de porte, vous entendez quelques rires et discution aux tables autour de vous.",
+      "En entrant dans ce lieu, vous entendez une douce musique appaisante provenant d'un juxbox posé dans un coin de la salle.",
+      "Une fois rentrer vous commen,cer à sentire tout la fatigue de la journée retomber sur vos épaules, le lit semble vous appeler."
+    ]
   },
   "magasin": {
     "affaires": [
@@ -67,6 +73,12 @@
         "infini": false,
         "quantite": 34
       }
+    ],
+    "phrase_arrive": [
+      "Une fois entrée dans le magasin, le marchand vous salue chaleureusement.",
+      "Vous entrez dans un magasin sans trops savoir à quoi vous attendre, une bonne affaire vous attend peut-être.",
+      "À peine entrée à l'intérieur du bâtiement que des objets brillants attirent votre regard.",
+      "Le tintement d'une caisse enregistreuse résonne au loin."
     ]
   },
   "cout_voyage": 10,
@@ -149,6 +161,16 @@
         "monnaie": 60
       }
     ],
+    "phrase_arrive": [
+      "Une odeur putride commence à attaquer votre nez.",
+      "Vous entendez des bruits de pas grouiller autour de vous. Visiblement vous n'êtes pas seul.",
+      "Vous finissez par sentire un frisson parcourir le long de votre dos, un danger est proche.",
+      "Plus vous vous enfoncer dans cette crevasse plus l'obscurité vous gagne."
+    ],
     "nom": "Crevasse nauséabonde"
-  }
+  },
+  "phrase_arrive": [
+    "Une fois sorti de votre vaiseau une vaste étendu rouge se dresse devant vous.",
+    "Alors que vous arriver sur cette nouvelle planete, vous voyer du sable rouge se déplacer avec le vent."
+  ]
 }

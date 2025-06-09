@@ -1,14 +1,14 @@
 {
   "entite": {
   "nom": "Astro",
-  "points_de_vie": 30,
+  "points_de_vie": 20,
   "points_de_vie_max": 30,
   "force": 30,
   "intelligence": 30,
   "vitesse": 30
   },
   "inventaire": {
-    "monnaie": 0,
+    "monnaie": 100,
     "objets": [
       {
         "nom": "Insigne du voyageur de l'espace",
@@ -40,5 +40,5 @@
   "chance": 1,
   "uranium": 0,
   "planete": "",
-  "carburant" : 20
+  "carburant" : 100
 }

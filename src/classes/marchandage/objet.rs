@@ -158,7 +158,14 @@ impl Objet {
         }
 
         if let Some(mul) = self.multiplicateur_pv {
-            pv = ((pv as f32) * mul).round() as u32;
+
+            if mul > 1.0 {
+                let ajout = ((pv_max as f32) * (mul - 1.0)).round() as u32;
+                pv = (pv + ajout).min(pv_max);
+            } else if mul < 1.0 {
+                let retrait = ((pv_max as f32) * mul).round() as u32;
+                pv = pv.saturating_sub(retrait); // évite que ça tombe en dessous de 0
+            }
             if pv > pv_max {
                 pv = pv_max;
             }

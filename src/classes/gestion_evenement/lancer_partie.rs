@@ -14,7 +14,7 @@ impl LancerPartie {
 }
 
 impl Evenement for LancerPartie {
-    fn action(&self) {
+    fn action(&mut self) {
         self.lancer_partie();
     }
 }

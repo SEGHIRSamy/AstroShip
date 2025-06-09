@@ -24,7 +24,7 @@ impl AfficheTexte {
 }
 
 impl Evenement for AfficheTexte {
-    fn action(&self) {
+    fn action(&mut self) {
         Self::affiche(self.texte.clone(), self.delay_ms);
     }
 }
