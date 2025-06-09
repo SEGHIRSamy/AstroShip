@@ -123,7 +123,6 @@ impl Magasin {
                 },
                 Err(e) => println!("Achat échoué : {}", e),
             }
-            println!("on passe ici à l'achat");
             personnage.add_uranium();
             personnage.add_carburant();
             sauvegarde.sauvegarde("personnage_principal.json".to_string(), personnage.clone()).expect("Enregistrement Personnage échoué");
