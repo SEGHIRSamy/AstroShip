@@ -17,7 +17,7 @@ pub struct BoucleJeu {
 
 impl BoucleJeu {
   pub fn new(nouvelle_partie: bool) -> BoucleJeu {
-    let delais = 1;
+    let delais = 30;
     let sauvegarde: Sauvegarde = Sauvegarde::new();
     if nouvelle_partie {
       AfficheTexte::affiche("Bienvenue, aventurier des étoiles.
@@ -38,7 +38,7 @@ impl BoucleJeu {
       if personnage.get_planete_nom() != "" && personnage.get_planete_nom() != "None" {
         let planete: Planete = sauvegarde.charge("planete_json/".to_owned()+&personnage.get_planete_nom()+&".json".to_string()).unwrap();
         let voyage = VoyagePlanete::new(personnage.get_planete_nom(),planete.get_cout_voyage());
-        let vaisseau = Vaisseau::new(personnage.get_carburant(), personnage.get_uranium() as u32, Option::from(voyage));
+        let vaisseau = Vaisseau::new(personnage.get_carburant(), personnage.get_uranium(), Option::from(voyage));
         BoucleJeu {
           personnage,
           vaisseau

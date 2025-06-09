@@ -17,7 +17,6 @@ pub struct Planete {
     pub auberge: Auberge,
     pub magasin: Magasin,
     pub cout_voyage : u32,
-    //Todo zone passive
     pub zone_hostile: ZoneHostile,
     pub phrase_arrive: Vec<String>,
 }
@@ -83,41 +82,6 @@ impl Planete {
         }
     }
 
-    /// Proposer les 3 choix au joueur
-    // pub fn visiter(&mut self, personnage: &mut PersonnagePrincipal) {
-    //     println!("\nBienvenue sur la planète {} !", self.nom);
-    //     loop {
-    //         println!("\nVotre réserve de carburant : [{}]", personnage.get_carburant());
-    //         println!("Que souhaitez-vous faire ?");
-    //         println!("[1] Explorer une zone hostile");
-    //         println!("[2] Aller à l'auberge");
-    //         println!("[3] Marchander avec le magasin");
-    //         println!("[4] Quitter la planète");
-    //         println!("[0] Arrêter de jouer");
-
-    //         let mut choix = String::new();
-    //         std::io::stdin().read_line(&mut choix).unwrap();
-    //         //let choix_mort = Choix::new(vec![("[1] Explorer une zone hostile".to_string(),Box::new(self.zone_hostile.explorer())),]);
-    //         let sauvegarde: Sauvegarde = Sauvegarde::new();
-    //         match choix.trim() {
-    //             "1" => {self.zone_hostile.explorer();
-    //                 let tmp_joueur : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
-    //                 personnage.inventaire.set_monnaie(tmp_joueur.inventaire.get_monnaie());
-    //                 },
-    //             "2" => self.auberge.proposer_repos(),
-    //             "3" => {self.magasin.interaction_magasin(personnage);
-
-    //                 sauvegarde.sauvegarde("planete_json/".to_owned() + &*personnage.get_planete_nom().to_owned() + &*".json".to_string(), self.clone()).expect("TODO: panic message");
-    //             },
-    //             "0" => QuitterJeu::new().quitter_jeu(),
-    //             "4" => {
-    //                 println!("Vous quittez la planète {}.", self.nom);
-    //                 break;
-    //             }
-    //             _ => println!("Choix invalide."),
-    //         }
-    //     }
-    // }
 
     pub fn get_cout_voyage(&self) -> u32 {
         self.cout_voyage

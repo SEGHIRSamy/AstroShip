@@ -208,6 +208,7 @@ impl Objet {
         );
 
         update_player.inventaire.set_instance(nouveaux_objets);
+        update_player.inventaire.set_monnaie(charge_player.inventaire.get_monnaie());
 
         // === SAUVEGARDE ===
         sauvegarde
