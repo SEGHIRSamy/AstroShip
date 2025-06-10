@@ -81,17 +81,21 @@ impl Magasin {
         AffichageDeplacement::lancer_animation("magasin", self.phrase_arrive.clone());
 
         let sauvegarde: Sauvegarde = Sauvegarde::new();
+        let mut tmp_personnage: PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
+
+
         loop {
             let affaires = self.get_affaires();
             println!("\n=== Bienvenue au magasin ===");
-            println!("Monnaie actuelle : {} pièces", personnage.inventaire.get_monnaie());
+            println!("Monnaie actuelle : {} pièces", tmp_personnage.inventaire.get_monnaie());
             println!("Voici les objets disponibles :");
 
             for (i, affaire) in affaires.iter().enumerate() {
                 println!(
-                    "[{}] {} - {} pièces - Quantité : {}{}",
+                    "[{}] {} ({}) - {} pièces - Quantité disponibles : {}{}",
                     i,
                     affaire.get_instance().get_nom(),
+                    affaire.get_instance().get_quantite(),
                     affaire.get_prix(),
                     affaire.get_quantite(),
                     if *affaire.get_infini() { " (infini)" } else { "" }
@@ -116,16 +120,21 @@ impl Magasin {
                 }
             };
 
-            match self.acheter(index, &mut personnage.inventaire) {
+            match self.acheter(index, &mut tmp_personnage.inventaire) {
                 Ok(_) => {
                     println!("Achat réussi.");
 
                 },
                 Err(e) => println!("Achat échoué : {}", e),
             }
+            tmp_personnage.add_uranium();
+            tmp_personnage.add_carburant();
+            println!("@@@ tmp perso carbur = {}",tmp_personnage.get_carburant());
+            println!("@@@ perso carbur = {}",personnage.get_carburant());
+
             personnage.add_uranium();
             personnage.add_carburant();
-            sauvegarde.sauvegarde("personnage_principal.json".to_string(), personnage.clone()).expect("Enregistrement Personnage échoué");
+            sauvegarde.sauvegarde("personnage_principal.json".to_string(), tmp_personnage.clone()).expect("Enregistrement Personnage échoué");
 
         }
     }

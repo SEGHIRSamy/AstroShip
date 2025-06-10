@@ -134,6 +134,7 @@ impl BoucleJeu {
         let mut plat = Planete::charge_planete(self.personnage.get_planete_nom(),false);
         plat.visiter(&mut self.personnage);
         self.vaisseau.set_position(None);
+        self.vaisseau.set_carburant(self.personnage.get_carburant());
         if self.personnage.get_uranium() >= nbr_uranium_demande {
           break;
         }
@@ -149,7 +150,6 @@ impl BoucleJeu {
 
       let sauvegarde: Sauvegarde = Sauvegarde::new();
 
-      //TODO voir pour comment faire pour charger directement la planete quand on charge le jeu
       println!("\n=== Menu de navigation ===");
       self.vaisseau.afficher_etat();
 
@@ -183,6 +183,7 @@ impl BoucleJeu {
           let mut plat = Planete::charge_planete(self.personnage.get_planete_nom(),false);
           plat.visiter(&mut self.personnage);
           self.vaisseau.set_position(None);
+          self.vaisseau.set_carburant(self.personnage.get_carburant());
         }
         _ => {
           println!("Choix invalide. Veuillez entrer un nombre valide.");

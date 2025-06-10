@@ -39,21 +39,21 @@ impl Planete {
         AffichageDeplacement::lancer_animation_spatiale("arrivee", self.phrase_arrive.clone());
         loop {
             let stop = Rc::new(RefCell::new(false));
-            let tmp_personnage = Rc::new(RefCell::new(personnage.clone()));
-
-            println!("\nBienvenue sur la planète {} !", self.nom);
-            println!("\nVotre réserve de carburant : [{}]", personnage.get_carburant());
-            println!("Que souhaitez-vous faire ?");
-
-            let zone_event = Box::new(ExplorerZoneHostile::new(&mut self.zone_hostile, Rc::clone(&tmp_personnage)));
-            let auberge_event = Box::new(AubergeProposerRepos::new(&self.auberge));
-            let magasin_event = Box::new(MagasinInteraction::new(&mut self.magasin, Rc::clone(&tmp_personnage)));
-            let stop_event = Box::new(StopChoix::new(self.nom.clone(), self.phrase_arrive.clone(), Rc::clone(&stop)));
-            let quitter_jeu = Box::new(QuitterJeu::new());
-
             let sauvegarde: Sauvegarde = Sauvegarde::new();
             let charge_player : PersonnagePrincipal = sauvegarde.charge("personnage_principal.json".to_string()).unwrap();
             let charge_player_rc = Rc::new(RefCell::new(charge_player.clone()));
+
+
+            println!("\nBienvenue sur la planète {} !", self.nom);
+            println!("\nVotre réserve de carburant : [{}]", charge_player.get_carburant());
+            println!("Que souhaitez-vous faire ?");
+
+            let zone_event = Box::new(ExplorerZoneHostile::new(&mut self.zone_hostile, Rc::clone(&charge_player_rc)));
+            let auberge_event = Box::new(AubergeProposerRepos::new(&self.auberge));
+            let magasin_event = Box::new(MagasinInteraction::new(&mut self.magasin, Rc::clone(&charge_player_rc)));
+            let stop_event = Box::new(StopChoix::new(self.nom.clone(), self.phrase_arrive.clone(), Rc::clone(&stop)));
+            let quitter_jeu = Box::new(QuitterJeu::new());
+
             let consome = Rc::new(RefCell::new(false));
             let inventaire_consulte = Rc::new(RefCell::new(false));
             let inventaire = Box::new(InventaireInteraction::new(Rc::clone(&consome), Rc::clone(&charge_player_rc), Rc::clone(&inventaire_consulte)));
@@ -72,13 +72,13 @@ impl Planete {
             drop(choix);
 
             // Récupérer les données modifiées
-            let personnage_modifie = Rc::try_unwrap(tmp_personnage)
+            let personnage_modifie = Rc::try_unwrap(charge_player_rc)
                 .expect("Personnage encore emprunté ailleurs")
                 .into_inner();
 
             // copier dans `personnage` original si besoin
             *personnage = personnage_modifie;
-
+            Self::sauvegarde_planete(self.clone());
             if *stop.borrow() {
                 return;
             }

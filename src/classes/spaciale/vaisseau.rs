@@ -60,4 +60,8 @@ impl Vaisseau {
     pub fn set_position(&mut self,  position: Option<VoyagePlanete>) {
         self.position = position;
     }
+
+    pub fn set_carburant(&mut self, carburant: u32) {
+        self.carburant = carburant;
+    }
 }

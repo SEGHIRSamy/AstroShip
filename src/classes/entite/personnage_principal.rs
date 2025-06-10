@@ -54,7 +54,7 @@ impl PersonnagePrincipal {
     pub fn add_carburant(&mut self) {
         for obj in self.inventaire.get_instance() {
             if obj.get_nom().to_string() == "Carburant" {
-                self.carburant = self.carburant+obj.get_quantite();
+                self.carburant = obj.get_quantite();
             }
         }
     }

@@ -7,8 +7,10 @@ use crate::classes::gestion_evenement::lancer_dice::LancerDice;
 use std::cell::RefCell;
 use std::rc::Rc;
 use rand::rng;
+use crate::classes::gestion_evenement::charger_partie::ChargerPartie;
 use crate::classes::entite::ennemie::Ennemi;
 use crate::classes::entite::personnage_principal::PersonnagePrincipal;
+use crate::classes::gestion_evenement::quitter_jeu::QuitterJeu;
 use crate::classes::sauvegarde::sauvegarde::Sauvegarde;
 
 #[allow(dead_code)]
@@ -180,6 +182,8 @@ impl Combat {
                     charge_player.inventaire.add_objet(obj.get_objet());
                     obj.get_objet().afficher()
                 }
+                ennemi.base.set_points_de_vie(ennemi.get_base().get_points_de_vie_max());
+
                 update_player.inventaire.add_monnaie(charge_player.inventaire.get_monnaie()+ennemi.get_monnaie().clone());
                 update_player.inventaire.set_instance(charge_player.inventaire.get_instance().clone());
                 sauvegarde.sauvegarde("personnage_principal.json".to_string(), update_player).expect("Enregistrement Personnage échoué");
@@ -203,6 +207,11 @@ impl Combat {
 
             if pv_joueur == 0 {
                 AfficheTexte::affiche("💀 Vous êtes vaincu...".to_string(), 20);
+                let mut choix_mort = Choix::new(vec![
+                    ("Charger la dernière sauvegarde".to_string(), Box::new(ChargerPartie::new())),
+                    ("Quitter".to_string(), Box::new(QuitterJeu::new()))
+                ]);
+                choix_mort.lancer_choix();
                 return false;
             }
 
