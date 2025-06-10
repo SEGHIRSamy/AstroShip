@@ -171,6 +171,11 @@ impl BoucleJeu {
         Ok(index) if index >= 1 && index <= planetes_disponibles.len() => {
           let planete_selectionnee = &planetes_disponibles[index - 1];
           println!("Vous avez choisi de voyager vers {}", planete_selectionnee.nom);
+
+          if self.personnage.get_carburant() < planete_selectionnee.cout_voyage {
+            AfficheTexte::affiche("Pas assez de carburant !".to_string(), 20);
+            continue
+          }
           self.personnage.set_planete(&*planete_selectionnee.nom.clone());
           self.personnage.set_carburant(self.personnage.get_carburant()-planete_selectionnee.cout_voyage.clone());
           sauvegarde.sauvegarde("personnage_principal.json".to_string(), self.personnage.clone()).expect("Enregistrement boucle jeu 98 raté");
