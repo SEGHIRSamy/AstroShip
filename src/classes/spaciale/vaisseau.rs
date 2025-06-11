@@ -64,4 +64,8 @@ impl Vaisseau {
     pub fn set_carburant(&mut self, carburant: u32) {
         self.carburant = carburant;
     }
+
+    pub fn set_uranium(&mut self, uranium: u32) {
+        self.uranium = uranium;
+    }
 }

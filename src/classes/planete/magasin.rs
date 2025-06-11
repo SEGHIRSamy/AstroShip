@@ -129,8 +129,7 @@ impl Magasin {
             }
             tmp_personnage.add_uranium();
             tmp_personnage.add_carburant();
-            println!("@@@ tmp perso carbur = {}",tmp_personnage.get_carburant());
-            println!("@@@ perso carbur = {}",personnage.get_carburant());
+
 
             personnage.add_uranium();
             personnage.add_carburant();

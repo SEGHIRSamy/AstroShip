@@ -135,6 +135,7 @@ impl BoucleJeu {
         plat.visiter(&mut self.personnage);
         self.vaisseau.set_position(None);
         self.vaisseau.set_carburant(self.personnage.get_carburant());
+        self.vaisseau.set_uranium(self.personnage.get_uranium());
         if self.personnage.get_uranium() >= nbr_uranium_demande {
           break;
         }
@@ -184,6 +185,7 @@ impl BoucleJeu {
           plat.visiter(&mut self.personnage);
           self.vaisseau.set_position(None);
           self.vaisseau.set_carburant(self.personnage.get_carburant());
+          self.vaisseau.set_uranium(self.personnage.get_uranium());
         }
         _ => {
           println!("Choix invalide. Veuillez entrer un nombre valide.");
